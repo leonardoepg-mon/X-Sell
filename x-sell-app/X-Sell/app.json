@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "x-sell-app",
-    "slug": "x-sell-app",
+    "name": "X-Sell",
+    "slug": "X-Sell",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "xsellapp",
+    "scheme": "xsell",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon"
