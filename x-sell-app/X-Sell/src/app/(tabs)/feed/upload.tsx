@@ -9,10 +9,9 @@ export default function Index() {
   const router = useRouter();
   return (
     <View style={styles.container}>
-      <Text style={styles.fancyText} > Bem-vindo! </Text>
-      <Text > Explicações </Text>
-      <Pressable style={styles.button} onPress={() => {router.navigate('/(tabs)/status');}}>
-        <Text selectable={false} style={styles.buttonText} > Ver requisições </Text>
+      <Text> Subir tabela </Text>
+      <Pressable style={styles.button} onPress={() => {}}>
+        <Text selectable={false} style={styles.buttonText} > Botão de subir </Text>
       </Pressable>
     </View>
   );
@@ -24,13 +23,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#404080",
-  },
-  fancyText: {
-    fontWeight: "black",
-    fontSize: 20,
-    fontFamily: "sans-serif",
-    textShadowColor: "#300070",
-    textShadowOffset: {width: 3, height: 1}
   },
   input: {
     borderWidth: 2,

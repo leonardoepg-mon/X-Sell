@@ -10,11 +10,17 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="button"
+        name="status"
         options={{
-          title: 'button',
+          title: 'status',
+        }}
+      />
+      <Tabs.Screen
+        name="feed"
+        options={{
+          title: 'projetos',
         }}
       />
     </Tabs>
-  );
+  ); 
 }

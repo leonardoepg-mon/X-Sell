@@ -6,13 +6,14 @@ const PORT = 3000;
 
 app.use(cors())
 app.use(express.json())
+
+//Index para testar
 app.get("/", (req, res) => {
-  res.send("Hello from Express!");
+  res.send("You have accessed X-Sell app server application. Be content with this page.");
 });
 
-// console.log(JSON.stringify(users))
+//Método de login, implementar token
 app.post("/login", (req,res) => {
-    //console.log(JSON.stringify(req.body));
     const users = require("./login/users.json")
     const data = req.body;
     const auth = users.some(
@@ -22,6 +23,7 @@ app.post("/login", (req,res) => {
     res.json(auth);
 });
 
+//Método de registro
 app.post("/register", (req,res) => {
     console.log(JSON.stringify(req.body));
     const users = require("./login/users.json");
@@ -33,7 +35,7 @@ app.post("/register", (req,res) => {
     console.log("userExists: "+ JSON.stringify(userExists));
     if (!userExists) {
     users.push(data);
-    fs.writeFile("./login/users.json", JSON.stringify(users), (err) => {
+    fs.writeFile("./login/users.json", JSON.stringify(users, null, 2), (err) => {
         if (err) {
         console.log(err);
         saved=false;
@@ -47,6 +49,13 @@ app.post("/register", (req,res) => {
     } else return res.json({userExists, saved});
 });
 
+//Acesso ao repositório de input
+
+//Acesso ao repositório de output
+
+//API de verificação de status
+
+//listening
 app.listen(PORT, () => {
-  console.log(`Hey! Express server running at http://localhost:${PORT}/`);
+  console.log(`X-Sell server running at http://localhost:${PORT}/`);
 });
