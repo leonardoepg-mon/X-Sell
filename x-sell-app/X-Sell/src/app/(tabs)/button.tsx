@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Text, View, StyleSheet, Pressable } from "react-native";
 
-
+// Tela de Status, upload de insumo, download de análise
 
 export default function Home() {
   const [pressed, setPress] = useState(0);

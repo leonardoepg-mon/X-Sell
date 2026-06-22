@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Text, View, StyleSheet, Pressable, TextInput, Alert } from "react-native";
-import users from "../../data/users.json"
+import { Text, View, StyleSheet, Pressable, TextInput } from "react-native";
 
 
 export default function Login() {
@@ -9,28 +8,31 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-  //console.log(users);
   
   function handleLogin() {
     setError("");
-    const userExists = users.find(
-                    (user) => user.nome === username
-                    );
-
+    const data = { nome: username, senha: password};
     if (!username || !password) {
       setError("Preencha todos os campos");
       return;
     }
-    if (!userExists) {
-        setError("Usuário não existe!")
-    }
-    else if (userExists.senha=== password) {
-      router.replace("../(tabs)");
-    } else {
-      setError("Senha inválida");
-    }
-
-    Alert.alert(error);
+    try { 
+      fetch('http://192.168.15.89:3000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'} ,
+        body: JSON.stringify(data)
+      }).then((response) => response.json())
+    .then((auth) => {
+      //console.log("auth recebido:", auth);
+      if (auth) {
+          setError("Usuário autenticado com sucesso!");
+      //console.log("login sucesso");
+          router.replace("../(tabs)");
+        } else {
+          setError("Usuário ou senha inválidos.")
+        }
+      })
+    } catch(err) {console.log(err) }
   }
 
   return (

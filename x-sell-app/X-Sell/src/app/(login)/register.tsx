@@ -1,36 +1,45 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, View, StyleSheet, Pressable, TextInput, Alert } from "react-native";
-import users from "../../data/users.json"
 
 
-export default function Login() {
+export default function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-  
+
   function handleRegister() {
     setError("");
-    const userExists = users.find(
-                    (user) => user.nome === username
-                    );
-    
+
     if (!username || !password) {
       setError("Preencha todos os campos");
-      Alert.alert(error);
+  
       return;
     }
 
-    if (!userExists) { // Já existe?
-      setError("Conta criada com sucesso!");
-      //users.concat({"nome":username, "senha":password});
-      router.replace("../(tabs)");
-    }
-    else { 
-        setError("Usuário já existe!");
-      return
-    }
+    const data = { nome: username, senha: password};
+    try { 
+      fetch('http://192.168.15.89:3000/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'} ,
+        body: JSON.stringify(data)
+      }).then((response) => response.json())
+    .then(({userExists, saved}) => {
+      console.log("userExists: ", userExists);
+      console.log("saved: ", saved);
+      if (userExists) {
+          setError("Usuário já existe.")
+        }
+      else if (saved) {
+          setError("Conta criada com sucesso!");
+      console.log("criação de conta sucesso");
+          router.navigate("./");
+        }
+      else setError("Erro inesperado!")
+      })
+    } catch(err) {console.log(err) };
+    return  ;
   }
 
   return (

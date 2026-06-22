@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, View, StyleSheet, Pressable, TextInput } from "react-native";
 
-
+//Explicações
 
 export default function Index() {
   const [text, onChangeText] = useState('');
