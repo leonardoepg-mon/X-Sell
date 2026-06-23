@@ -17,6 +17,10 @@
 *  repositórios de input e output
 *  JSON contendo status de requisições
 
+## Sugestões, mudanças
+
+* colocar em pacotes os métodos diferentes para limpar o código do servidor.
+
 ## ORIGINAL: Backend e storage
 
 Inclui:

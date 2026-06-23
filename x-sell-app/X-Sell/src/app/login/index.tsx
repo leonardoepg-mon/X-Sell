@@ -1,6 +1,8 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, View, StyleSheet, Pressable, TextInput } from "react-native";
+import { handleLogin } from "../../services/userAuth"
+import { useAuth } from "@/contexts/AuthContext";
 
 
 export default function Login() {
@@ -8,32 +10,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-  
-  function handleLogin() {
-    setError("");
-    const data = { nome: username, senha: password};
-    if (!username || !password) {
-      setError("Preencha todos os campos");
-      return;
-    }
-    try { 
-      fetch('http://192.168.15.89:3000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json'} ,
-        body: JSON.stringify(data)
-      }).then((response) => response.json())
-    .then((auth) => {
-      //console.log("auth recebido:", auth);
-      if (auth) {
-          setError("Usuário autenticado com sucesso!");
-      //console.log("login sucesso");
-          router.replace("../(tabs)");
-        } else {
-          setError("Usuário ou senha inválidos.")
-        }
-      })
-    } catch(err) {console.log(err) }
-  }
+  const {login} = useAuth()
 
   return (
     <View style={styles.container}>
@@ -44,7 +21,17 @@ export default function Login() {
                  value={password}
                  secureTextEntry={true}
                  placeholder="Senha"/>
-      <Pressable style={styles.button} onPress={() => handleLogin()}>
+                  <Pressable
+                style={styles.button}
+                onPress={async () => {
+                  const response = await handleLogin(username, password);
+                  setError(response.error);
+                  if (response.auth) {
+                    login();
+                    router.replace("/(tabs)");
+                  }
+                }}
+                  >
         <Text selectable={false} style={styles.buttonText} > Login </Text>
       </Pressable>
       <Text > Não tem conta? </Text>

@@ -10,6 +10,12 @@ Inclui:
 
 * lista/histórico de solicitações
 
-* tela de status
+* tela de status: 6 status
+    - enviado
+    - aprovado
+    - reprovado, aguardando reenvio
+    - em análise
+    - concluído
+    - dado nota
 
 * download de arquivos finais

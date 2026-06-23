@@ -4,8 +4,8 @@ const fs = require("fs");
 const app = express();
 const PORT = 3000;
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 //Index para testar
 app.get("/", (req, res) => {
@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
 
 //Método de login, implementar token
 app.post("/login", (req,res) => {
-    const users = require("./login/users.json")
+    const users = require("./data/users/users.json");
     const data = req.body;
     const auth = users.some(
         (user) => user.nome === data.nome && user.senha === data.senha
@@ -25,8 +25,8 @@ app.post("/login", (req,res) => {
 
 //Método de registro
 app.post("/register", (req,res) => {
-    console.log(JSON.stringify(req.body));
-    const users = require("./login/users.json");
+    //console.log(JSON.stringify(req.body));
+    const users = require("./data/users/users.json");
     const data = req.body;
     const userExists = users.some(
         (user) => user.nome === data.nome
@@ -35,7 +35,7 @@ app.post("/register", (req,res) => {
     console.log("userExists: "+ JSON.stringify(userExists));
     if (!userExists) {
     users.push(data);
-    fs.writeFile("./login/users.json", JSON.stringify(users, null, 2), (err) => {
+    fs.writeFile("./data/users/users.json", JSON.stringify(users, null, 2), (err) => {
         if (err) {
         console.log(err);
         saved=false;
@@ -49,11 +49,17 @@ app.post("/register", (req,res) => {
     } else return res.json({userExists, saved});
 });
 
-//Acesso ao repositório de input
+//Upload ao repositório de input
 
-//Acesso ao repositório de output
+//Download do repositório de output
 
 //API de verificação de status
+app.post("./status", (req, res) => {
+    const data = req.body;
+    const status = require("./data/status/status.json");
+    //requisição deve conter nome de usuário, fazer seleção de planilhas que são do usuário, e resposta deve ser json apenas com os dados relevantes ao usuário
+    return res.json(null)
+});
 
 //listening
 app.listen(PORT, () => {

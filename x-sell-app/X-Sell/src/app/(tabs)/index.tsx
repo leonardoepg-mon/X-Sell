@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, View, StyleSheet, Pressable, TextInput } from "react-native";
@@ -5,14 +6,19 @@ import { Text, View, StyleSheet, Pressable, TextInput } from "react-native";
 //Explicações
 
 export default function Index() {
-  const [text, onChangeText] = useState('');
   const router = useRouter();
+  const {logout} = useAuth();
   return (
     <View style={styles.container}>
-      <Text style={styles.fancyText} > Bem-vindo! </Text>
+      <Text style={styles.welcomeMsg} > Bem-vindo! </Text>
       <Text > Explicações </Text>
       <Pressable style={styles.button} onPress={() => {router.navigate('/(tabs)/status');}}>
         <Text selectable={false} style={styles.buttonText} > Ver requisições </Text>
+      </Pressable>
+      <Pressable style={styles.button} onPress={() => {
+                                                  logout();
+                                                  router.replace('/login');}}>
+        <Text selectable={false} style={styles.buttonText} > Fechar sessão </Text>
       </Pressable>
     </View>
   );
@@ -25,12 +31,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#404080",
   },
-  fancyText: {
+  welcomeMsg: {
     fontWeight: "black",
     fontSize: 20,
     fontFamily: "sans-serif",
-    textShadowColor: "#300070",
-    textShadowOffset: {width: 3, height: 1}
   },
   input: {
     borderWidth: 2,
