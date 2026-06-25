@@ -7,7 +7,7 @@ import { Text, View, StyleSheet, Pressable, TextInput } from "react-native";
 
 export default function Index() {
   const router = useRouter();
-  const {logout} = useAuth();
+  const {ContextLogout} = useAuth();
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeMsg} > Bem-vindo! </Text>
@@ -16,7 +16,7 @@ export default function Index() {
         <Text selectable={false} style={styles.buttonText} > Ver requisições </Text>
       </Pressable>
       <Pressable style={styles.button} onPress={() => {
-                                                  logout();
+                                                  ContextLogout();
                                                   router.replace('/login');}}>
         <Text selectable={false} style={styles.buttonText} > Fechar sessão </Text>
       </Pressable>

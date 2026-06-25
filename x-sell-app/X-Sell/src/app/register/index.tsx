@@ -1,5 +1,5 @@
 import { useAuth } from "@/contexts/AuthContext";
-import { handleRegister } from "@/services/userAuth";
+import { handleRegister, putToken } from "@/services/userAuth";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, View, StyleSheet, Pressable, TextInput, Alert } from "react-native";
@@ -10,7 +10,7 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-  const {login} = useAuth();
+  const {ContextLogin} = useAuth();
   return (
     <View style={styles.container}>
       <TextInput style= {styles.input} onChangeText={setUsername}
@@ -24,7 +24,8 @@ export default function Register() {
                         const response = await handleRegister(username, password);
                         setError(response.error);
                         if (response.auth) {
-                          login();
+                          ContextLogin();
+                          putToken("",username); //get token from server
                           router.replace("/(tabs)")
                         }
                       }}>

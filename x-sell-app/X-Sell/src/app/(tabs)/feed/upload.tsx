@@ -4,9 +4,10 @@ import { Text, View, StyleSheet, Pressable, TextInput } from "react-native";
 
 //Explicações
 
-export default function Index() {
+export default function UploadScreen() {
   const [text, onChangeText] = useState('');
   const router = useRouter();
+  
   return (
     <View style={styles.container}>
       <Text> Subir tabela </Text>

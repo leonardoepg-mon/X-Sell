@@ -47,4 +47,12 @@ try {
     console.log(err);
     return { auth: false, error: "Erro ao conectar com o servidor." };
   }
-} 
+}
+
+export function getToken() {
+  return false
+}
+
+export function putToken(token:string, username:string) {}
+
+export function killToken() {}

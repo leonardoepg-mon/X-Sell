@@ -1,9 +1,10 @@
     import { createContext, useContext, useState } from "react";
+    import { getToken } from "../services/userAuth"
 
 type AuthContextType = {
   isLogged: boolean;
-  login: () => void;
-  logout: () => void;
+  ContextLogin: () => void;
+  ContextLogout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -13,22 +14,24 @@ export function AuthProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(getToken());//checks local storage for token and username);
 
-  const login = () => {
+  const ContextLogin = () => {
     setIsLogged(true);
   };
 
-  const logout = () => {
+  const ContextLogout = () => {
     setIsLogged(false);
   };
+
+ 
 
   return (
     <AuthContext.Provider
       value={{
         isLogged,
-        login,
-        logout,
+        ContextLogin,
+        ContextLogout,
       }}
     >
       {children}

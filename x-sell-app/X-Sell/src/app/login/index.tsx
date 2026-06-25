@@ -10,7 +10,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-  const {login} = useAuth()
+  const {ContextLogin} = useAuth()
 
   return (
     <View style={styles.container}>
@@ -27,7 +27,7 @@ export default function Login() {
                   const response = await handleLogin(username, password);
                   setError(response.error);
                   if (response.auth) {
-                    login();
+                    ContextLogin();
                     router.replace("/(tabs)");
                   }
                 }}
