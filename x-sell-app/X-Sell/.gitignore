@@ -3,6 +3,7 @@
 # dependencies
 node_modules/
 .claude/
+.vscode
 
 # Expo
 .expo/
@@ -37,6 +38,7 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# example folder
 example
 
 # generated native folders

@@ -22,7 +22,7 @@ app.post("/login", (req,res) => {
     const auth = users.some(
         (user) => user.nome === data.nome && user.senha === data.senha
     );
-    console.log("Login efetuado por usuário: ", data.nome);
+    if (auth) console.log("Login efetuado por usuário: ", data.nome);
     res.json(auth);
 });
 
@@ -72,10 +72,12 @@ app.post("/register", (req,res) => {
 
 //Upload ao repositório de input: implementar protocolo;
 app.post("/upload", (req,res) => {
-        
+        console.log("Headers:", req.headers);
+  console.log("Body:", req.body);
+  console.log("Files:", req.files);
   // When a file has been uploaded
   if (req.files && Object.keys(req.files).length !== 0) {
-  
+    
     // Uploaded path
     const uploadedFile = req.files.uploadFile;
 
