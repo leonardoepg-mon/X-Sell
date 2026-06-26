@@ -72,9 +72,9 @@ app.post("/register", (req,res) => {
 
 //Upload ao repositório de input: implementar protocolo;
 app.post("/upload", (req,res) => {
-        console.log("Headers:", req.headers);
-  console.log("Body:", req.body);
-  console.log("Files:", req.files);
+  //console.log("Headers:", req.headers);
+  //console.log("Body:", req.body);
+  //console.log("Files:", req.files);
   // When a file has been uploaded
   if (req.files && Object.keys(req.files).length !== 0) {
     
@@ -102,12 +102,15 @@ app.post("/upload", (req,res) => {
 
 //Download do repositório de output: corpo da requisição deve conter protocolo
 app.post("/download", (req, res) => {
-
-  res.download(__dirname + "/data/output/"+ req.body.fileName, (err) => {
+  // manusear protocolo e obter fileName
+  console.log("Protocolo: ", req.body.protocol);
+  const fileName = "teste.csv";
+  //resposta com download
+  res.download(__dirname + "/data/output/"+ fileName, (err) => {
     if (err) {
       console.log(err);
     } else {
-        console.log("Arquivo enviado: ", req.body.fileName)
+        console.log("Arquivo enviado: ", fileName);
     }
   });
 });

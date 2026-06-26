@@ -1,10 +1,11 @@
-    import { createContext, useContext, useState } from "react";
-    import { getToken } from "../services/userAuth"
+    import { createContext, useContext, useEffect, useState } from "react";
+    import { getToken, killToken, putToken } from "../services/userAuth"
 
 type AuthContextType = {
   isLogged: boolean;
-  ContextLogin: () => void;
+  ContextLogin: (username: string) => void;
   ContextLogout: () => void;
+  username: string | null;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -14,14 +15,32 @@ export function AuthProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [isLogged, setIsLogged] = useState(getToken());//checks local storage for token and username);
+  const [isLogged, setIsLogged] = useState(false);
+  const [username, setUsername] = useState<string | null>(null);
 
-  const ContextLogin = () => {
+  useEffect(() => {
+    async function loadSession() {
+      const checkSession = await getToken();
+
+      setIsLogged(checkSession.exists);
+      setUsername(checkSession.username ?? null);
+      if (checkSession.exists) {console.log("sessão encontrada: ", checkSession.username)};
+    }
+    loadSession();
+  }, []);
+
+  const ContextLogin = (username: string) => {
     setIsLogged(true);
+    putToken(username);
+    setUsername(username);
+    console.log("sessão iniciada: ", username);
   };
 
-  const ContextLogout = () => {
+  const ContextLogout = async () => {
     setIsLogged(false);
+    setUsername(null);
+    killToken();
+    console.log("sessão terminada.");
   };
 
  
@@ -32,6 +51,7 @@ export function AuthProvider({
         isLogged,
         ContextLogin,
         ContextLogout,
+        username
       }}
     >
       {children}

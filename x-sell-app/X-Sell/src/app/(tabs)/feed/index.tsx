@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, View, StyleSheet, Pressable, TextInput } from "react-native";

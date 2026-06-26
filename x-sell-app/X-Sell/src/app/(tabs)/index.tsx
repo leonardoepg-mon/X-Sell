@@ -6,10 +6,10 @@ import { Text, View, StyleSheet, Pressable} from "react-native";
 
 export default function Index() {
   const router = useRouter();
-  const {ContextLogout} = useAuth();
+  const {ContextLogout, username} = useAuth();
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeMsg} > Bem-vindo! </Text>
+      <Text style={styles.welcomeMsg} > Bem-vindo de volta, {username}! </Text>
       <Text > Explicações </Text>
       <Pressable style={styles.button} onPress={() => {router.navigate('/(tabs)/status');}}>
         <Text selectable={false} style={styles.buttonText} > Ver requisições </Text>

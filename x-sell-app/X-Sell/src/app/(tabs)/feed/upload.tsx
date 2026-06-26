@@ -1,13 +1,11 @@
 import { handleUpload, pickDocument } from "@/services/fileMgmt";
 import * as DocumentPicker from "expo-document-picker";
-import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, View, StyleSheet, Pressable} from "react-native";
 
 //Explicações
 export default function UploadScreen() {
   const [error, setError] = useState("");
-  const router = useRouter();
   const [document, setDocument] = useState<DocumentPicker.DocumentPickerAsset | null >(null);
   // 📂 Pick any document
 
@@ -28,6 +26,7 @@ export default function UploadScreen() {
         </Pressable>
         <Pressable style={styles.button} onPress={async () => { const response = await handleUpload(document);
             if (response.success) {
+              console.log(response.message);
               setError(response.message);
               setDocument(null);
             }

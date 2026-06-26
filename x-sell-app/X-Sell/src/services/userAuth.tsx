@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export async function handleLogin(username: string, password: string) {
   if (!username || !password) {
@@ -49,10 +50,28 @@ try {
   }
 }
 
-export function getToken() {
-  return false
+export async function getToken() {
+      try { const username = await AsyncStorage.getItem("username");
+        if (username) {return { exists: true, username: username};}
+        else return { exists: false, username: username};
+      }
+        catch (err) {console.log(err);
+          return { exists: false, username: ""};
+        } 
 }
 
-export function putToken(token:string, username:string) {}
+export async function putToken(username:string) {
+      if (! username) {return {success: false, message: "No username given."};}
+      try {await AsyncStorage.setItem("username", username);
+        return {success: true, message: "Session stored"}
+      }
+        catch (err) {console.log(err);
+          return {success:false, message: err}
+        } 
+}
 
-export function killToken() {}
+export async function killToken() {
+      try {await AsyncStorage.removeItem("username");}
+        catch (err) {console.log(err)} 
+  return
+}

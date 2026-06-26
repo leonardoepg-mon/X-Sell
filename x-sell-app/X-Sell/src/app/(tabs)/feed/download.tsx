@@ -1,23 +1,29 @@
-import { useRouter } from "expo-router";
-import { useState } from "react";
-import { Text, View, StyleSheet, Pressable, TextInput } from "react-native";
+
+import { handleDownload } from "@/services/fileMgmt";
+import { Text, View, StyleSheet, Pressable } from "react-native";
 
 //Explicações
 
-export default function Index() {
-  const [text, onChangeText] = useState('');
-  const router = useRouter();
+export default function Download() {
   return (
     <View style={styles.container}>
-      <Text> Baixar arquivo </Text>
-      <Pressable style={styles.button} onPress={() => {}}>
-        <Text selectable={false} style={styles.buttonText} > Botão de baixar </Text>
+    <View style={styles.loneButton}>
+      <Pressable style={styles.button} onPress={async () => { const response = await handleDownload("teste");
+          console.log(response.message)
+      }}>
+        <Text selectable={false} style={styles.buttonText} > Baixar </Text>
       </Pressable>
+    </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  loneButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#404080",
+  },
   container: {
     flex: 1,
     alignItems: "center",
