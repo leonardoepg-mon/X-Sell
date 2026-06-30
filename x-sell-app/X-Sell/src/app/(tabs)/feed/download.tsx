@@ -8,7 +8,7 @@ export default function Download() {
   return (
     <View style={styles.container}>
     <View style={styles.loneButton}>
-      <Pressable style={styles.button} onPress={async () => { const response = await handleDownload("teste");
+      <Pressable style={styles.button} onPress={async () => { const response = await handleDownload(12);
           console.log(response.message)
       }}>
         <Text selectable={false} style={styles.buttonText} > Baixar </Text>

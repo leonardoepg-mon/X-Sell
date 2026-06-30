@@ -4,7 +4,7 @@
   "description": "",
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
+  "type": "module",
   "main": "server_run.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,8 +13,10 @@
   },
   "dependencies": {
     "cors": "^2.8.6",
+    "csv": "^6.6.0",
     "express": "^5.2.1",
     "express-fileupload": "^1.5.2",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "morgan": "^1.11.0"
   }
 }

@@ -3,9 +3,10 @@
 
 type AuthContextType = {
   isLogged: boolean;
-  ContextLogin: (username: string) => void;
+  ContextLogin: (username: string, token: string) => void;
   ContextLogout: () => void;
   username: string | null;
+  token: string | null;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -17,6 +18,7 @@ export function AuthProvider({
 }) {
   const [isLogged, setIsLogged] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadSession() {
@@ -24,14 +26,15 @@ export function AuthProvider({
 
       setIsLogged(checkSession.exists);
       setUsername(checkSession.username ?? null);
-      if (checkSession.exists) {console.log("sessão encontrada: ", checkSession.username)};
+      setToken(checkSession.token ?? null);
+      if (checkSession.exists) {console.log("sessão encontrada: ", checkSession.username, checkSession.token)};
     }
     loadSession();
   }, []);
 
-  const ContextLogin = (username: string) => {
+  const ContextLogin = (username: string, token: string) => {
     setIsLogged(true);
-    putToken(username);
+    putToken(username, token);
     setUsername(username);
     console.log("sessão iniciada: ", username);
   };
@@ -51,7 +54,8 @@ export function AuthProvider({
         isLogged,
         ContextLogin,
         ContextLogout,
-        username
+        username,
+        token
       }}
     >
       {children}

@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export async function handleLogin(username: string, password: string) {
   if (!username || !password) {
-    return { auth: false, error: "Preencha todos os campos" };
+    return { auth: false, error: "Preencha todos os campos", token: null };
   }
 
   try {
@@ -12,13 +12,34 @@ export async function handleLogin(username: string, password: string) {
       body: JSON.stringify({ nome: username, senha: password }),
     });
 
-    const auth = await response.json();
+    const {auth, genToken} = await response.json();
 
     if (auth) {
-      return { auth: true, error: "Usuário autenticado com sucesso!" };
+      return { auth: true, error: "Usuário autenticado com sucesso!", token: genToken };
     }
 
-    return { auth: false, error: "Usuário ou senha inválidos." };
+    return { auth: false, error: "Usuário ou senha inválidos.", token: null };
+  } catch (err) {
+    console.log(err);
+    return { auth: false, error: "Erro ao conectar com o servidor.", token:null };
+  }
+}
+
+export async function handleLogout(username: string | null) {
+  try {
+    const response = await fetch("http://192.168.15.89:3000/logout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nome: username }),
+    });
+
+    const {auth } = await response.json();
+
+    if (auth) {
+      return { auth: true, error: "Sessão encerrada com sucesso!" };
+    }
+
+    return { auth: false, error: "Erro ao encerrar sessão." };
   } catch (err) {
     console.log(err);
     return { auth: false, error: "Erro ao conectar com o servidor." };
@@ -52,18 +73,20 @@ try {
 
 export async function getToken() {
       try { const username = await AsyncStorage.getItem("username");
-        if (username) {return { exists: true, username: username};}
-        else return { exists: false, username: username};
+            const token = await AsyncStorage.getItem("token");
+        if (username) {return { exists: true, username: username, token: token};}
+        else return { exists: false, username: username, token: token};
       }
         catch (err) {console.log(err);
-          return { exists: false, username: ""};
+          return { exists: false, username: "", token: ""};
         } 
 }
 
-export async function putToken(username:string) {
+export async function putToken(username:string, token: string) {
       if (! username) {return {success: false, message: "No username given."};}
       try {await AsyncStorage.setItem("username", username);
-        return {success: true, message: "Session stored"}
+          await AsyncStorage.setItem("token", token);
+        return {success: true, message: "Sessão guardada"}
       }
         catch (err) {console.log(err);
           return {success:false, message: err}

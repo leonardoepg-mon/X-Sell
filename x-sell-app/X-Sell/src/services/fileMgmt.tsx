@@ -3,8 +3,9 @@ import * as DocumentPicker from "expo-document-picker"
 import { Platform } from "react-native";
 import { File, Paths} from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import { Int32 } from "react-native/Libraries/Types/CodegenTypesNamespace";
 
-export async function handleUpload(document: DocumentPicker.DocumentPickerAsset | null) {
+export async function handleUpload(document: DocumentPicker.DocumentPickerAsset | null, username: string | null) {
   if (!document) {
     return {success: false, message: "Nenhum documento selecionado." };
   }
@@ -16,6 +17,7 @@ export async function handleUpload(document: DocumentPicker.DocumentPickerAsset 
     const blob = await file.blob();
 
     formData.append("uploadFile", blob, document.name);
+    formData.append("username", username ?? "none");
 
     const response = await fetch("http://192.168.15.89:3000/upload", {
       method: "POST",
@@ -53,11 +55,11 @@ export async function pickDocument() {
     return null
 }
 
-export async function handleDownload(protocol: string) {
+export async function handleDownload(protocol: Int32) {
     const response = await fetch("http://192.168.15.89:3000/download", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ protocol }),
+      body: JSON.stringify({ protocol: protocol }),
     });
 
     if (!response.ok) { return {success: false, message: "Erro ao acessar o arquivo."}}

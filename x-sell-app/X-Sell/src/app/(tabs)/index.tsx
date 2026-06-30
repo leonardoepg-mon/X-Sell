@@ -1,4 +1,5 @@
 import { useAuth } from "@/contexts/AuthContext";
+import { handleLogout } from "@/services/userAuth";
 import { useRouter } from "expo-router";
 import { Text, View, StyleSheet, Pressable} from "react-native";
 
@@ -16,6 +17,7 @@ export default function Index() {
       </Pressable>
       <Pressable style={styles.button} onPress={() => {
                                                   ContextLogout();
+                                                  handleLogout(username);
                                                   router.replace('/login');}}>
         <Text selectable={false} style={styles.buttonText} > Fechar sessão </Text>
       </Pressable>

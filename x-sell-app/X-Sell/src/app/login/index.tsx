@@ -27,7 +27,7 @@ export default function Login() {
                   const response = await handleLogin(username, password);
                   setError(response.error);
                   if (response.auth) {
-                    ContextLogin(username);
+                    ContextLogin(username, response.token);
                     router.replace("/(tabs)");
                   }
                 }}

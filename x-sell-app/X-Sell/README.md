@@ -2,15 +2,12 @@
 
 Inclui:
 
-* login simples 
-
+* login simples: minimo feito
 * tela de instruções
 
-* upload de arquivo
+* upload de arquivo: minimo feito
 
-* lista/histórico de solicitações
-
-* tela de status: 6 status
+* tela de status/lista de solicitações: 6 status
     - enviado
     - aprovado
     - reprovado, aguardando reenvio
@@ -18,4 +15,4 @@ Inclui:
     - concluído
     - dado nota
 
-* download de arquivos finais
+* download de arquivos finais: minimo feito

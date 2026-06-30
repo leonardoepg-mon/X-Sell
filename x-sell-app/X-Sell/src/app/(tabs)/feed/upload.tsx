@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts/AuthContext";
 import { handleUpload, pickDocument } from "@/services/fileMgmt";
 import * as DocumentPicker from "expo-document-picker";
 import { useState } from "react";
@@ -7,6 +8,7 @@ import { Text, View, StyleSheet, Pressable} from "react-native";
 export default function UploadScreen() {
   const [error, setError] = useState("");
   const [document, setDocument] = useState<DocumentPicker.DocumentPickerAsset | null >(null);
+  const {username} = useAuth();
   // 📂 Pick any document
 
   return (
@@ -24,7 +26,7 @@ export default function UploadScreen() {
         <Pressable style={styles.button} onPress={() => {setDocument(null)}}>
         <Text selectable={false} style={styles.buttonText} > Cancelar Envio </Text> 
         </Pressable>
-        <Pressable style={styles.button} onPress={async () => { const response = await handleUpload(document);
+        <Pressable style={styles.button} onPress={async () => { const response = await handleUpload(document, username);
             if (response.success) {
               console.log(response.message);
               setError(response.message);
