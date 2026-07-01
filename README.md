@@ -13,7 +13,7 @@ Inclui:
 
 * lista/histórico de solicitações, implementada pesquisa de status e avaliação OK;
 
-* download de arquivos finais. falta integrar com tela de status;
+* download de arquivos finais OK.
 
 
 ## 2\. Backend e storage
@@ -30,9 +30,9 @@ Inclui:
 
 * notificações básicas: faltando;
 
-* API para status: OK, faltando implementar botões de download e envio de avaliação.
+* API para status: OK.
 
-* incluir métodos remotos para analistas postarem e obterem dados?
+* incluir métodos remotos para analistas postarem e obterem dados? 
 
 ## 3\. Processamento analítico
 

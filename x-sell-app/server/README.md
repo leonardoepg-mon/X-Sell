@@ -12,11 +12,11 @@
 
 *  login e registro
 *  repositórios de input e output
-*  JSON contendo status de requisições
+*  database com solicitações em curso
 
 ##  O que deve conter também
 
-*  geração e checagem de token quando pede download, faz upload, ou requisiciona status
+*  geração de token e checagem quando pede download e faz upload
 
 ## Sugestões, mudanças
 
@@ -36,4 +36,4 @@ Inclui:
 
 * notificações básicas
 
-* API para status EM CONSTRUÇÃO
+* API para status OK 

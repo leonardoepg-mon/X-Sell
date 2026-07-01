@@ -1,17 +1,20 @@
-import { useAuth } from "@/contexts/AuthContext";
+import { MessageDialog } from "@/components/MessageDialog";
 import { handleRegister } from "@/services/userAuth";
+import { styles } from "@/styles/styles";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Text, View, StyleSheet, Pressable, TextInput } from "react-native";
+import { Text, View, Pressable, TextInput } from "react-native";
 
 
 export default function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const [msgType, setMsgType] = useState('');
+  const [isMsgVisible, setMsgVisible] = useState(false);
   const router = useRouter();
-  const {ContextLogin} = useAuth();
   return (
+    <>
     <View style={styles.container}>
       <TextInput style= {styles.input} onChangeText={setUsername}
                  value={username}
@@ -22,7 +25,10 @@ export default function Register() {
                  placeholder="Senha"/>
       <Pressable style={styles.button} onPress= {async () => {
                         const response = await handleRegister(username, password);
-                        setError(response.error);
+                        console.log(response);
+                        setMessage(response.message); 
+                        setMsgType(response.msgType);
+                        setMsgVisible(true);
                       }}>
         <Text selectable={false} style={styles.buttonText} > Registrar </Text>
       </Pressable>
@@ -30,35 +36,12 @@ export default function Register() {
       <Pressable style={styles.button} onPress={() => router.navigate("/login")}>
         <Text selectable={false} style={styles.buttonText} > Voltar à tela de login </Text>
       </Pressable>
-      <Text style={styles.errorMessage}>{error}</Text>
     </View>
+    <MessageDialog visible= {isMsgVisible}
+                   messageType={msgType}
+                   message={message}
+                    onOK={() => setMsgVisible(false)}
+    />
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#404080",
-  },
-  input: {
-    borderWidth: 2,
-    backgroundColor: "#FFF",
-    borderColor: "#abcfdf"
-  },
-  buttonText: {
-    fontStyle: "italic",
-    color: "#11a1b3"
-  },
-  button: {
-    backgroundColor: '#ab0fab',
-    borderWidth: 1,
-    borderRadius:5,
-  },
-  errorMessage: {
-    fontWeight: "bold",
-    color: "red",
-    fontSize: 20,
-  }
-});

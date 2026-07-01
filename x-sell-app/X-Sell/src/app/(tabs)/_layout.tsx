@@ -1,26 +1,33 @@
-import { Tabs } from 'expo-router';
+import { Tabs } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: 'blue', headerShown:false }}>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: "blue",
+        headerShown: false,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'início',
+          title: "Início",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="home" size={size} color={color} />
+          ),
         }}
       />
+
       <Tabs.Screen
         name="status"
         options={{
-          title: 'ver solicitações',
-        }}
-      />
-      <Tabs.Screen
-        name="feed"
-        options={{
-          title: 'nova solicitação',
+          title: "Solicitações",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="assignment" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>
-  ); 
+  );
 }

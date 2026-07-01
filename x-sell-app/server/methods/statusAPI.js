@@ -17,7 +17,7 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 }
 
-export function searchItems(req, res) {
+export function searchItems(req, res) { 
     const users = readJson(usersPath);
     const db = readCsv(dbPath);
     //req has username and token, checks session, returns all instances with user (IMPLEMENT TOKEN LATER)

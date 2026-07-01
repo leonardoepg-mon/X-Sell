@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export async function handleLogin(username: string, password: string) {
   if (!username || !password) {
-    return { auth: false, error: "Preencha todos os campos", token: null };
+    return { success: false, message: "Preencha todos os campos", msgType: "warning", token: null };
   }
 
   try {
@@ -12,16 +12,12 @@ export async function handleLogin(username: string, password: string) {
       body: JSON.stringify({ nome: username, senha: password }),
     });
 
-    const {auth, genToken} = await response.json();
+    const data = await response.json(); 
+    return data;
 
-    if (auth) {
-      return { auth: true, error: "Usuário autenticado com sucesso!", token: genToken };
-    }
-
-    return { auth: false, error: "Usuário ou senha inválidos.", token: null };
   } catch (err) {
     console.log(err);
-    return { auth: false, error: "Erro ao conectar com o servidor.", token:null };
+    return { success: false, message: "Erro ao conectar com o servidor.", msgType: "error", token: null };
   }
 }
 
@@ -33,22 +29,17 @@ export async function handleLogout(username: string | null) {
       body: JSON.stringify({ nome: username }),
     });
 
-    const {auth } = await response.json();
-
-    if (auth) {
-      return { auth: true, error: "Sessão encerrada com sucesso!" };
-    }
-
-    return { auth: false, error: "Erro ao encerrar sessão." };
+    const data = await response.json();
+    return data
   } catch (err) {
     console.log(err);
-    return { auth: false, error: "Erro ao conectar com o servidor." };
+    return { success: false, message: "Erro ao conectar com o servidor.", msgType: "error" };
   }
 }
 
 export async function handleRegister(username: string, password: string) {
     if (!username || !password) {
-      return { auth: false, error: "Preencha todos os campos" };
+      return { success: false, message: "Preencha todos os campos", msgType: "warning" };
     }
 
 try {
@@ -58,16 +49,11 @@ try {
       body: JSON.stringify({ nome: username, senha: password }),
     });
 
-    const {userExists, saved } = await response.json();
-
-    if (userExists) {
-      return { auth: false, error: "Usuário já existe!" };
-    }
-    else if (saved) return { auth: true, error: "Conta criada com sucesso." };
-    else return {auth: false, error: "Erro inesperado com o servidor"};
+    const data = await response.json();
+    return data;
   } catch (err) {
     console.log(err);
-    return { auth: false, error: "Erro ao conectar com o servidor." };
+    return { success: false, message: "Erro ao conectar com o servidor.", msgType: "error" };
   }
 }
 

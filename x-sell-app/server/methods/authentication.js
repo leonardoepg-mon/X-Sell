@@ -32,9 +32,9 @@ export function handleLogin(req, res) {
     sessions.push({username: data.nome, token: genToken}); // inclusão de sessão
     fs.writeFileSync(sessionsPath, csv.stringify(sessions, {header: true}));
     console.log("Login efetuado por usuário: ", data.nome);
+    return res.json({success: auth, genToken, message: "Login feito com sucesso!", msgType: "success"});
   }
-  //enviar token
-  return res.json({auth, genToken});
+  return res.json({success: auth, genToken, message: "Usuário ou senha incorretos", msgType: "error"});
 }
 
 export function handleLogout(req, res) {
@@ -47,12 +47,12 @@ export function handleLogout(req, res) {
     sessions.splice(index, 1);
     fs.writeFile(sessionsPath, csv.stringify(sessions, {header: true}), (err)=> {if (err) console.log("erro logout: ", err);});
     console.log("Sessão encerrada: ", data.nome);
-    return res.json(true);
+    return res.json({success: true, message: "Logout feito.", msgType: "success"});
   }
 
   else {
     console.log("Erro excluindo sessão: ", data.nome);
-    return res.json(false);
+    return res.json({success: false, message: "Erro no logout.", msgType: "error"});
   }
 }
 
@@ -61,10 +61,10 @@ export function handleRegister(req, res) {
   const data = req.body;
 
   const userExists = users.some((user) => user.nome === data.nome);
-  let saved = false;
 
   if (userExists) {
-    return res.json({ userExists, saved });
+    console.log("Tentativa de criação de conta falhou.");
+    return res.json({success: false, message: "Usuário já existe", msgType: "warning"});
   }
 
   users.push(data);
@@ -72,12 +72,11 @@ export function handleRegister(req, res) {
   fs.writeFile(usersPath, JSON.stringify(users, null, 2), (err) => {
     if (err) {
       console.log(err);
-      return res.json({ userExists, saved });
+    return res.json({success: false, message: "Erro no servidor", msgType: "error"});
     }
 
     console.log("Usuário adicionado: ", data.nome);
-    saved = true;
 
-    return res.json({ userExists, saved });
+    return res.json({success: true, message: "Conta criada com sucesso", msgType: "success"});
   });
 }

@@ -10,4 +10,4 @@ Inclui:
 
 * download de arquivos finais: funcional;
 
-* histórico de solicitações com botões para upload, reupload, download, e avaliação; incluir time-stamp?
+* histórico de solicitações com botões para upload, reupload, download, e avaliação; incluir time-stamp? 

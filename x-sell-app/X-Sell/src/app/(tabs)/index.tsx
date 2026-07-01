@@ -1,54 +1,60 @@
+import { MessageDialog } from "@/components/MessageDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { handleLogout } from "@/services/userAuth";
+import { styles } from "@/styles/styles";
 import { useRouter } from "expo-router";
-import { Text, View, StyleSheet, Pressable} from "react-native";
+import { useState } from "react";
+import { Text, View, Pressable} from "react-native";
 
 //Explicações
 
 export default function Index() {
   const router = useRouter();
   const {ContextLogout, username} = useAuth();
+  const [message, setMessage] = useState('');
+    const [msgType, setMsgType] = useState('');
+    const [isMsgVisible, setMsgVisible] = useState(false);
+    const [afterDialog, setAfterDialog] = useState<(() => void) | null>(null);
+  
   return (
+    <>
     <View style={styles.container}>
       <Text style={styles.welcomeMsg} > Bem-vindo de volta, {username}! </Text>
       <Text > Explicações </Text>
       <Pressable style={styles.button} onPress={() => {router.navigate('/(tabs)/status');}}>
         <Text selectable={false} style={styles.buttonText} > Ver requisições </Text>
       </Pressable>
-      <Pressable style={styles.button} onPress={() => {
-                                                  ContextLogout();
-                                                  handleLogout(username);
-                                                  router.replace('/login');}}>
+      <Pressable style={styles.button} onPress={async () => {
+                                                        const response = await handleLogout(username);
+                                                        setMessage(response.message);
+                                                        setMsgType(response.msgType);
+                                                        if (response.success) {
+                                                        setAfterDialog(() => () => {
+                                                        ContextLogout();
+                                                        router.replace("/login");
+                                                        });
+                                                          } else {
+                                                            setAfterDialog(null);
+                                                          }
+                                                          setMsgVisible(true);
+                                                        }}>
         <Text selectable={false} style={styles.buttonText} > Fechar sessão </Text>
       </Pressable>
     </View>
+    <MessageDialog visible= {isMsgVisible}
+                           messageType={msgType}
+                           message={message}
+                            onOK={() => {
+                                  setMsgVisible(false);
+    
+                                  if (afterDialog) {
+                                    afterDialog();
+                                    setAfterDialog(null);
+                                  }
+                                }}
+        />
+    </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#404080",
-  },
-  welcomeMsg: {
-    fontWeight: "black",
-    fontSize: 20,
-    fontFamily: "sans-serif",
-  },
-  input: {
-    borderWidth: 2,
-    backgroundColor: "#FFF",
-    borderColor: "#abcfdf"
-  },
-  buttonText: {
-    fontStyle: "italic",
-    color: "#11a1b3"
-  },
-  button: {
-    backgroundColor: '#ab0fab',
-    borderWidth: 1,
-    borderRadius:5,
-  }
-});
+

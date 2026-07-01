@@ -1,7 +1,8 @@
 import { handleRating } from "@/services/statusApi";
+import { styles } from "@/styles/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Modal, Pressable, Text, View } from "react-native";
 
 type RatingDialogProps = {
   visible: boolean;
@@ -59,42 +60,3 @@ export function RatingDialog({
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  box: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 20,
-    width: 280,
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 18,
-    marginBottom: 12,
-  },
-  stars: {
-    flexDirection: "row",
-    marginBottom: 18,
-  },
-  buttons: {
-    flexDirection: "row",
-    gap: 10,
-  },
-  cancelButton: {
-    padding: 10,
-  },
-  sendButton: {
-    backgroundColor: "#ab0fab",
-    padding: 10,
-    borderRadius: 5,
-  },
-  sendText: {
-    color: "#fff",
-  },
-});
