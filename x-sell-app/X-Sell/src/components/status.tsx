@@ -39,6 +39,9 @@ export function StatusList({ database }: { database: FormattedStatusItem[] }) {
   const router = useRouter();
   const [ratingVisible, setRatingVisible] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [database, setDatabase] = useState<StApi.FormattedStatusItem[]>([]);
+
+
   return (
     <>
     <FlatList
