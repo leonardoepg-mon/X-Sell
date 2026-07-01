@@ -5,33 +5,34 @@
 
 Inclui:
 
-* login simples 
+* login, com sessões guardadas, faltando implementar a geração e checagem de token para autorizar operações, e expiração de sessões;
 
-* tela de instruções
+* tela de instruções, falta providenciar todo o texto explicativo;
 
-* upload de arquivo
+* upload de arquivo OK (falta incluir id no filename para garantir unicidade);
 
-* lista/histórico de solicitações
+* lista/histórico de solicitações, implementada pesquisa de status e avaliação OK;
 
-* tela de status
+* download de arquivos finais. falta integrar com tela de status;
 
-* download de arquivos finais
 
 ## 2\. Backend e storage
 
 Inclui:
 
-* autenticação
+* autenticação OK;
 
-* registro de solicitações
+* registro de solicitações OK;
 
-* armazenamento dos arquivos
+* armazenamento dos arquivos OK;
 
-* associação input/output por protocolo
+* associação input/output por protocolo OK;
 
-* notificações básicas
+* notificações básicas: faltando;
 
-* API para status
+* API para status: OK, faltando implementar botões de download e envio de avaliação.
+
+* incluir métodos remotos para analistas postarem e obterem dados?
 
 ## 3\. Processamento analítico
 

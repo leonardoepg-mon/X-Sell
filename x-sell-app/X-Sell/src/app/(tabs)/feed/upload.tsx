@@ -1,6 +1,7 @@
 import { useAuth } from "@/contexts/AuthContext";
-import { handleUpload, pickDocument } from "@/services/fileMgmt";
+import { handleReupload, handleUpload, pickDocument } from "@/services/fileMgmt";
 import * as DocumentPicker from "expo-document-picker";
+import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { Text, View, StyleSheet, Pressable} from "react-native";
 
@@ -9,8 +10,10 @@ export default function UploadScreen() {
   const [error, setError] = useState("");
   const [document, setDocument] = useState<DocumentPicker.DocumentPickerAsset | null >(null);
   const {username} = useAuth();
-  // 📂 Pick any document
+  const { id_item } = useLocalSearchParams<{ id_item?: string }>();
+  const isReupload = !!id_item;
 
+  
   return (
     <View style={styles.container}>
       <Text> Subir tabela </Text>
@@ -19,22 +22,35 @@ export default function UploadScreen() {
           setDocument(result);
           
       }} >
-        <Text selectable={false} style={styles.buttonText} > Selecionar documento </Text>
+        {!isReupload && (<Text selectable={false} style={styles.buttonText} > Selecionar documento </Text>)}
+        {isReupload && (<Text selectable={false} style={styles.buttonText} > Selecionar novo documento </Text>)}
       </Pressable>
       { document && ( <View style={styles.ghostContainer}>
         <Text style= {{color : "blue", fontStyle: "italic"}}> {document.name } </Text>
         <Pressable style={styles.button} onPress={() => {setDocument(null)}}>
-        <Text selectable={false} style={styles.buttonText} > Cancelar Envio </Text> 
+        {!isReupload && (<Text selectable={false} style={styles.buttonText} > Cancelar Envio </Text>)}
+        {isReupload && (<Text selectable={false} style={styles.buttonText} > Cancelar Reenvio </Text>)}
         </Pressable>
-        <Pressable style={styles.button} onPress={async () => { const response = await handleUpload(document, username);
+        <Pressable style={styles.button} onPress={async () => { if (!id_item) {const response = await handleUpload(document, username);
             if (response.success) {
               console.log(response.message);
               setError(response.message);
               setDocument(null);
             }
             else setError(response.message);
+          }
+          else {
+            const response = await handleReupload(document, id_item);
+            if (response.success) {
+              console.log(response.message);
+              setError(response.message);
+              setDocument(null);
+            }
+            else setError(response.message);
+          }
       }} >
-        <Text selectable={false} style={styles.buttonText} > Fazer upload </Text>
+        {!isReupload && (<Text selectable={false} style={styles.buttonText} > Fazer Upload </Text>)}
+        {isReupload && (<Text selectable={false} style={styles.buttonText} > Fazer Reupload </Text>)}
       </Pressable>
         </View>
       )

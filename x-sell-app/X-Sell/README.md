@@ -2,17 +2,12 @@
 
 Inclui:
 
-* login simples: minimo feito
-* tela de instruções
+* login simples: funcional, com registro de sessão. falta gerar token;
 
-* upload de arquivo: minimo feito
+* tela de instruções: falta;
 
-* tela de status/lista de solicitações: 6 status
-    - enviado
-    - aprovado
-    - reprovado, aguardando reenvio
-    - em análise
-    - concluído
-    - dado nota
+* upload de arquivo: funcional;
 
-* download de arquivos finais: minimo feito
+* download de arquivos finais: funcional;
+
+* histórico de solicitações com botões para upload, reupload, download, e avaliação; incluir time-stamp?

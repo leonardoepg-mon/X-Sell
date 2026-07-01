@@ -13,9 +13,6 @@ export default function Index() {
       <Pressable style={styles.button} onPress={() => {router.navigate('/(tabs)/feed/upload');}}>
         <Text selectable={false} style={styles.buttonText} > Carregar tabela </Text>
       </Pressable>
-      <Pressable style={styles.button} onPress={() => {router.navigate('/(tabs)/feed/download');}}>
-        <Text selectable={false} style={styles.buttonText} > Baixar tabela </Text>
-      </Pressable>
     </View>
   );
 }

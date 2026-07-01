@@ -1,19 +1,18 @@
 
 import { handleDownload } from "@/services/fileMgmt";
 import { Text, View, StyleSheet, Pressable } from "react-native";
+import { Int32 } from "react-native/Libraries/Types/CodegenTypes";
 
 //Explicações
 
-export default function Download() {
+export default function Download(protocol: Int32) {
   return (
-    <View style={styles.container}>
-    <View style={styles.loneButton}>
-      <Pressable style={styles.button} onPress={async () => { const response = await handleDownload(12);
+      <View style={styles.loneButton}>
+      <Pressable style={styles.button} onPress={async () => { const response = await handleDownload(protocol);
           console.log(response.message)
       }}>
         <Text selectable={false} style={styles.buttonText} > Baixar </Text>
       </Pressable>
-    </View>
     </View>
   );
 }

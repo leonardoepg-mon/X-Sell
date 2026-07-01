@@ -6,19 +6,19 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'home',
+          title: 'início',
         }}
       />
       <Tabs.Screen
         name="status"
         options={{
-          title: 'status',
+          title: 'ver solicitações',
         }}
       />
       <Tabs.Screen
         name="feed"
         options={{
-          title: 'projetos',
+          title: 'nova solicitação',
         }}
       />
     </Tabs>

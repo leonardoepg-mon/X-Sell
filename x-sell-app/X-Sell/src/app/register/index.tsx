@@ -2,7 +2,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { handleRegister } from "@/services/userAuth";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Text, View, StyleSheet, Pressable, TextInput, Alert } from "react-native";
+import { Text, View, StyleSheet, Pressable, TextInput } from "react-native";
 
 
 export default function Register() {
@@ -23,15 +23,11 @@ export default function Register() {
       <Pressable style={styles.button} onPress= {async () => {
                         const response = await handleRegister(username, password);
                         setError(response.error);
-                        if (response.auth) {
-                          ContextLogin(username); //get token from server?
-                          router.replace("/(tabs)")
-                        }
                       }}>
         <Text selectable={false} style={styles.buttonText} > Registrar </Text>
       </Pressable>
       <Text > Já tem conta? </Text>
-      <Pressable style={styles.button} onPress={() => router.navigate("./login")}>
+      <Pressable style={styles.button} onPress={() => router.navigate("/login")}>
         <Text selectable={false} style={styles.buttonText} > Voltar à tela de login </Text>
       </Pressable>
       <Text style={styles.errorMessage}>{error}</Text>

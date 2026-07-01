@@ -10,7 +10,8 @@ import {
   handleLogout,
   handleRegister,
 } from "./methods/authentication.js";
-import { handleDownload, handleUpload } from "./methods/fileManagement.js";
+import { handleDownload, handleReupload, handleUpload } from "./methods/fileManagement.js";
+import { handleRating, searchItems } from "./methods/statusAPI.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -35,12 +36,13 @@ app.post("/register", handleRegister);
 
 app.post("/upload", handleUpload);
 
+app.post("/reupload", handleReupload);
+
 app.post("/download", handleDownload);
 
-// era "./status", mas rota deve começar com "/"
-app.post("/status", (req, res) => {
-  return res.json(null);
-});
+app.post("/status", searchItems);
+
+app.post("/rating", handleRating)
 
 app.listen(PORT, () => {
   console.log(`X-Sell server running at http://localhost:${PORT}/`);

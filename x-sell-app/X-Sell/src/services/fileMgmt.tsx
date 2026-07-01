@@ -40,6 +40,41 @@ export async function handleUpload(document: DocumentPicker.DocumentPickerAsset 
   }
     }
 
+export async function handleReupload(document: DocumentPicker.DocumentPickerAsset | null, id_item: string) {
+  if (!document) {
+    return {success: false, message: "Nenhum documento selecionado." };
+  }
+
+  try {
+    const formData = new FormData();
+
+    const file = await fetch(document.uri);
+    const blob = await file.blob();
+
+    formData.append("uploadFile", blob, document.name);
+    formData.append("id_item", id_item ?? "-1");
+
+    const response = await fetch("http://192.168.15.89:3000/reupload", {
+      method: "POST",
+
+      body: formData,
+    });
+
+    const text = await response.text();
+
+    return {
+      success: response.ok,
+      message: text,
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      success: false,
+      message: "Erro ao conectar com o servidor.",
+    };
+  }
+    }
+
 export async function pickDocument() { 
     try {
       const result = await DocumentPicker.getDocumentAsync({

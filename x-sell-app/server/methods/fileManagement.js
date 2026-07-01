@@ -49,7 +49,7 @@ export function handleUpload(req, res)  {
 
       console.log("Salvo em: ", uploadPath);
       const itemId = db.length + 1;
-      db.push({id_item: db.length + 1 , status: "0", id_usuario:userId , inputName: uploadedFile.name , outputName: "null"});
+      db.push({id_item: db.length + 1 , status: "0", id_usuario:userId , inputName: uploadedFile.name , outputName: "null", avaliacao:"-1"});
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));  
       return res.send("Recebido com sucesso.");
     });
@@ -76,4 +76,44 @@ export function handleDownload(req, res) {
       console.log("Arquivo enviado: ", fileName);
     }
   });
+}
+
+
+export function handleReupload(req, res)  {
+  if (req.files && Object.keys(req.files).length !== 0) {
+    const db = readCsv(dbPath);
+    
+    const uploadedFile = req.files.uploadFile;
+
+    const idx = db.findIndex(
+    (row) => row.id_item == req.body.id_item
+    );
+
+    //console.log("upload by user", username, ", de id: ",  userId);
+
+    console.log("Re-upload de arquivo recebido: ", uploadedFile.name);
+
+    const uploadPath = path.join(
+      rootPath,
+      "data",
+      "input",
+      uploadedFile.name
+    );
+
+    uploadedFile.mv(uploadPath, (err) => {
+      if (err) {
+        console.log(err);
+        return res.send("Falha no reenvio.");
+      }
+
+      console.log("Salvo em: ", uploadPath);
+      db[idx].id_item = req.body.id_item;
+      db[idx].status = 0;
+      db[idx].inputName = uploadedFile.name;
+      fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));  
+      return res.send("Recebido com sucesso.");
+    });
+  } else {
+    return res.send("Nenhum arquivo recebido!");
+  }
 }
