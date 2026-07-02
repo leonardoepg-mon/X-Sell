@@ -16,19 +16,7 @@ export default function Login() {
   const [isMsgVisible, setMsgVisible] = useState(false);
   const [afterDialog, setAfterDialog] = useState<(() => void) | null>(null);
 
-  return (
-    <>
-    <View style={styles.container}>
-      <TextInput style= {styles.input} onChangeText={setUsername}
-                 value={username}
-                 placeholder="Nome"/>
-      <TextInput style= {styles.input} onChangeText={setPassword}
-                 value={password}
-                 secureTextEntry={true}
-                 placeholder="Senha"/>
-                  <Pressable
-                style={styles.button}
-                onPress={async () => {
+async function OnPressLogin() {
                   const response = await handleLogin(username, password);
                   setMessage(response.message);
                   setMsgType(response.msgType);
@@ -41,8 +29,21 @@ export default function Login() {
                       setAfterDialog(null);
                     }
                     setMsgVisible(true);
-                  }}
-                  >
+                  }
+
+  return (
+    <>
+    <View style={styles.container}>
+      <TextInput style= {styles.input} onChangeText={setUsername}
+                 value={username}
+                 placeholder="Nome"/>
+      <TextInput style= {styles.input} onChangeText={setPassword}
+                 value={password}
+                 secureTextEntry={true}
+                 placeholder="Senha"/>
+                  <Pressable
+                style={styles.button}
+                onPress={OnPressLogin}>
         <Text selectable={false} style={styles.buttonText} > Login </Text>
       </Pressable>
       <Text > Não tem conta? </Text>

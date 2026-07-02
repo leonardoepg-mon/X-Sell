@@ -1,3 +1,4 @@
+const localIP = process.env.EXPO_PUBLIC_SERVER_URL;
 
 type StatusCode = -1 | 0 | 1 | 2 | 3 | 4;
 
@@ -95,16 +96,15 @@ export function formatStatusItem(item: StatusItem): FormattedStatusItem {
   }
 }
 
-export async function statusSearch(username: string | null) {
+export async function statusSearch(token: string) {
   try {
-    const response = await fetch("http://192.168.15.89:3000/status", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username }),
+    const response = await fetch(localIP + ':3000/status', {
+      method: "GET",
+      headers: {"Authorization": token },
     });
-    console.log("requisição de status por ", username);
+    //console.log("requisição de status por ", username);
 
-    const {success, message, database} = await response.json();
+    const {success, message, msgType, database} = await response.json();
     //console.log(database);
     const dbProcessed = database.map((item: any) =>
     formatStatusItem({
@@ -116,33 +116,33 @@ export async function statusSearch(username: string | null) {
     }));
     //console.log(dbProcessed);
     if (success) {
-      return { success, message, dbProcessed };
+      return { success, message, msgType, dbProcessed };
     }
 
-    return { success, message };
+    return { success, message, msgType };
   } catch (err) {
-    console.log(err);
-    return { success: false, message: err };
+    console.log("error aqui", err); ///// Está saindo aqui
+    return { success: false, message: err, msgType: "error" };
   }
 }
 
-export async function handleRating(id_item: Number, rating: Number) {
+export async function handleRating(id_item: Number, rating: Number, token: string) {
   try {
-    const response = await fetch("http://192.168.15.89:3000/rating", {
+    const response = await fetch(localIP + ':3000/rating', {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" , "Authorization": token },
       body: JSON.stringify({ id_item, rating }),
     });
     console.log("avaliação no processo ", id_item );
 
-    const {success, message} = await response.json();
+    const {success, message, msgType} = await response.json();
     //console.log(database);
     if (success) {
-      return { success, message };
+      return { success, message, msgType };
     }
-    return { success, message };
+    return { success, message, msgType };
   } catch (err) {
     console.log(err);
-    return { success: false, message: err };
+    return { success: false, message: err, msgType: "error" };
   }
 }

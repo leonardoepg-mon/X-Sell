@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
+const localIP = process.env.EXPO_PUBLIC_SERVER_URL;
 
 export async function handleLogin(username: string, password: string) {
   if (!username || !password) {
@@ -6,7 +7,7 @@ export async function handleLogin(username: string, password: string) {
   }
 
   try {
-    const response = await fetch("http://192.168.15.89:3000/login", {
+    const response = await fetch(localIP + ':3000/login', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nome: username, senha: password }),
@@ -17,23 +18,22 @@ export async function handleLogin(username: string, password: string) {
 
   } catch (err) {
     console.log(err);
-    return { success: false, message: "Erro ao conectar com o servidor.", msgType: "error", token: null };
+    return { success: false, message: err, msgType: "error", token: null };
   }
 }
 
-export async function handleLogout(username: string | null) {
+export async function handleLogout(token: string) {
   try {
-    const response = await fetch("http://192.168.15.89:3000/logout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nome: username }),
+    const response = await fetch(localIP + ':3000/logout', {
+      method: "GET",
+      headers: { "Authorization": token }
     });
 
     const data = await response.json();
     return data
   } catch (err) {
     console.log(err);
-    return { success: false, message: "Erro ao conectar com o servidor.", msgType: "error" };
+    return { success: false, message: err, msgType: "error" };
   }
 }
 
@@ -43,7 +43,7 @@ export async function handleRegister(username: string, password: string) {
     }
 
 try {
-    const response = await fetch("http://192.168.15.89:3000/register", {
+    const response = await fetch(localIP + ':3000/register', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nome: username, senha: password }),
@@ -53,7 +53,21 @@ try {
     return data;
   } catch (err) {
     console.log(err);
-    return { success: false, message: "Erro ao conectar com o servidor.", msgType: "error" };
+    return { success: false, message: err, msgType: "error" };
+  }
+}
+
+export async function checkToken(token: string) {
+      try {
+    const response = await fetch(localIP + ':3000/validate', {
+      method: "GET",
+      headers: { "Authorization": token }
+    });
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: err, msgType: "error" };
   }
 }
 
@@ -80,7 +94,9 @@ export async function putToken(username:string, token: string) {
 }
 
 export async function killToken() {
-      try {await AsyncStorage.removeItem("username");}
+      try {await AsyncStorage.removeItem("username");
+           await AsyncStorage.removeItem("token");
+      }
         catch (err) {console.log(err)} 
   return
 }

@@ -14,9 +14,11 @@
   "dependencies": {
     "cors": "^2.8.6",
     "csv": "^6.6.0",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-fileupload": "^1.5.2",
     "fs": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.3",
     "morgan": "^1.11.0"
   }
 }

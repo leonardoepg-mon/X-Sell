@@ -4,10 +4,11 @@ import { Platform } from "react-native";
 import { File, Paths} from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { Int32 } from "react-native/Libraries/Types/CodegenTypesNamespace";
+const localIP = process.env.EXPO_PUBLIC_SERVER_URL;
 
-export async function handleUpload(document: DocumentPicker.DocumentPickerAsset | null, username: string | null) {
+export async function handleUpload(document: DocumentPicker.DocumentPickerAsset | null, token: string) {
   if (!document) {
-    return {success: false, message: "Nenhum documento selecionado." };
+    return {success: false, message: "Nenhum documento selecionado.", msgType: "info" };
   }
 
   try {
@@ -17,32 +18,28 @@ export async function handleUpload(document: DocumentPicker.DocumentPickerAsset 
     const blob = await file.blob();
 
     formData.append("uploadFile", blob, document.name);
-    formData.append("username", username ?? "none");
 
-    const response = await fetch("http://192.168.15.89:3000/upload", {
+    const response = await fetch(localIP + ':3000/upload', {
       method: "POST",
-
+      headers: {"Authorization": token},
       body: formData,
     });
 
-    const text = await response.text();
+    return response.json();
 
-    return {
-      success: response.ok,
-      message: text,
-    };
   } catch (err) {
     console.log(err);
     return {
       success: false,
       message: "Erro ao conectar com o servidor.",
+      msgType: "error"
     };
   }
     }
 
-export async function handleReupload(document: DocumentPicker.DocumentPickerAsset | null, id_item: string) {
+export async function handleReupload(document: DocumentPicker.DocumentPickerAsset | null, id_item: string, token: string) {
   if (!document) {
-    return {success: false, message: "Nenhum documento selecionado." };
+    return {success: false, message: "Nenhum documento selecionado.", msgType: "info" };
   }
 
   try {
@@ -54,23 +51,19 @@ export async function handleReupload(document: DocumentPicker.DocumentPickerAsse
     formData.append("uploadFile", blob, document.name);
     formData.append("id_item", id_item ?? "-1");
 
-    const response = await fetch("http://192.168.15.89:3000/reupload", {
+    const response = await fetch(localIP + ':3000/reupload', {
       method: "POST",
-
+      headers: {"Authorization": token},
       body: formData,
     });
 
-    const text = await response.text();
-
-    return {
-      success: response.ok,
-      message: text,
-    };
+    return response.json();
   } catch (err) {
     console.log(err);
     return {
       success: false,
       message: "Erro ao conectar com o servidor.",
+      msgType: "error"
     };
   }
     }
@@ -90,28 +83,28 @@ export async function pickDocument() {
     return null
 }
 
-export async function handleDownload(protocol: Int32) {
-    const response = await fetch("http://192.168.15.89:3000/download", {
+export async function handleDownload(protocol: Int32, token: string) {
+    const response = await fetch(localIP + ':3000/download', {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": token },
       body: JSON.stringify({ protocol: protocol }),
     });
 
-    if (!response.ok) { return {success: false, message: "Erro ao acessar o arquivo."}}
+    if (!response.ok) { return {success: false, message: "Erro ao acessar o arquivo.", msgType: "error", fileName:""}}
 
-    const fileName = "output.csv";   
+    const {fileName} = await response.json(); 
 
    if (Platform.OS === "web") {
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
-
+    
     const a = document.createElement("a");
     a.href = url;
     a.download = fileName;
     a.click();
 
     URL.revokeObjectURL(url);
-    return {success: true, message: "Download teve sucesso."};
+    return {success: true, message: "Download teve sucesso.", msgType: "success", fileName};
   }
 
   const bytes = await response.bytes();
@@ -128,5 +121,5 @@ export async function handleDownload(protocol: Int32) {
     if (await Sharing.isAvailableAsync()) {
         await Sharing.shareAsync(file.uri);
         }
-  return {success: true, message: "Download teve sucesso."};
+  return {success: true, message: "Download teve sucesso.", msgType: "success", fileName};
 }

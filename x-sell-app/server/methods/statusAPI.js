@@ -23,7 +23,7 @@ export function searchItems(req, res) {
     //req has username and token, checks session, returns all instances with user (IMPLEMENT TOKEN LATER)
     //console.log(req.body.username)
     const user = users.find(
-      (user) => user.nome === req.body.username
+      (user) => user.nome === res.locals.token.id
     );
     if (user.id >=0) {
     const filteredDb = db.filter(

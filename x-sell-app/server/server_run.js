@@ -6,9 +6,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import {
+  checkSession,
   handleLogin,
   handleLogout,
   handleRegister,
+  verifyJWT
 } from "./methods/authentication.js";
 import { handleDownload, handleReupload, handleUpload } from "./methods/fileManagement.js";
 import { handleRating, searchItems } from "./methods/statusAPI.js";
@@ -22,7 +24,7 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
-app.use(morgan("combined"));
+app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
   res.send("Você acessou o servidor de X-Sell App.");
@@ -30,19 +32,21 @@ app.get("/", (req, res) => {
 
 app.post("/login", handleLogin);
 
-app.post("/logout", handleLogout);
+app.get("/logout", verifyJWT, handleLogout);
+
+app.get("/validate", verifyJWT, checkSession);
 
 app.post("/register", handleRegister);
 
-app.post("/upload", handleUpload);
+app.post("/upload", verifyJWT, handleUpload);
 
-app.post("/reupload", handleReupload);
+app.post("/reupload", verifyJWT, handleReupload);
 
-app.post("/download", handleDownload);
+app.post("/download", verifyJWT, handleDownload);
 
-app.post("/status", searchItems);
+app.get("/status", verifyJWT, searchItems);
 
-app.post("/rating", handleRating)
+app.post("/rating", verifyJWT, handleRating)
 
 app.listen(PORT, () => {
   console.log(`X-Sell server running at http://localhost:${PORT}/`);

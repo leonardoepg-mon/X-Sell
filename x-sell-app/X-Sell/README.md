@@ -2,12 +2,12 @@
 
 Inclui:
 
-* login simples: funcional, com registro de sessão. falta gerar token;
+* login simples: funcional, com registro de sessão OK. falta gerar token;
 
 * tela de instruções: falta;
 
-* upload de arquivo: funcional;
+* upload de arquivo: OK;
 
-* download de arquivos finais: funcional;
+* download de arquivos finais: OK;
 
-* histórico de solicitações com botões para upload, reupload, download, e avaliação; incluir time-stamp? 
+* histórico de solicitações com botões para upload, reupload, download, e avaliação OK; incluir time-stamp? 

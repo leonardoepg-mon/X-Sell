@@ -1,7 +1,7 @@
 import { FlatList, Pressable, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { handleDownload} from "@/services/fileMgmt";
 import { styles } from "@/styles/styles";
+import { useAuth } from "@/contexts/AuthContext";
 
 
 type FormattedStatusItem = {
@@ -37,13 +37,16 @@ type StatusListProps = {
   database: FormattedStatusItem[];
   onPressReupload: (id: number) => void;
   onPressRating: (id: number) => void;
+  onPressDownload: (id: number) => void;
 };
 
 export function StatusList({
   database,
   onPressReupload,
   onPressRating,
+  onPressDownload
 }: StatusListProps)  {
+  const {token} = useAuth();
   return (
     <FlatList
       data={database}
@@ -76,8 +79,7 @@ export function StatusList({
             )}
 
             {item.showDownloadButton && (
-              <Pressable style={styles.smallButton} onPress={ async () => { const response = await handleDownload(item.id);
-          console.log(response.message);}}>
+              <Pressable style={styles.smallButton} onPress={ async () => onPressDownload(item.id) }>
                 <Text style={styles.buttonText}>Download</Text>
               </Pressable>
             )}

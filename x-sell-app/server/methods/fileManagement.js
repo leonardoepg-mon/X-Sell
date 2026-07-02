@@ -23,7 +23,7 @@ export function handleUpload(req, res)  {
     const db = readCsv(dbPath);
     
     const uploadedFile = req.files.uploadFile;
-    const username = req.body.username;
+    const username = res.locals.token.id;
 
     const userId = users.find(
       (user) => user.nome === username
@@ -62,13 +62,13 @@ export function handleDownload(req, res) {
   console.log("Protocolo: ", req.body.protocol);
   const db = readCsv(dbPath);
   
-  const match = db.find(
+  const idx = db.findIndex(
     (row) => row.id_item == req.body.protocol
   );
-  const fileName = match.outputName;
-
+  const fileName = db[idx].outputName;
   const filePath = path.join(rootPath, "data", "output", fileName);
 
+  res.json({fileName});
   res.download(filePath, (err) => {
     if (err) {
       console.log(err);
@@ -77,7 +77,6 @@ export function handleDownload(req, res) {
     }
   });
 }
-
 
 export function handleReupload(req, res)  {
   if (req.files && Object.keys(req.files).length !== 0) {

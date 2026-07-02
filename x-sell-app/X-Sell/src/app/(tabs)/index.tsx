@@ -10,12 +10,23 @@ import { Text, View, Pressable} from "react-native";
 
 export default function Index() {
   const router = useRouter();
-  const {ContextLogout, username} = useAuth();
+  const {ContextLogout, username, token} = useAuth();
   const [message, setMessage] = useState('');
     const [msgType, setMsgType] = useState('');
     const [isMsgVisible, setMsgVisible] = useState(false);
     const [afterDialog, setAfterDialog] = useState<(() => void) | null>(null);
-  
+
+  async function OnPressLogout() {
+                                   const response = await handleLogout(token||"");
+                                   setMessage(response.message);
+                                   setMsgType(response.msgType);
+                                   setAfterDialog(() => () => {
+                                   ContextLogout();
+                                   router.replace("/login");
+                                  });
+                                   setMsgVisible(true);
+                                   }
+
   return (
     <>
     <View style={styles.container}>
@@ -24,20 +35,7 @@ export default function Index() {
       <Pressable style={styles.button} onPress={() => {router.navigate('/(tabs)/status');}}>
         <Text selectable={false} style={styles.buttonText} > Ver requisições </Text>
       </Pressable>
-      <Pressable style={styles.button} onPress={async () => {
-                                                        const response = await handleLogout(username);
-                                                        setMessage(response.message);
-                                                        setMsgType(response.msgType);
-                                                        if (response.success) {
-                                                        setAfterDialog(() => () => {
-                                                        ContextLogout();
-                                                        router.replace("/login");
-                                                        });
-                                                          } else {
-                                                            setAfterDialog(null);
-                                                          }
-                                                          setMsgVisible(true);
-                                                        }}>
+      <Pressable style={styles.button} onPress={OnPressLogout}>
         <Text selectable={false} style={styles.buttonText} > Fechar sessão </Text>
       </Pressable>
     </View>
