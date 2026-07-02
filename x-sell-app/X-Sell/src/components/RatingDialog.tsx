@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts/AuthContext";
 import { handleRating } from "@/services/statusApi";
 import { styles } from "@/styles/styles";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -18,11 +19,12 @@ export function RatingDialog({
   onRated,
 }: RatingDialogProps) {
   const [rating, setRating] = useState(0);
-
+  const {token} = useAuth();
+  
   async function submitRating() {
     if (rating === 0) return;
 
-    await handleRating(id_item, rating);
+    await handleRating(id_item, rating, token);
     onRated();
     onClose();
     setRating(0);
