@@ -4,9 +4,9 @@ id_item,status,id_usuario,inputName,outputName,avaliacao
 3,-1,1,exemplo1.csv,teste.csv,5
 4,0,2,exemplo1.csv,null,-1
 5,0,2,exemplo1.csv,null,-1
-6,-1,2,exemplo1.csv,teste.csv,-1
+6,0,2,exemplo1.csv,teste.csv,-1
 7,4,2,exemplo1.csv,teste.xlsx,5
-8,3,2,exemplo1.csv,teste.csv,-1
+8,4,2,exemplo1.csv,teste.csv,5
 9,3,2,exemplo1.csv,teste.csv,-1
 10,1,5,exemplo1.csv,teste.csv,-1
 11,1,5,exemplo1.csv,teste.csv,-1
@@ -15,3 +15,4 @@ id_item,status,id_usuario,inputName,outputName,avaliacao
 14,1,7,exemplo1.csv,teste.csv,-1
 15,1,7,exemplo1.csv,teste.csv,-1
 16,0,2,exemplo1.csv,null,-1
+17,0,2,exemplo1.csv,null,-1

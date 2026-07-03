@@ -66,9 +66,14 @@ export function AuthProvider({
   useEffect(() => {
   setOnExpiredToken(async () => {
     await killToken();
-    setIsLogged(false);
-    setUsername("");
-    setToken("");
+    setAfterDialog(() => () => {
+      setIsLogged(false);
+      setUsername("");
+      setToken("");
+    });
+    setMessage("Sessão expirada");
+    setMsgType("warning");
+    setMsgVisible(true);
   });
 }, []);
 
@@ -86,12 +91,17 @@ export function AuthProvider({
   };
 
   const ContextLogout = async () => {
-    
+      killToken();
+      setAfterDialog(() => () => {
       setIsLogged(false);
       setUsername("");
       setToken("");
-      killToken();
-  
+    });
+    
+      setMessage("Saindo");
+      setMsgType("info");
+      setMsgVisible(true);
+
     //console.log("sessão terminada.");
   };
 

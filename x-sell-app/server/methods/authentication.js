@@ -124,7 +124,7 @@ export function verifyJWT(req, res, next) {
     
     return next();
   } catch (err) {
-     console.log(err);
-    return res.status(403).json({ success: false,  message: err.message, msgType: "error" });
+    //console.log(err);
+    return res.status(403).json({ success: false,  message: err instanceof Error ? err.message : String(err) , msgType: "error" });
   }
 }
