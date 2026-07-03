@@ -1,9 +1,9 @@
-import { useAuth } from "@/contexts/AuthContext";
-import { handleDownload } from "@/services/fileMgmt";
-import { styles } from "@/styles/styles";
-import { useState } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
-import { MessageDialog } from "./MessageDialog";
+
+import { handleDownload } from "@/services/fileMgmt";
+import { MsgType, useMessageDialog } from "@/hooks/useMessageDialog";
+
+import { styles } from "@/styles/styles";
 
 type DownloadDialogProps = {
   visible: boolean;
@@ -18,27 +18,19 @@ export function DownloadDialog({
   onClose,
   onDownloaded,
 }: DownloadDialogProps) {
-  const [message, setMessage] = useState("");
-  const [msgType, setMsgType] = useState("");
-  const [isMsgVisible, setMsgVisible] = useState(false);
-  const { token } = useAuth();
-  const [afterDialog, setAfterDialog] = useState<(() => void) | null>(null);
-
+  const {showMessage, MessageDialog} = useMessageDialog();
 
   async function confirmDownload() {   
-    const response = await handleDownload(id_item ?? 0, token);
-    
-    setMessage(String(response.message));
-    setMsgType(String(response.msgType));
-    if (response.success) { setAfterDialog(() => () => {
+    const response = await handleDownload(id_item ?? 0);
+          showMessage({message : response.message,
+            msgType: response.msgType as MsgType,
+            afterDialog: response.success 
+              ? () => {
                   onDownloaded();
                   onClose();
-                  });
-                  } else {
-                      setAfterDialog(null);
-                    }
-                    setMsgVisible(true);
                   }
+              : undefined});
+          }
       
   return (
     <>
@@ -61,17 +53,7 @@ export function DownloadDialog({
         </View>
       </View>
     </Modal>
-    <MessageDialog visible= {isMsgVisible}
-                                 messageType={msgType}
-                                 message={message}
-                                  onOK={() => {
-                                        setMsgVisible(false);       
-                              if (afterDialog) {
-                                afterDialog();
-                                setAfterDialog(null);
-                              }
-                                      }}
-              />
+    <MessageDialog/>
     </>
   );
 }

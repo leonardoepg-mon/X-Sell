@@ -1,31 +1,31 @@
-import { MessageDialog } from "@/components/MessageDialog";
-import { useAuth } from "@/contexts/AuthContext";
-import { handleLogout } from "@/services/userAuth";
-import { styles } from "@/styles/styles";
 import { useRouter } from "expo-router";
-import { useState } from "react";
-import { Text, View, Pressable} from "react-native";
+import { Text, View, Pressable } from "react-native";
+
+import { useAuth } from "@/contexts/authContext";
+import { useMessageDialog } from "@/hooks/useMessageDialog";
+import { handleLogout } from "@/services/userAuth";
+
+import { styles } from "@/styles/styles";
 
 //Explicações
 
 export default function Index() {
   const router = useRouter();
-  const {ContextLogout, username, token} = useAuth();
-  const [message, setMessage] = useState('');
-    const [msgType, setMsgType] = useState('');
-    const [isMsgVisible, setMsgVisible] = useState(false);
-    const [afterDialog, setAfterDialog] = useState<(() => void) | null>(null);
+  const {ContextLogout, username} = useAuth();
+
+  const {showMessage, MessageDialog} = useMessageDialog();
+
 
   async function OnPressLogout() {
-                                   const response = await handleLogout(token||"");
-                                   setMessage(response.message);
-                                   setMsgType(response.msgType);
-                                   setAfterDialog(() => () => {
-                                   ContextLogout();
-                                   router.replace("/login");
-                                  });
-                                   setMsgVisible(true);
-                                   }
+    const response = await handleLogout();
+    showMessage({message: response.message,
+      msgType: response.msgType,
+      afterDialog: () => {
+        ContextLogout();
+        router.replace("/login");
+      }
+    });
+  }
 
   return (
     <>
@@ -39,18 +39,7 @@ export default function Index() {
         <Text selectable={false} style={styles.buttonText} > Fechar sessão </Text>
       </Pressable>
     </View>
-    <MessageDialog visible= {isMsgVisible}
-                           messageType={msgType}
-                           message={message}
-                            onOK={() => {
-                                  setMsgVisible(false);
-    
-                                  if (afterDialog) {
-                                    afterDialog();
-                                    setAfterDialog(null);
-                                  }
-                                }}
-        />
+    <MessageDialog/>
     </>
   );
 }

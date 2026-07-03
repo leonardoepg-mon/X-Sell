@@ -1,10 +1,10 @@
-import { useAuth } from "@/contexts/AuthContext";
-import { handleReupload, handleUpload, pickDocument } from "@/services/fileMgmt";
-import { styles } from "@/styles/styles";
 import * as DocumentPicker from "expo-document-picker";
 import { useState } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
-import { MessageDialog } from "./MessageDialog";
+
+import { handleReupload, handleUpload, pickDocument } from "@/services/fileMgmt";
+import { styles } from "@/styles/styles";
+import { useMessageDialog } from "@/hooks/useMessageDialog";
 
 type UploadDialogProps = {
   visible: boolean;
@@ -19,16 +19,13 @@ export function UploadDialog({
   onClose,
   onUploaded,
 }: UploadDialogProps) {
-  const [message, setMessage] = useState("");
-  const [msgType, setMsgType] = useState("");
-  const [isMsgVisible, setMsgVisible] = useState(false);
+
   const [document, setDocument] =
     useState<DocumentPicker.DocumentPickerAsset | null>(null);
-   const [afterDialog, setAfterDialog] = useState<(() => void) | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-
-  const { token } = useAuth();
   const isReupload = !!id_item;
+
+  const {showMessage, MessageDialog} = useMessageDialog();
 
   async function submitUpload() {
     if (!document) return;
@@ -36,24 +33,14 @@ export function UploadDialog({
     setIsUploading(true);
     
     const response = isReupload
-      ? await handleReupload(document, id_item, token)
-      : await handleUpload(document,token);
+      ? await handleReupload(document, id_item)
+      : await handleUpload(document);
 
     setIsUploading(false);
-
-    setMessage(String(response.message));
-    setMsgType(String(response.msgType));
-
-    if (response.success) {
-      setDocument(null);
-      setAfterDialog(() => () => {
-        onUploaded();
-        });
-        setMsgVisible(true);
-    } else {
-      setMsgVisible(true);
-      setAfterDialog(null);
-    }
+    setDocument(null);
+    showMessage({message : response.message,
+            msgType: response.msgType,
+            afterDialog: response.success ?? onUploaded});
     }
   
   return (
@@ -68,8 +55,7 @@ export function UploadDialog({
           <Pressable
             style={styles.button}
             onPress={async () => {
-              setMessage("");
-              const result = await pickDocument();
+              const result = await pickDocument(); // message?
               setDocument(result);
             }}
           >
@@ -104,17 +90,7 @@ export function UploadDialog({
         </View>
       </View>
     </Modal>
-    <MessageDialog visible= {isMsgVisible}
-                    messageType={msgType}
-                    message={message}
-                    onOK={() => {
-                              setMsgVisible(false);       
-                       if (afterDialog) {
-                       afterDialog();
-                      setAfterDialog(null);
-                              }
-                                      }}
-    />
+    <MessageDialog/>
     </>
   );
 }

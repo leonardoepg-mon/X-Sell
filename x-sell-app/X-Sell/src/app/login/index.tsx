@@ -2,34 +2,28 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, View, Pressable, TextInput } from "react-native";
 import { handleLogin } from "../../services/userAuth"
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/authContext";
 import { styles } from "@/styles/styles";
-import { MessageDialog } from "@/components/MessageDialog";
+import { useMessageDialog } from "@/hooks/useMessageDialog";
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
   const {ContextLogin} = useAuth()
-  const [message, setMessage] = useState('');
-  const [msgType, setMsgType] = useState('');
-  const [isMsgVisible, setMsgVisible] = useState(false);
-  const [afterDialog, setAfterDialog] = useState<(() => void) | null>(null);
+  const {showMessage, MessageDialog} = useMessageDialog();
 
 async function OnPressLogin() {
-                  const response = await handleLogin(username, password);
-                  setMessage(response.message);
-                  setMsgType(response.msgType);
-                  if (response.success) {
-                  setAfterDialog(() => () => {
-                  ContextLogin(username, response.token);
-                  router.replace("/(tabs)");
-                  });
-                    } else {
-                      setAfterDialog(null);
-                    }
-                    setMsgVisible(true);
-                  }
+    const response = await handleLogin(username, password);
+    showMessage( {message: response.message,
+                  msgType: response.msgType,
+                  afterDialog: response.success 
+                                ? () => {
+                                ContextLogin(username, response.token);
+                                router.replace("/(tabs)");
+                                } : undefined
+                              });
+    }
 
   return (
     <>
@@ -51,18 +45,7 @@ async function OnPressLogin() {
         <Text selectable={false} style={styles.buttonText} > Registrar </Text>
       </Pressable>
     </View>
-    <MessageDialog visible= {isMsgVisible}
-                       messageType={msgType}
-                       message={message}
-                        onOK={() => {
-                              setMsgVisible(false);
-
-                              if (afterDialog) {
-                                afterDialog();
-                                setAfterDialog(null);
-                              }
-                            }}
-    />
+    <MessageDialog/>
   </>
   );
 }

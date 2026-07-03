@@ -3,20 +3,20 @@ import { Modal, Pressable, Text, View } from "react-native";
 
 type MessageDialogProps = {
   visible: boolean;
-  messageType: string;
+  msgType: string;
   message: string;
   onOK: () => void;
 };
 
 export function MessageDialog({
   visible,
-  messageType,
+  msgType,
   message,
   onOK,
 }: MessageDialogProps) {
 
 function handleMsgStyle() {
-  switch (messageType) {
+  switch (msgType) {
     case "success":
       return styles.successMessage;
 

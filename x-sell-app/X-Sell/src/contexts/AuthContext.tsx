@@ -1,7 +1,6 @@
-    import { createContext, useContext, useEffect, useState } from "react";
-    import { checkToken, getToken, killToken, putToken, setOnExpiredToken } from "../services/userAuth"
-import { MessageDialog } from "@/components/MessageDialog";
-
+import { createContext, useContext, useEffect, useState } from "react";
+import { checkToken, getToken, killToken, putToken, setOnExpiredToken } from "../services/jwtHandling"
+import { useMessageDialog } from "@/hooks/useMessageDialog";
 
 type AuthContextType = {
   isLogged: boolean;
@@ -22,90 +21,74 @@ export function AuthProvider({
   const [username, setUsername] = useState<string>("");
   const [token, setToken] = useState<string>("");
 
-  const [message, setMessage] = useState('');
-    const [msgType, setMsgType] = useState('');
-    const [isMsgVisible, setMsgVisible] = useState(false);
-    const [afterDialog, setAfterDialog] = useState<(() => void) | null>(null);
+  const {showMessage, MessageDialog} = useMessageDialog();
 
   useEffect(() => {
     async function loadSession() {
       const checkSession = await getToken(); //check for saved token
-      if (checkSession.exists && checkSession.token && checkSession.username) { const response = await checkToken(checkSession.token); //verify token
-        if (!response.success) { //if token expired or other problems, open dialog to say it
-          setUsername("");
-          setToken("");
-          killToken();
-          setAfterDialog(() => () => {
-            setIsLogged(false);
-          })
-        } else {
-          setUsername(checkSession.username);
-          setToken(checkSession.token);
-          setAfterDialog(() => () => { // token valid, session exists
-            setIsLogged(true);
-          })
-        }
-        setMessage(response.message);
-        setMsgType(response.msgType);
-        setMsgVisible(true);   // message from server
-      } else { //no token found, session invalid
+      if (!isLogged && checkSession.exists && checkSession.token && checkSession.username) { // not logged but has session data
+        const response = await checkToken(checkSession.token); //verify token
+        setUsername(response.success?checkSession.username:"");
+        setToken(response.success?checkSession.token:"");
+        response.success?{}:killToken();
+        response.success?? showMessage({message : response.message,
+            msgType: response.msgType,
+            afterDialog: ()=> setIsLogged(true)}); //only showmessage if valid session found
+      } else { // bad session data, clear it
         setUsername("");
         setToken("");
-        killToken();
-        setAfterDialog(() => () => {
-          setIsLogged(false);
-        }) //then no message needed
-      setMessage("");
-      setMsgType("");
+        await killToken();
+        setIsLogged(false);
+        } //then no message needed
       }
-    }
     loadSession();
-    //console.log(token);
   }, []);
 
   useEffect(() => {
-  setOnExpiredToken(async () => {
-    await killToken();
-    setAfterDialog(() => () => {
+    setOnExpiredToken(async () => {
+      await killToken();
+      showMessage({message : "Sessão expirada",
+            msgType: "warning",
+            afterDialog: () => {
       setIsLogged(false);
       setUsername("");
       setToken("");
+      }});
     });
-    setMessage("Sessão expirada");
-    setMsgType("warning");
-    setMsgVisible(true);
-  });
-}, []);
+  }, []);
+
+  useEffect(() => {
+  if (!isLogged || !token) return;
+
+  const interval = setInterval(() => {
+    checkToken(token)
+  }, 5 * 60 * 1000);
+
+  return () => clearInterval(interval);
+  }, [isLogged, token]);
 
   const ContextLogin = (username: string, token: string) => {
-    setAfterDialog(() => () => {
+    showMessage({message : "Entrando",
+            msgType: "success",
+            afterDialog: () => {
       setIsLogged(true);
       putToken(username, token);
       setUsername(username);
       setToken(token);
-    })
-    setMessage("Entrando");
-    setMsgType("info");
-    setMsgVisible(true);
+    }});
     //console.log("sessão iniciada: ", username);
   };
 
   const ContextLogout = async () => {
       killToken();
-      setAfterDialog(() => () => {
+      showMessage({message : "Saindo",
+            msgType: "info",
+            afterDialog: () => {
       setIsLogged(false);
       setUsername("");
       setToken("");
-    });
-    
-      setMessage("Saindo");
-      setMsgType("info");
-      setMsgVisible(true);
-
-    //console.log("sessão terminada.");
+    }});
   };
-
- 
 
   return (
     <>
@@ -120,18 +103,7 @@ export function AuthProvider({
     >
       {children}
     </AuthContext.Provider>
-    <MessageDialog visible= {isMsgVisible}
-                           messageType={msgType}
-                           message={message}
-                            onOK={() => {
-                                  setMsgVisible(false);
-    
-                                  if (afterDialog) {
-                                    afterDialog();
-                                    setAfterDialog(null);
-                                  }
-                                }}
-        />
+    <MessageDialog/>
     </>
   );
 }
