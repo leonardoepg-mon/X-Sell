@@ -24,7 +24,7 @@ export async function handleLogin(username: string, password: string) {
 
 export async function handleLogout(token: string) {
   try {
-    const response = await fetch(localIP + ':3000/logout', {
+    const response = await authFetch(localIP + ':3000/logout', {
       method: "GET",
       headers: { "Authorization": token }
     });
@@ -59,7 +59,7 @@ try {
 
 export async function checkToken(token: string) {
       try {
-    const response = await fetch(localIP + ':3000/validate', {
+    const response = await authFetch(localIP + ':3000/validate', {
       method: "GET",
       headers: { "Authorization": token }
     });
@@ -99,4 +99,26 @@ export async function killToken() {
       }
         catch (err) {console.log(err)} 
   return
+}
+
+
+let onExpiredToken: (() => void) | null = null;
+
+export function setOnExpiredToken(callback: () => void) {
+  onExpiredToken = callback;
+}
+
+export async function authFetch(url: string, options: RequestInit = {}) {
+  const response = await fetch(url, options);
+
+  if (response.status === 401 || response.status === 403) {
+    await killToken();
+
+    if (onExpiredToken) {
+      onExpiredToken?.();
+    }
+    throw new Error("Sessão Expirada");
+  }
+
+  return response;
 }

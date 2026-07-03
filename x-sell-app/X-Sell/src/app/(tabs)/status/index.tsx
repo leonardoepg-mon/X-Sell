@@ -69,7 +69,6 @@ setUploadVisible(true);
       Nova solicitação
     </Text>
   </Pressable>
-
   {showStatus && (
     <Pressable
       style={styles.button}

@@ -25,7 +25,7 @@ export function UploadDialog({
   const [document, setDocument] =
     useState<DocumentPicker.DocumentPickerAsset | null>(null);
    const [afterDialog, setAfterDialog] = useState<(() => void) | null>(null);
-
+  const [isUploading, setIsUploading] = useState(false);
 
   const { token } = useAuth();
   const isReupload = !!id_item;
@@ -33,24 +33,27 @@ export function UploadDialog({
   async function submitUpload() {
     if (!document) return;
 
+    setIsUploading(true);
+    
     const response = isReupload
       ? await handleReupload(document, id_item, token)
       : await handleUpload(document,token);
 
+    setIsUploading(false);
+
     setMessage(String(response.message));
     setMsgType(String(response.msgType));
 
-    if (response.success) {  setAfterDialog(() => () => {
-       setDocument(null);
+    if (response.success) {
+      setDocument(null);
+      setAfterDialog(() => () => {
         onUploaded();
-        onClose();
-                  });
-        } else {
-            setAfterDialog(null);
-                }
-            setDocument(null);
-            setMsgVisible(true);
-
+        });
+        setMsgVisible(true);
+    } else {
+      setMsgVisible(true);
+      setAfterDialog(null);
+    }
     }
   
   return (
@@ -85,9 +88,10 @@ export function UploadDialog({
                 </Text>
               </Pressable>
 
-              <Pressable style={styles.button} onPress={submitUpload}>
+              <Pressable style={styles.button} onPress={submitUpload}
+              disabled={isUploading}>
                 <Text style={styles.buttonText}>
-                  {isReupload ? "Fazer Reupload" : "Fazer Upload"}
+                  {isUploading ? "Enviando..." : isReupload ? "Fazer Reupload" : "Fazer Upload"}
                 </Text>
               </Pressable>
             </>
@@ -101,16 +105,16 @@ export function UploadDialog({
       </View>
     </Modal>
     <MessageDialog visible= {isMsgVisible}
-                                 messageType={msgType}
-                                 message={message}
-                                  onOK={() => {
-                                        setMsgVisible(false);       
-                              if (afterDialog) {
-                                afterDialog();
-                                setAfterDialog(null);
+                    messageType={msgType}
+                    message={message}
+                    onOK={() => {
+                              setMsgVisible(false);       
+                       if (afterDialog) {
+                       afterDialog();
+                      setAfterDialog(null);
                               }
                                       }}
-              />
+    />
     </>
   );
 }

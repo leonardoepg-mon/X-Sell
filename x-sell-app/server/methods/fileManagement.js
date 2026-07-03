@@ -17,7 +17,7 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 }
 
-export function handleUpload(req, res)  {
+export function handleUpload(req, res)  { 
   if (req.files && Object.keys(req.files).length !== 0) {
     const users = readJson(usersPath);
     const db = readCsv(dbPath);
@@ -44,17 +44,19 @@ export function handleUpload(req, res)  {
     uploadedFile.mv(uploadPath, (err) => {
       if (err) {
         console.log(err);
-        return res.send("Falha no envio.");
+        return res.json({success: false, message: "Falha no envio.", msgType: "warning"});
       }
 
       console.log("Salvo em: ", uploadPath);
       const itemId = db.length + 1;
       db.push({id_item: db.length + 1 , status: "0", id_usuario:userId , inputName: uploadedFile.name , outputName: "null", avaliacao:"-1"});
-      fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));  
-      return res.send("Recebido com sucesso.");
+      fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));
+        return res.json({success: true, message: "Recebido com sucesso.", msgType: "success"});
+
     });
   } else {
-    return res.send("Nenhum arquivo recebido!");
+        return res.json({success: false, message: "Nenhum arquivo recebido!", msgType: "error"});
+
   }
 }
 
@@ -68,7 +70,7 @@ export function handleDownload(req, res) {
   const fileName = db[idx].outputName;
   const filePath = path.join(rootPath, "data", "output", fileName);
 
-  res.json({fileName});
+
   res.download(filePath, (err) => {
     if (err) {
       console.log(err);
@@ -102,17 +104,17 @@ export function handleReupload(req, res)  {
     uploadedFile.mv(uploadPath, (err) => {
       if (err) {
         console.log(err);
-        return res.send("Falha no reenvio.");
+        return res.json({success: false, message: "Falha no reenvio.", msgType: "error"});
       }
 
       console.log("Salvo em: ", uploadPath);
       db[idx].id_item = req.body.id_item;
       db[idx].status = 0;
       db[idx].inputName = uploadedFile.name;
-      fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));  
-      return res.send("Recebido com sucesso.");
+      fs.writeFileSync(dbPath, csv.stringify(db, {header: true})); 
+      return res.json({success: true, message: "Recebido com sucesso.", msgType: "success"});
     });
   } else {
-    return res.send("Nenhum arquivo recebido!");
+      return res.json({success: false, message: "Nenhum arquivo recebido!", msgType: "error"});
   }
 }

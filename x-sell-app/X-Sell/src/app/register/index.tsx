@@ -25,7 +25,7 @@ export default function Register() {
                  placeholder="Senha"/>
       <Pressable style={styles.button} onPress= {async () => {
                         const response = await handleRegister(username, password);
-                        console.log(response);
+                        //console.log(response);
                         setMessage(response.message); 
                         setMsgType(response.msgType);
                         setMsgVisible(true);

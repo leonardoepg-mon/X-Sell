@@ -21,7 +21,6 @@ export function DownloadDialog({
   const [message, setMessage] = useState("");
   const [msgType, setMsgType] = useState("");
   const [isMsgVisible, setMsgVisible] = useState(false);
-  const [fileName, setFileName] = useState("");
   const { token } = useAuth();
   const [afterDialog, setAfterDialog] = useState<(() => void) | null>(null);
 
@@ -31,7 +30,6 @@ export function DownloadDialog({
     
     setMessage(String(response.message));
     setMsgType(String(response.msgType));
-    setFileName(String(response.fileName));
     if (response.success) { setAfterDialog(() => () => {
                   onDownloaded();
                   onClose();
@@ -47,17 +45,14 @@ export function DownloadDialog({
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.box}>
-          {fileName && (
-            <>
-              <Text style={styles.fileName}>{fileName}</Text>
+          
 
               <Pressable style={styles.button} onPress={confirmDownload}>
                 <Text style={styles.buttonText}>
                   Baixar
                 </Text>
               </Pressable>
-            </>
-          )}
+          
 
           <Pressable style={styles.cancelButton} onPress={onClose}>
             <Text>Fechar</Text>

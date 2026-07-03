@@ -4,13 +4,14 @@ import { Platform } from "react-native";
 import { File, Paths} from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { Int32 } from "react-native/Libraries/Types/CodegenTypesNamespace";
+import { authFetch } from "./userAuth";
 const localIP = process.env.EXPO_PUBLIC_SERVER_URL;
 
 export async function handleUpload(document: DocumentPicker.DocumentPickerAsset | null, token: string) {
   if (!document) {
     return {success: false, message: "Nenhum documento selecionado.", msgType: "info" };
   }
-
+  
   try {
     const formData = new FormData();
 
@@ -18,8 +19,8 @@ export async function handleUpload(document: DocumentPicker.DocumentPickerAsset 
     const blob = await file.blob();
 
     formData.append("uploadFile", blob, document.name);
-
-    const response = await fetch(localIP + ':3000/upload', {
+  
+    const response = await authFetch(localIP + ':3000/upload', {
       method: "POST",
       headers: {"Authorization": token},
       body: formData,
@@ -51,7 +52,7 @@ export async function handleReupload(document: DocumentPicker.DocumentPickerAsse
     formData.append("uploadFile", blob, document.name);
     formData.append("id_item", id_item ?? "-1");
 
-    const response = await fetch(localIP + ':3000/reupload', {
+    const response = await authFetch(localIP + ':3000/reupload', {
       method: "POST",
       headers: {"Authorization": token},
       body: formData,
@@ -59,7 +60,7 @@ export async function handleReupload(document: DocumentPicker.DocumentPickerAsse
 
     return response.json();
   } catch (err) {
-    console.log(err);
+    //console.log(err);
     return {
       success: false,
       message: "Erro ao conectar com o servidor.",
@@ -77,39 +78,67 @@ export async function pickDocument() {
       if (!result.canceled) {
         return result.assets[0]
       }
-    } catch (error) {
-      console.log("Error picking document:", error);
+    } catch (err) {
+      console.log("Error picking document:", err);
     }
     return null
 }
 
 export async function handleDownload(protocol: Int32, token: string) {
-    const response = await fetch(localIP + ':3000/download', {
+  try {
+    const response = await authFetch(localIP + ':3000/download', {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": token },
       body: JSON.stringify({ protocol: protocol }),
     });
 
     if (!response.ok) { return {success: false, message: "Erro ao acessar o arquivo.", msgType: "error", fileName:""}}
-
-    const {fileName} = await response.json(); 
+    //console.log(`Headers: ${[...response.headers.entries()]}`);
 
    if (Platform.OS === "web") {
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
+    const disposition = response.headers.get("Content-Disposition");
+
+let fileName = "";
+
+if (disposition) {
+  const utf8 = disposition.match(/filename\*=UTF-8''([^;]+)/);
+
+  if (utf8) {
+    fileName = decodeURIComponent(utf8[1]);
+  } else {
+    const ascii = disposition.match(/filename="?([^"]+)"?/);
+    if (ascii) fileName = ascii[1];
+  }
+}
+  
     
     const a = document.createElement("a");
     a.href = url;
-    a.download = fileName;
+    a.download = fileName||`untitled`;
     a.click();
 
     URL.revokeObjectURL(url);
     return {success: true, message: "Download teve sucesso.", msgType: "success", fileName};
   }
+  const disposition = response.headers.get("Content-Disposition");
+  let fileName = "";
 
+if (disposition) {
+  const utf8 = disposition.match(/filename\*=UTF-8''([^;]+)/);
+
+  if (utf8) {
+    fileName = decodeURIComponent(utf8[1]);
+  } else {
+    const ascii = disposition.match(/filename="?([^"]+)"?/);
+    if (ascii) fileName = ascii[1];
+  }
+}
   const bytes = await response.bytes();
+   
 
-  const file = new File(Paths.cache, fileName);
+  const file = new File(Paths.cache, fileName||`untitled`);
 
     file.create({
   intermediates: true,
@@ -122,4 +151,12 @@ export async function handleDownload(protocol: Int32, token: string) {
         await Sharing.shareAsync(file.uri);
         }
   return {success: true, message: "Download teve sucesso.", msgType: "success", fileName};
+} catch (err) {
+    //console.log(err);
+    return {
+      success: false,
+      message: err instanceof Error ? err.message : String(err),
+      msgType: "error"
+    };
+  }
 }

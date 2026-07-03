@@ -1,6 +1,7 @@
     import { createContext, useContext, useEffect, useState } from "react";
-    import { checkToken, getToken, killToken, putToken } from "../services/userAuth"
+    import { checkToken, getToken, killToken, putToken, setOnExpiredToken } from "../services/userAuth"
 import { MessageDialog } from "@/components/MessageDialog";
+
 
 type AuthContextType = {
   isLogged: boolean;
@@ -61,6 +62,15 @@ export function AuthProvider({
     loadSession();
     //console.log(token);
   }, []);
+
+  useEffect(() => {
+  setOnExpiredToken(async () => {
+    await killToken();
+    setIsLogged(false);
+    setUsername("");
+    setToken("");
+  });
+}, []);
 
   const ContextLogin = (username: string, token: string) => {
     setAfterDialog(() => () => {

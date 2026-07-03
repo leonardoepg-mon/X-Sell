@@ -1,3 +1,5 @@
+import { authFetch } from "./userAuth";
+
 const localIP = process.env.EXPO_PUBLIC_SERVER_URL;
 
 type StatusCode = -1 | 0 | 1 | 2 | 3 | 4;
@@ -98,7 +100,7 @@ export function formatStatusItem(item: StatusItem): FormattedStatusItem {
 
 export async function statusSearch(token: string) {
   try {
-    const response = await fetch(localIP + ':3000/status', {
+    const response = await authFetch(localIP + ':3000/status', {
       method: "GET",
       headers: {"Authorization": token },
     });
@@ -121,19 +123,19 @@ export async function statusSearch(token: string) {
 
     return { success, message, msgType };
   } catch (err) {
-    console.log("error aqui", err); ///// Está saindo aqui
+    //console.log("error aqui", err); ///// Está saindo aqui
     return { success: false, message: err, msgType: "error" };
   }
 }
 
 export async function handleRating(id_item: Number, rating: Number, token: string) {
   try {
-    const response = await fetch(localIP + ':3000/rating', {
+    const response = await authFetch(localIP + ':3000/rating', {
       method: "POST",
       headers: { "Content-Type": "application/json" , "Authorization": token },
       body: JSON.stringify({ id_item, rating }),
     });
-    console.log("avaliação no processo ", id_item );
+    //console.log("avaliação no processo ", id_item );
 
     const {success, message, msgType} = await response.json();
     //console.log(database);
