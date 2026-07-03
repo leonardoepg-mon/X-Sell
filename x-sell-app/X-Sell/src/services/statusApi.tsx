@@ -1,4 +1,4 @@
-import { authFetch } from "./userAuth";
+import { authFetch } from "./jwtHandling";
 
 const localIP = process.env.EXPO_PUBLIC_SERVER_URL;
 
@@ -98,11 +98,11 @@ export function formatStatusItem(item: StatusItem): FormattedStatusItem {
   }
 }
 
-export async function statusSearch(token: string) {
+export async function statusSearch(token?: string) {
   try {
     const response = await authFetch(localIP + ':3000/status', {
       method: "GET",
-      headers: {"Authorization": token },
+      headers: token ? { Authorization: token } : undefined,
     });
     //console.log("requisição de status por ", username);
 
@@ -128,11 +128,11 @@ export async function statusSearch(token: string) {
   }
 }
 
-export async function handleRating(id_item: Number, rating: Number, token: string) {
+export async function handleRating(id_item: Number, rating: Number, token?: string) {
   try {
     const response = await authFetch(localIP + ':3000/rating', {
       method: "POST",
-      headers: { "Content-Type": "application/json" , "Authorization": token },
+      headers: token? { "Content-Type": "application/json" , "Authorization":  token} : { "Content-Type": "application/json" },
       body: JSON.stringify({ id_item, rating }),
     });
     //console.log("avaliação no processo ", id_item );

@@ -1,7 +1,7 @@
 import { FlatList, Pressable, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { styles } from "@/styles/styles";
-import { useAuth } from "@/contexts/AuthContext";
+import { useState } from "react";
 
 
 type FormattedStatusItem = {
@@ -46,17 +46,56 @@ export function StatusList({
   onPressRating,
   onPressDownload
 }: StatusListProps)  {
-  const {token} = useAuth();
+  const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
+
+  const filteredDatabase =
+    selectedIcon === null
+      ? database
+      : database.filter(item => item.icon === selectedIcon);
+
+  const filters = [
+  { icon: "upload", material: "file-upload" },      // status 0
+  { icon: "alert", material: "warning" },           // status -1
+  { icon: "waiting", material: "hourglass-empty" }, // status 1
+  { icon: "ok", material: "check-circle" },         // status 2
+  { icon: "download", material: "file-download" },  // status 3
+  { icon: "star", material: "star" },               // status 4
+] as const;
+
+
+  
   return (
+    <View style={{flex:1}}>
+      <View style={styles.filterRow}>
+  <Pressable onPress={() => setSelectedIcon(null)}>
+    <MaterialIcons name="list" 
+                   size={22} 
+                   color={!selectedIcon ? "#d35cd3" : "#e1e1e1"} />
+  </Pressable>
+
+  {filters.map(filter => (
+    <Pressable
+      key={filter.icon}
+      onPress={() => setSelectedIcon(filter.icon)}
+    >
+      <MaterialIcons
+        name={filter.material}
+        size={22}
+        color={selectedIcon == filter.icon ? "#d35cd3" : "#e1e1e1"}
+
+      />
+    </Pressable>
+  ))}
+</View>
     <FlatList
-      data={database}
+      data={filteredDatabase}
       keyExtractor={(item) => item.id.toString()}
       contentContainerStyle={styles.list}
       renderItem={({ item }) => (
         <View style={styles.card}>
           <View style={styles.left}>
             <View style={styles.titleRow}>
-              <Text style={styles.id}>#{item.id}</Text>
+              <Text style={styles.id}>{item.id}</Text>
               <Text style={styles.status}>{item.message}</Text>
             </View>
 
@@ -69,7 +108,7 @@ export function StatusList({
             <MaterialIcons
               name={getStatusIcon(item.icon)}
               size={24}
-              color="#404080"
+              color="#d35cd3"
             />
 
             {item.showReuploadButton && (
@@ -92,6 +131,7 @@ export function StatusList({
           </View>
         </View>
       )}
-    />       
+    />
+    </View>       
   );
 }

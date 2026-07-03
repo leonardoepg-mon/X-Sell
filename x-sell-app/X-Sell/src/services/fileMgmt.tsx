@@ -1,13 +1,14 @@
 // funções de upload e download
-import * as DocumentPicker from "expo-document-picker"
 import { Platform } from "react-native";
+import * as DocumentPicker from "expo-document-picker"
 import { File, Paths} from "expo-file-system";
 import * as Sharing from "expo-sharing";
-import { Int32 } from "react-native/Libraries/Types/CodegenTypesNamespace";
-import { authFetch } from "./userAuth";
+
+import { authFetch } from "./jwtHandling";
+
 const localIP = process.env.EXPO_PUBLIC_SERVER_URL;
 
-export async function handleUpload(document: DocumentPicker.DocumentPickerAsset | null, token: string) {
+export async function handleUpload(document: DocumentPicker.DocumentPickerAsset | null, token?: string) {
   if (!document) {
     return {success: false, message: "Nenhum documento selecionado.", msgType: "info" };
   }
@@ -22,7 +23,7 @@ export async function handleUpload(document: DocumentPicker.DocumentPickerAsset 
   
     const response = await authFetch(localIP + ':3000/upload', {
       method: "POST",
-      headers: {"Authorization": token},
+      headers: token ? { Authorization: token } : undefined,
       body: formData,
     });
 
@@ -38,7 +39,7 @@ export async function handleUpload(document: DocumentPicker.DocumentPickerAsset 
   }
     }
 
-export async function handleReupload(document: DocumentPicker.DocumentPickerAsset | null, id_item: string, token: string) {
+export async function handleReupload(document: DocumentPicker.DocumentPickerAsset | null, id_item: string, token?: string) {
   if (!document) {
     return {success: false, message: "Nenhum documento selecionado.", msgType: "info" };
   }
@@ -54,7 +55,7 @@ export async function handleReupload(document: DocumentPicker.DocumentPickerAsse
 
     const response = await authFetch(localIP + ':3000/reupload', {
       method: "POST",
-      headers: {"Authorization": token},
+      headers: token ? { Authorization: token } : undefined,
       body: formData,
     });
 
@@ -84,11 +85,11 @@ export async function pickDocument() {
     return null
 }
 
-export async function handleDownload(protocol: Int32, token: string) {
+export async function handleDownload(protocol: number, token?: string) {
   try {
     const response = await authFetch(localIP + ':3000/download', {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": token },
+      headers: token? { "Content-Type": "application/json" , "Authorization":  token} : { "Content-Type": "application/json" },
       body: JSON.stringify({ protocol: protocol }),
     });
 

@@ -1,4 +1,4 @@
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/authContext";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {

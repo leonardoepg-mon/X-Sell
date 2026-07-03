@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: "#0b6774",
     borderRadius: 6,
     padding: 10,
     marginVertical: 6,
@@ -78,12 +78,13 @@ export const styles = StyleSheet.create({
 
   status: {
     fontSize: 14,
+    color: "#e45ce4"
   },
 
   message: {
     marginTop: 6,
     fontSize: 13,
-    color: "#555",
+    color: "#440044",
   },
 
   right: {
@@ -171,6 +172,24 @@ infoMessage: {
   fontWeight: "bold",
   fontSize: 18,
 },
+filterRow: {
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  verticalAlign:"top",
+  paddingHorizontal: 3,
+  gap: 8,
+  marginBottom: 12,
+},
 
+filterButton: {
+  padding: 8,
+  borderRadius: 20,
+  backgroundColor: "#ab0fab",
+},
+
+filterButtonActive: {
+  backgroundColor: "#dd0fd8",
+},
 
 });

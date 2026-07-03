@@ -86,7 +86,7 @@ export function handleRegister(req, res) {
 }
 
 export function checkSession(req, res) {
-  if (res.locals.token) return res.json({success: true, message:"Sessão válida encontrada", msgType: "success" });
+  return res.json({success: true, message:"Sessão válida encontrada", msgType: "success" });
 }
 
 //Criação e checagem de tokens
@@ -119,7 +119,7 @@ export function verifyJWT(req, res, next) {
     const decoded = jwt.verify(token, jwtSecretKey);
     //console.log(decoded);
     if (!decoded) return res.status(403).json({success: false, message: "Acesso negado", msgType: "warning"});
- 
+  
     res.locals.token = decoded;
     
     return next();
