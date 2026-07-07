@@ -19,7 +19,7 @@ export async function checkToken(token?: string) {
 export async function getToken() {
       try { const username = await AsyncStorage.getItem("username");
             const token = await AsyncStorage.getItem("token");
-        if (username) {return { exists: true, username: username, token: token};}
+        if (username && token) {return { exists: true, username: username, token: token};}
         else return { exists: false, username: username, token: token};
       }
         catch (err) {console.log(err);

@@ -26,12 +26,15 @@ export function AuthProvider({
   useEffect(() => {
     async function loadSession() {
       const checkSession = await getToken(); //check for saved token
+        //console.log("checkSession: ", checkSession);
+
       if (!isLogged && checkSession.exists && checkSession.token && checkSession.username) { // not logged but has session data
         const response = await checkToken(checkSession.token); //verify token
+        //console.log("response: ", response );
         setUsername(response.success?checkSession.username:"");
         setToken(response.success?checkSession.token:"");
         response.success?{}:killToken();
-        response.success?? showMessage({message : response.message,
+        if(response.success) showMessage({message : response.message,
             msgType: response.msgType,
             afterDialog: ()=> setIsLogged(true)}); //only showmessage if valid session found
       } else { // bad session data, clear it
