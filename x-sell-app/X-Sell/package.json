@@ -9,6 +9,7 @@
     "dotenv": "^17.4.2",
     "expo": "~56.0.12",
     "expo-constants": "~56.0.18",
+    "expo-dev-client": "~56.0.22",
     "expo-device": "~56.0.4",
     "expo-document-picker": "~56.0.4",
     "expo-file-system": "~56.0.8",
