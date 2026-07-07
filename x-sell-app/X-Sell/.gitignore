@@ -45,3 +45,6 @@ example
 # generated native folders
 /ios
 /android
+
+src/screens/
+src/routes/index.js

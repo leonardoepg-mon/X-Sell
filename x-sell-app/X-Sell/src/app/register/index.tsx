@@ -33,7 +33,7 @@ export default function Register() {
                       }}>
         <Text selectable={false} style={styles.buttonText} > Registrar </Text>
       </Pressable>
-      <Text > Já tem conta? </Text>
+      <Text style={styles.infoMessage}> Já tem conta? </Text>
       <Pressable style={styles.button} onPress={() => router.navigate("/login")}>
         <Text selectable={false} style={styles.buttonText} > Voltar à tela de login </Text>
       </Pressable>

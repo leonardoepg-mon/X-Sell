@@ -40,7 +40,7 @@ async function OnPressLogin() {
                 onPress={OnPressLogin}>
         <Text selectable={false} style={styles.buttonText} > Login </Text>
       </Pressable>
-      <Text > Não tem conta? </Text>
+      <Text style={styles.infoMessage}> Não tem conta? </Text>
       <Pressable style={styles.button} onPress={() => router.navigate("/register")}>
         <Text selectable={false} style={styles.buttonText} > Registrar </Text>
       </Pressable>

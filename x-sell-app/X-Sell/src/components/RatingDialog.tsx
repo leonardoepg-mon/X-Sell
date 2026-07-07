@@ -41,7 +41,7 @@ export function RatingDialog({
                 <MaterialIcons
                   name={star <= rating ? "star" : "star-border"}
                   size={38}
-                  color="#FFD700"
+                  color="#09a8a0"
                 />
               </Pressable>
             ))}
@@ -49,7 +49,7 @@ export function RatingDialog({
 
           <View style={styles.buttons}>
             <Pressable style={styles.cancelButton} onPress={onClose}>
-              <Text>Cancelar</Text>
+              <Text style={styles.cancelBText}>Cancelar</Text>
             </Pressable>
 
             <Pressable style={styles.sendButton} onPress={submitRating}>

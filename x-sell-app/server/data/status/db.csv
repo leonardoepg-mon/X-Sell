@@ -16,3 +16,5 @@ id_item,status,id_usuario,inputName,outputName,avaliacao
 15,1,7,exemplo1.csv,teste.csv,-1
 16,0,2,exemplo1.csv,null,-1
 17,0,2,exemplo1.csv,null,-1
+18,0,1,log_exemplo1.csv.txt,null,-1
+19,0,1,Exemplo de input.xlsx,null,-1

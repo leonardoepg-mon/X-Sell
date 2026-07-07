@@ -39,7 +39,6 @@ export default function StatusScreen() {
   return (
     <>
     <View style={styles.container}>
-      <Text style={styles.title}> Tela de Status </Text>
       {!showStatus && (
         <Pressable style={styles.button} onPress={handleStatusSearch }>
           <Text selectable={false} style={styles.buttonText}>

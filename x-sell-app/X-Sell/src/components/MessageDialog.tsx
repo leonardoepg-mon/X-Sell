@@ -40,9 +40,9 @@ function handleMsgStyle() {
         <View style={styles.box}>
           <Text style={handleMsgStyle()}>{message}</Text>
 
-          <View style={styles.button}>
+          <View>
             <Pressable style={styles.cancelButton} onPress={onOK}>
-              <Text>OK</Text>
+              <Text style={styles.cancelBText}>OK</Text>
             </Pressable>
           </View>
         </View>

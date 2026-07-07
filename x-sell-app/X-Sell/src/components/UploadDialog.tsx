@@ -40,7 +40,7 @@ export function UploadDialog({
     setDocument(null);
     showMessage({message : response.message,
             msgType: response.msgType,
-            afterDialog: response.success ?? onUploaded});
+            afterDialog: response.success ? onUploaded: undefined });
     }
   
   return (
@@ -84,7 +84,7 @@ export function UploadDialog({
           )}
 
           <Pressable style={styles.cancelButton} onPress={onClose}>
-            <Text>Fechar</Text>
+            <Text style={styles.cancelBText}>Fechar</Text>
           </Pressable>
 
         </View>

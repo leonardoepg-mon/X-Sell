@@ -47,7 +47,7 @@ export function DownloadDialog({
           
 
           <Pressable style={styles.cancelButton} onPress={onClose}>
-            <Text>Fechar</Text>
+            <Text style={styles.cancelBText}>Fechar</Text>
           </Pressable>
 
         </View>
