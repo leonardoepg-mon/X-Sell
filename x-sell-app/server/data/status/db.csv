@@ -7,7 +7,7 @@ id_item,status,id_usuario,inputName,outputName,avaliacao
 6,0,2,exemplo1.csv,teste.csv,-1
 7,4,2,exemplo1.csv,teste.xlsx,5
 8,4,2,exemplo1.csv,teste.csv,5
-9,3,2,exemplo1.csv,teste.csv,-1
+9,4,2,exemplo1.csv,teste.csv,5
 10,1,5,exemplo1.csv,teste.csv,-1
 11,1,5,exemplo1.csv,teste.csv,-1
 12,1,6,exemplo1.csv,teste.csv,-1
