@@ -18,7 +18,7 @@ export async function handleLogin(username: string, password: string) {
 
   } catch (err) {
     console.log(err);
-    return { success: false, message: err, msgType: "error", token: null };
+    return { success: false, message: err instanceof Error ? err.message : err, msgType: "error", token: null };
   }
 }
 
@@ -33,7 +33,7 @@ export async function handleLogout(token?: string) {
     return data
   } catch (err) {
     console.log(err);
-    return { success: false, message: err, msgType: "error" };
+    return { success: false, message: err instanceof Error ? err.message : err, msgType: "error" };
   }
 }
 
@@ -53,6 +53,6 @@ try {
     return data;
   } catch (err) {
     console.log(err);
-    return { success: false, message: err, msgType: "error" };
+    return { success: false, message: err instanceof Error ? err.message : err, msgType: "error" };
   }
 }

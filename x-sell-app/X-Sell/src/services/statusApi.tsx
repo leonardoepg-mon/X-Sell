@@ -124,7 +124,7 @@ export async function statusSearch(token?: string) {
     return { success, message, msgType };
   } catch (err) {
     //console.log("error aqui", err); ///// Está saindo aqui
-    return { success: false, message: err, msgType: "error" };
+    return { success: false, message: err instanceof Error ? err.message : err, msgType: "error" };
   }
 }
 
@@ -145,6 +145,6 @@ export async function handleRating(id_item: Number, rating: Number, token?: stri
     return { success, message, msgType };
   } catch (err) {
     console.log(err);
-    return { success: false, message: err, msgType: "error" };
+    return { success: false, message: err instanceof Error ? err.message : err, msgType: "error" };
   }
 }

@@ -12,7 +12,7 @@ export async function checkToken(token?: string) {
     return data;
   } catch (err) {
     console.log(err);
-    return { success: false, message: err, msgType: "error" };
+    return { success: false, message: err instanceof Error ? err.message : err, msgType: "error" };
   }
 }
 
@@ -28,13 +28,13 @@ export async function getToken() {
 }
 
 export async function putToken(username:string, token: string) {
-      if (! username) {return {success: false, message: "No username given."};}
+      if (! username) {return {success: false, message: "No username given.", msgType: "success"};}
       try {await AsyncStorage.setItem("username", username);
           await AsyncStorage.setItem("token", token);
-        return {success: true, message: "Sessão guardada"}
+        return {success: true, message: "Sessão guardada", msgType: "success"}
       }
         catch (err) {console.log(err);
-          return {success:false, message: err}
+          return {success:false, message: err instanceof Error ? err.message: err, msgType: "error"}
         } 
 }
 
@@ -42,7 +42,7 @@ export async function killToken() {
       try {await AsyncStorage.removeItem("username");
            await AsyncStorage.removeItem("token");
       }
-        catch (err) {console.log(err)} 
+        catch (err) {console.log(err instanceof Error ? err.message:err );} 
   return
 }
 

@@ -33,7 +33,7 @@ export async function handleUpload(document: DocumentPicker.DocumentPickerAsset 
     console.log(err);
     return {
       success: false,
-      message: "Erro ao conectar com o servidor.",
+      message: err instanceof Error ? err.message: err,
       msgType: "error"
     };
   }
@@ -64,7 +64,7 @@ export async function handleReupload(document: DocumentPicker.DocumentPickerAsse
     //console.log(err);
     return {
       success: false,
-      message: "Erro ao conectar com o servidor.",
+      message: err instanceof Error ? err.message: err,
       msgType: "error"
     };
   }
