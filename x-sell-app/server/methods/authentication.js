@@ -70,8 +70,8 @@ export function handleRegister(req, res) {
     //console.log("Tentativa de criação de conta falhou.");
     return res.json({success: false, message: "Usuário já existe", msgType: "warning"});
   }
-
-  users.push(data);
+  const id = users.length + 1;
+  users.push({...data, id });
 
   fs.writeFile(usersPath, JSON.stringify(users, null, 2), (err) => {
     if (err) {

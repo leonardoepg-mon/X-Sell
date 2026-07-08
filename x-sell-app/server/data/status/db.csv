@@ -18,3 +18,7 @@ id_item,status,id_usuario,inputName,outputName,avaliacao
 17,0,2,exemplo1.csv,null,-1
 18,0,1,log_exemplo1.csv.txt,null,-1
 19,0,1,Exemplo de input.xlsx,null,-1
+20,0,17,CN29066A.RET,null,-1
+21,0,17,CN22066A.RET,null,-1
+22,0,17,CN25066A.RET,null,-1
+23,0,19,CN29066A.RET,null,-1

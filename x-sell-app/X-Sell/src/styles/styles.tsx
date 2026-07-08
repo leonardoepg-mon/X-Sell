@@ -66,6 +66,9 @@ export const styles = StyleSheet.create({
   },
 
   input: {
+    height: 40,
+    margin: 12,
+    padding: 10,
     justifyContent: "center",
     minWidth: 50,
     borderWidth: 1,

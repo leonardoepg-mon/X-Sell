@@ -33,7 +33,7 @@ function handleMsgStyle() {
       return styles.message;
   }
 }
-
+  //console.log(message);
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>

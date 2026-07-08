@@ -15,7 +15,7 @@ export function useMessageDialog() {
   const [message, setMessage] = useState("");
   const [msgType, setMsgType] = useState<MsgType>("");
   const [visible, setVisible] = useState(false);
-  const [afterDialog, setAfterDialog] = useState<(() => void) | null>(null);
+  const [afterDialog, setAfterDialog] = useState<(() => void) | undefined>(undefined);
 
   function showMessage({
     message,
@@ -31,7 +31,7 @@ export function useMessageDialog() {
   function handleOK() {
     setVisible(false);
       afterDialog?.();
-      setAfterDialog(null);
+      setAfterDialog(undefined);
   }
   const Dialog = () => (
     <MessageDialog

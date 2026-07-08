@@ -31,6 +31,7 @@ export default function StatusScreen() {
     } else {
       setShowStatus(false);
       setDb([]);
+      //console.log(response);
       showMessage( {message: response.message,
         msgType: response.msgType,
         afterDialog: undefined, 

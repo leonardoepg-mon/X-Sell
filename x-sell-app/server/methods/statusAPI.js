@@ -17,24 +17,31 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 }
 
-export function searchItems(req, res) { 
+export function searchItems(req, res) {
+  try { //console.log("1");
     const users = readJson(usersPath);
     const db = readCsv(dbPath);
     //req has username and token, checks session, returns all instances with user (IMPLEMENT TOKEN LATER)
     //console.log(req.body.username)
+    //console.log(res.locals.token.id);
+    //console.log("2");
     const user = users.find(
       (user) => user.nome === res.locals.token.id
     );
+    //console.log("3");
     if (user.id >=0) {
     const filteredDb = db.filter(
         (row) => row.id_usuario == user.id
     );
+    //console.log("4");
     if (filteredDb.length > 0) {
     //console.log(filteredDb);
-    return res.json({success: true, message: "Itens obtidos com sucesso", database: filteredDb});
-    }
-    else return res.json({success: false, message: "Não há processos associados", database: null});
-}   else return res.json({success: false, message: "Erro encontrando processos", database: null});
+    //console.log("5");
+    return res.json({success: true, message: "Itens obtidos com sucesso", msgType: "success", database: filteredDb});
+    } else {     //console.log("6");
+return res.json({success: false, message: "Não há processos associados", msgType: "info", database: []}); }
+} } catch(err) { console.log(err);
+  return res.json({success: false, message: err instanceof Error ? err.message : String(err), msgType: "error" , database: []});}
 }
 
 export function handleRating(req, res) {  //registra avaliação da solicitação;
@@ -47,8 +54,8 @@ export function handleRating(req, res) {  //registra avaliação da solicitaçã
       db[processIdx].avaliacao = req.body.rating;
       db[processIdx].status = 4;
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));
-      return res.json({success: true, message: "Avaliação registrada"})
+      return res.json({success: true, message: "Avaliação registrada", msgType: "success"})
     }
-    else return res.json({success: false, message: "Erro: id inválido"})
+    else return res.json({success: false, message: "Erro: id inválido", msgType: "error"})
     //
 }
