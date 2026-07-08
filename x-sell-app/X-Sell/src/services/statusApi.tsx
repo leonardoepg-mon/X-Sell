@@ -1,6 +1,6 @@
 import { authFetch } from "./jwtHandling";
 
-const localIP = process.env.XSELL_SERVER_URL;
+const localIP = process.env.EXPO_PUBLIC_XSELL_SERVER_URL;
 
 type StatusCode = -1 | 0 | 1 | 2 | 3 | 4;
 

@@ -6,7 +6,7 @@ import * as Sharing from "expo-sharing";
 
 import { authFetch } from "./jwtHandling";
 
-const localIP = process.env.XSELL_SERVER_URL;
+const localIP = process.env.EXPO_PUBLIC_XSELL_SERVER_URL;
 
 export async function handleUpload(document: DocumentPicker.DocumentPickerAsset | null, token?: string) {
   if (!document) {

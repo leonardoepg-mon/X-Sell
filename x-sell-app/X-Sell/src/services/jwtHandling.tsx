@@ -1,6 +1,6 @@
 //move token related things here (including authfetch)
 import AsyncStorage from "@react-native-async-storage/async-storage"
-const localIP = process.env.XSELL_SERVER_URL;
+const localIP = process.env.EXPO_PUBLIC_XSELL_SERVER_URL;
 
 export async function checkToken(token?: string) {
       try {

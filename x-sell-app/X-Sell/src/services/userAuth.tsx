@@ -1,5 +1,5 @@
 import { authFetch } from "./jwtHandling";
-const localIP = process.env.XSELL_SERVER_URL;
+const localIP = process.env.EXPO_PUBLIC_XSELL_SERVER_URL;
 
 export async function handleLogin(username: string, password: string) {
   if (!username || !password) {
