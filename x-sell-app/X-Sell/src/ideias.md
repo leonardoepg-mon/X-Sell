@@ -2,18 +2,19 @@
 
 ## 1. conteúdo e visual
 
-* ChatGPT -> criar texto e imagens ilustrativas para o  componente About XX
+* ChatGPT -> criar texto e imagens ilustrativas para o componente About OK 1.0
 
-* Estilização X
+* Estilização OK 1.0
 
-* melhorar design do logo e colocar imagem de fundo XX
+* melhorar design do logo e colocar imagem de fundo OK 1.0
+
+* formulário de registro: expandir e mudar tela OK 1.0
+
 
 ## 2. estrutura do app
-* formulário de registro: expandir e mudar tela XX
+* formulário de registro: implementar envio e recebimento XX
 
 * enviar e-mail de confirmação para criação de conta: temporariamente usar cliente da fv? XX
-
-* alterar forma de filtragem para droplist embaixo da lista? XX
 
 * incluir clique para abrir tela com detalhes: XX
 	+ momento de aprender a usar o ` [item].tsx ` 

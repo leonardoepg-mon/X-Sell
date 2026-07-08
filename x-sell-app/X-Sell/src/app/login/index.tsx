@@ -44,6 +44,9 @@ async function OnPressLogin() {
       <Pressable style={styles.button} onPress={() => router.navigate("/register")}>
         <Text selectable={false} style={styles.buttonText} > Registrar </Text>
       </Pressable>
+      <Pressable style={styles.button} onPress={() => router.navigate("/about")}>
+        <Text selectable={false} style={styles.buttonText} > Sobre </Text>
+      </Pressable>
     </View>
     <MessageDialog/>
   </>

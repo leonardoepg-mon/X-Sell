@@ -9,10 +9,12 @@ export default function RootLayout() {
             <Stack.Screen name="login" options={{headerShown: false}}/>
             <Stack.Screen name="register" options={{headerShown: false}}/>
           </Stack.Protected>
-
+          
           <Stack.Protected guard={isLogged}>
             <Stack.Screen name="(tabs)" options={{headerShown: false}} />
           </Stack.Protected>
+
+          <Stack.Screen name="about" options={{headerShown: false}}/>
         </Stack>
 }
 

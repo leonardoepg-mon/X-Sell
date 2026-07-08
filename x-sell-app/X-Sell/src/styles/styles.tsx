@@ -2,30 +2,30 @@ import { StyleSheet } from "react-native";
 
 export const theme = {
   colors: {
-    background: "#3f1b41",
-    backgroundSoft: "#49324b",
-    surface: "#182235",
+    background: "#7d3682",// jacarte-color-light?
+    backgroundSoft: "#3f2b54",// jacarte-color
+    surface: "#18181b",//eerie-black-color
     surfaceAlt: "#24324D",
     surfaceLight: "#F8FAFC",
 
     primary: "#00A6D6",
-    primaryDark: "#007EA7",
-    primaryLight: "#45E0C1",
+    primaryDark: "#116162", // maximum-blue-green-dark?
+    primaryLight: "#22c2c5",// maximum-blue-green-color
     accent: "#45E0C1",
 
-    text: "#F4F7FA",
-    textSecondary: "#A8B4C8",
+    text: "#cbd5e1",// columbia-blue-color
+    textSecondary: "#655576",//black-coral-color
     textOnLight: "#172033",
-    textOnPrimary: "#FFFFFF",
+    textOnPrimary: "#cbd5e1",// columbia-blue-color
 
-    success: "#22C55E",
-    warning: "#F59E0B",
-    error: "#EF4444",
-    info: "#38BDF8",
+    success: "#22c2c5",// maximum-blue-green-color
+    warning: "#ff6731",//smashed-pumpkin-color
+    error: "#d90429",//red-color
+    info: "#7d3682",// jacarte-color-light?
 
-    border: "#2F415E",
-    borderLight: "#D7E1EA",
-    overlay: "rgba(42, 7, 51, 0.65)",
+    border: "#083031", // maximum-blue-green-darkest?
+    borderLight:  "#cbd5e1",// columbia-blue-color
+    overlay: "rgba(61, 43, 84, 0.65)",
   },
 
   spacing: {
@@ -300,5 +300,522 @@ export const styles = StyleSheet.create({
   filterButtonActive: {
     backgroundColor: theme.colors.primary,
     borderColor: theme.colors.primaryLight,
+  }, 
+  aboutScreen: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
   },
+
+  aboutContent: {
+    padding: theme.spacing.lg,
+    paddingBottom: theme.spacing.xxl,
+    gap: theme.spacing.lg,
+  },
+
+  aboutHeroCard: {
+    backgroundColor: theme.colors.surface,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+    borderRadius: theme.radius.xl,
+    padding: theme.spacing.xl,
+    gap: theme.spacing.lg,
+    ...theme.shadows.card,
+  },
+
+  aboutLogoRow: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: theme.spacing.md,
+  },
+
+  aboutLogo: {
+    width: 150,
+    height: 46,
+  },
+
+  aboutBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: theme.spacing.xs,
+    backgroundColor: theme.colors.accent,
+    borderRadius: theme.radius.pill,
+    paddingVertical: theme.spacing.xs,
+    paddingHorizontal: theme.spacing.md,
+  },
+
+  aboutBadgeText: {
+    color: theme.colors.background,
+    fontWeight: "800",
+    fontSize: 12,
+  },
+
+  aboutHeroTitle: {
+    color: theme.colors.text,
+    fontSize: 30,
+    lineHeight: 38,
+    fontWeight: "900",
+  },
+
+  aboutHeroSubtitle: {
+    color: theme.colors.textSecondary,
+    fontSize: 16,
+    lineHeight: 24,
+  },
+
+  aboutHeroImage: {
+    width: "100%",
+    height: 210,
+    borderRadius: theme.radius.lg,
+    backgroundColor: theme.colors.surfaceAlt,
+  },
+
+  aboutCtaRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: theme.spacing.md,
+  },
+
+  aboutPrimaryButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: theme.spacing.sm,
+    backgroundColor: theme.colors.primary,
+    borderColor: theme.colors.primaryLight,
+    borderWidth: 1,
+    borderRadius: theme.radius.md,
+    paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.lg,
+  },
+
+  aboutPrimaryButtonWide: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: theme.spacing.sm,
+    backgroundColor: theme.colors.primary,
+    borderColor: theme.colors.primaryLight,
+    borderWidth: 1,
+    borderRadius: theme.radius.md,
+    paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.lg,
+    width: "100%",
+  },
+
+  aboutPrimaryButtonText: {
+    color: theme.colors.textOnPrimary,
+    fontSize: 15,
+    fontWeight: "800",
+    textAlign: "center",
+  },
+
+  aboutSecondaryButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+    borderRadius: theme.radius.md,
+    paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.lg,
+    backgroundColor: theme.colors.backgroundSoft,
+  },
+
+  aboutSecondaryButtonText: {
+    color: theme.colors.text,
+    fontSize: 15,
+    fontWeight: "700",
+    textAlign: "center",
+  },
+
+  aboutSection: {
+    backgroundColor: theme.colors.backgroundSoft,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+    borderRadius: theme.radius.lg,
+    padding: theme.spacing.xl,
+    gap: theme.spacing.sm,
+  },
+
+  aboutSectionKicker: {
+    color: theme.colors.accent,
+    fontSize: 12,
+    fontWeight: "900",
+    letterSpacing: 1,
+    textTransform: "uppercase",
+  },
+
+  aboutSectionTitle: {
+    color: theme.colors.text,
+    fontSize: 22,
+    lineHeight: 29,
+    fontWeight: "900",
+  },
+
+  aboutSectionText: {
+    color: theme.colors.textSecondary,
+    fontSize: 15,
+    lineHeight: 23,
+  },
+
+  aboutCardGrid: {
+    gap: theme.spacing.md,
+  },
+
+  aboutValueCard: {
+    backgroundColor: theme.colors.surface,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+    borderRadius: theme.radius.lg,
+    padding: theme.spacing.lg,
+    gap: theme.spacing.sm,
+    ...theme.shadows.card,
+  },
+
+  aboutValueIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: theme.radius.lg,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: theme.colors.surfaceAlt,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+  },
+
+  aboutCardTitle: {
+    color: theme.colors.text,
+    fontSize: 17,
+    fontWeight: "900",
+  },
+
+  aboutCardText: {
+    color: theme.colors.textSecondary,
+    fontSize: 14,
+    lineHeight: 21,
+  },
+
+  aboutImageCard: {
+    overflow: "hidden",
+    backgroundColor: theme.colors.surface,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+    borderRadius: theme.radius.xl,
+    ...theme.shadows.card,
+  },
+
+  aboutImageFull: {
+    width: "100%",
+    height: 190,
+    backgroundColor: theme.colors.surfaceAlt,
+  },
+
+  aboutImageTextBox: {
+    padding: theme.spacing.lg,
+    gap: theme.spacing.sm,
+  },
+
+  aboutWorkflowBox: {
+    backgroundColor: theme.colors.surface,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+    borderRadius: theme.radius.xl,
+    padding: theme.spacing.lg,
+    gap: theme.spacing.lg,
+    ...theme.shadows.card,
+  },
+
+  aboutStep: {
+    flexDirection: "row",
+    gap: theme.spacing.md,
+  },
+
+  aboutStepNumber: {
+    width: 42,
+    height: 42,
+    borderRadius: theme.radius.pill,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: theme.colors.primaryDark,
+    borderColor: theme.colors.primaryLight,
+    borderWidth: 1,
+  },
+
+  aboutStepNumberText: {
+    color: theme.colors.textOnPrimary,
+    fontSize: 13,
+    fontWeight: "900",
+  },
+
+  aboutStepContent: {
+    flex: 1,
+    gap: theme.spacing.xs,
+  },
+
+  aboutStepTitle: {
+    color: theme.colors.text,
+    fontSize: 16,
+    fontWeight: "900",
+  },
+
+  aboutStepText: {
+    color: theme.colors.textSecondary,
+    fontSize: 14,
+    lineHeight: 21,
+  },
+
+  aboutBulletRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: theme.spacing.sm,
+    marginTop: theme.spacing.sm,
+  },
+
+  aboutBulletText: {
+    flex: 1,
+    color: theme.colors.textSecondary,
+    fontSize: 15,
+    lineHeight: 22,
+  },
+
+  aboutCtaBox: {
+    backgroundColor: theme.colors.surfaceAlt,
+    borderColor: theme.colors.primaryDark,
+    borderWidth: 1,
+    borderRadius: theme.radius.xl,
+    padding: theme.spacing.xl,
+    gap: theme.spacing.md,
+    ...theme.shadows.card,
+  },
+
+  aboutCtaTitle: {
+    color: theme.colors.text,
+    fontSize: 22,
+    lineHeight: 29,
+    fontWeight: "900",
+  },
+
+  aboutCtaText: {
+    color: theme.colors.textSecondary,
+    fontSize: 15,
+    lineHeight: 23,
+  },
+
+  formKeyboardView: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+
+  formScreen: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+
+  formContent: {
+    padding: theme.spacing.lg,
+    paddingBottom: theme.spacing.xxl,
+    gap: theme.spacing.lg,
+  },
+
+  formHeader: {
+    backgroundColor: theme.colors.surface,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+    borderRadius: theme.radius.xl,
+    padding: theme.spacing.xl,
+    gap: theme.spacing.md,
+    ...theme.shadows.card,
+  },
+
+  formHeaderIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: theme.radius.lg,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: theme.colors.surfaceAlt,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+  },
+
+  formTitle: {
+    color: theme.colors.text,
+    fontSize: 26,
+    lineHeight: 33,
+    fontWeight: "900",
+  },
+
+  formSubtitle: {
+    color: theme.colors.textSecondary,
+    fontSize: 15,
+    lineHeight: 23,
+  },
+
+  formSection: {
+    backgroundColor: theme.colors.surface,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+    borderRadius: theme.radius.xl,
+    padding: theme.spacing.lg,
+    gap: theme.spacing.md,
+  },
+
+  formSectionTitle: {
+    color: theme.colors.text,
+    fontSize: 19,
+    fontWeight: "900",
+  },
+
+  formSectionDescription: {
+    color: theme.colors.textSecondary,
+    fontSize: 14,
+    lineHeight: 21,
+    marginTop: -theme.spacing.xs,
+  },
+
+  formField: {
+    width: "100%",
+    gap: theme.spacing.xs,
+  },
+
+  formLabel: {
+    color: theme.colors.text,
+    fontSize: 14,
+    fontWeight: "700",
+  },
+
+  formRequiredMark: {
+    color: theme.colors.accent,
+    fontWeight: "900",
+  },
+
+  registerInput: {
+    width: "100%",
+    minHeight: 48,
+    backgroundColor: theme.colors.backgroundSoft,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+    borderRadius: theme.radius.md,
+    paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.lg,
+    color: theme.colors.text,
+    fontSize: 15,
+  },
+
+  registerTextArea: {
+    minHeight: 110,
+    lineHeight: 22,
+  },
+
+  formRow: {
+    width: "100%",
+    flexDirection: "row",
+    gap: theme.spacing.md,
+  },
+
+  formHalf: {
+    flex: 1,
+    minWidth: 130,
+  },
+
+  formSwitchRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: theme.spacing.md,
+    backgroundColor: theme.colors.backgroundSoft,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+    borderRadius: theme.radius.lg,
+    padding: theme.spacing.md,
+  },
+
+  formSwitchTextBox: {
+    flex: 1,
+    gap: theme.spacing.xs,
+  },
+
+  formSwitchTitle: {
+    color: theme.colors.text,
+    fontSize: 14,
+    fontWeight: "800",
+  },
+
+  formSwitchDescription: {
+    color: theme.colors.textSecondary,
+    fontSize: 13,
+    lineHeight: 19,
+  },
+
+  formError: {
+    color: theme.colors.error,
+    fontSize: 15,
+    fontWeight: "800",
+    textAlign: "center",
+    backgroundColor: theme.colors.backgroundSoft,
+    borderColor: theme.colors.error,
+    borderWidth: 1,
+    borderRadius: theme.radius.lg,
+    padding: theme.spacing.md,
+  },
+
+  formSuccess: {
+    color: theme.colors.success,
+    fontSize: 15,
+    fontWeight: "800",
+    textAlign: "center",
+    backgroundColor: theme.colors.backgroundSoft,
+    borderColor: theme.colors.success,
+    borderWidth: 1,
+    borderRadius: theme.radius.lg,
+    padding: theme.spacing.md,
+  },
+
+  formActions: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-end",
+    gap: theme.spacing.md,
+  },
+
+  formPrimaryButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: theme.spacing.sm,
+    backgroundColor: theme.colors.primary,
+    borderColor: theme.colors.primaryLight,
+    borderWidth: 1,
+    borderRadius: theme.radius.md,
+    paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.xl,
+  },
+
+  formPrimaryButtonDisabled: {
+    opacity: 0.6,
+  },
+
+  formButtonText: {
+    color: theme.colors.textOnPrimary,
+    fontSize: 15,
+    fontWeight: "900",
+  },
+
+  formSecondaryButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: theme.colors.backgroundSoft,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+    borderRadius: theme.radius.md,
+    paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.xl,
+  },
+
+  formSecondaryButtonText: {
+    color: theme.colors.text,
+    fontSize: 15,
+    fontWeight: "800",
+  },
+
 });
