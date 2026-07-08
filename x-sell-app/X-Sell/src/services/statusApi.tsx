@@ -1,6 +1,6 @@
 import { authFetch } from "./jwtHandling";
 
-const localIP = process.env.EXPO_PUBLIC_SERVER_URL;
+const localIP = process.env.XSELL_SERVER_URL;
 
 type StatusCode = -1 | 0 | 1 | 2 | 3 | 4;
 
@@ -100,7 +100,7 @@ export function formatStatusItem(item: StatusItem): FormattedStatusItem {
 
 export async function statusSearch(token?: string) {
   try {
-    const response = await authFetch(localIP + ':3000/status', {
+    const response = await authFetch(localIP + '/status', {
       method: "GET",
       headers: token ? { Authorization: token } : undefined,
     });
@@ -130,7 +130,7 @@ export async function statusSearch(token?: string) {
 
 export async function handleRating(id_item: Number, rating: Number, token?: string) {
   try {
-    const response = await authFetch(localIP + ':3000/rating', {
+    const response = await authFetch(localIP + '/rating', {
       method: "POST",
       headers: token? { "Content-Type": "application/json" , "Authorization":  token} : { "Content-Type": "application/json" },
       body: JSON.stringify({ id_item, rating }),

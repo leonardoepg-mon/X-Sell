@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "X-Sell",
-    "slug": "X-Sell",
+    "slug": "x-sell-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -46,8 +46,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "af63da71-4c41-46ed-9198-6bc929211710"
+        "projectId": "11ce4757-3234-4105-9099-487252354b49"
       }
-    }
+    },
+    "owner": "fractals-ventures"
   }
 }

@@ -6,7 +6,7 @@ import * as Sharing from "expo-sharing";
 
 import { authFetch } from "./jwtHandling";
 
-const localIP = process.env.EXPO_PUBLIC_SERVER_URL;
+const localIP = process.env.XSELL_SERVER_URL;
 
 export async function handleUpload(document: DocumentPicker.DocumentPickerAsset | null, token?: string) {
   if (!document) {
@@ -21,7 +21,7 @@ export async function handleUpload(document: DocumentPicker.DocumentPickerAsset 
 
     formData.append("uploadFile", blob, document.name);
   
-    const response = await authFetch(localIP + ':3000/upload', {
+    const response = await authFetch(localIP + '/upload', {
       method: "POST",
       headers: token ? { Authorization: token } : undefined,
       body: formData,
@@ -53,7 +53,7 @@ export async function handleReupload(document: DocumentPicker.DocumentPickerAsse
     formData.append("uploadFile", blob, document.name);
     formData.append("id_item", id_item ?? "-1");
 
-    const response = await authFetch(localIP + ':3000/reupload', {
+    const response = await authFetch(localIP + '/reupload', {
       method: "POST",
       headers: token ? { Authorization: token } : undefined,
       body: formData,
@@ -87,7 +87,7 @@ export async function pickDocument() {
 
 export async function handleDownload(protocol: number, token?: string) {
   try {
-    const response = await authFetch(localIP + ':3000/download', {
+    const response = await authFetch(localIP + '/download', {
       method: "POST",
       headers: token? { "Content-Type": "application/json" , "Authorization":  token} : { "Content-Type": "application/json" },
       body: JSON.stringify({ protocol: protocol }),

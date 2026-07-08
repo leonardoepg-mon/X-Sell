@@ -1,10 +1,10 @@
 //move token related things here (including authfetch)
 import AsyncStorage from "@react-native-async-storage/async-storage"
-const localIP = process.env.EXPO_PUBLIC_SERVER_URL;
+const localIP = process.env.XSELL_SERVER_URL;
 
 export async function checkToken(token?: string) {
       try {
-    const response = await authFetch(localIP + ':3000/validate', {
+    const response = await authFetch(localIP + '/validate', {
       method: "GET",
       headers: token ? { Authorization: token } : undefined,
     });
