@@ -27,7 +27,6 @@ type IconName = React.ComponentProps<typeof Feather>["name"];
 
 type AboutProps = {
   onStart?: () => void;
-  onContact?: () => void;
 };
 
 const valueCards: Array<{ icon: IconName; title: string; text: string }> = [
@@ -96,7 +95,7 @@ function ValueCard({ icon, title, text }: { icon: IconName; title: string; text:
   );
 }
 
-export default function About({ onStart, onContact }: AboutProps) {
+export default function About({ onStart }: AboutProps) {
   return (
     <ScrollView
       style={styles.aboutScreen}
@@ -125,12 +124,8 @@ export default function About({ onStart, onContact }: AboutProps) {
 
         <View style={styles.aboutCtaRow}>
           <TouchableOpacity activeOpacity={0.85} style={styles.aboutPrimaryButton} onPress={onStart}>
-            <Text style={styles.aboutPrimaryButtonText}>Quero avaliar minha empresa</Text>
+            <Text style={styles.aboutPrimaryButtonText}> Começar a usar </Text>
             <Feather name="arrow-right" size={18} color={theme.colors.textOnPrimary} />
-          </TouchableOpacity>
-
-          <TouchableOpacity activeOpacity={0.85} style={styles.aboutSecondaryButton} onPress={onContact}>
-            <Text style={styles.aboutSecondaryButtonText}>Falar com especialista</Text>
           </TouchableOpacity>
         </View>
       </View>
