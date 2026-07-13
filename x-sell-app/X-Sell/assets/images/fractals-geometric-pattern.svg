@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="709"
+   height="845"
+   viewBox="0 0 709 845"
+   fill="none"
+   version="1.1"
+   id="svg31"
+   sodipodi:docname="fractals-geometric-pattern.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs31" />
+  <sodipodi:namedview
+     id="namedview31"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="0.74201183"
+     inkscape:cx="355.11563"
+     inkscape:cy="422.5"
+     inkscape:window-width="1600"
+     inkscape:window-height="829"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g31" />
+  <g
+     stroke="#42C2C2"
+     stroke-width="1.75"
+     stroke-linecap="square"
+     stroke-linejoin="miter"
+     id="g31"
+     style="stroke:#623b9f;stroke-opacity:1">
+    <!-- Upper-left lattice -->
+    <path
+       d="M0 233.5H211L176 294.5H35L0 233.5Z"
+       id="path1"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M37 172L107 51H388L318 172L248 293L177 172L141 112.5L177 51L248 -71"
+       id="path2"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M72 233.5L141 113H423L353 233.5L318 294H247"
+       id="path3"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M141 113L212 233.5L282 355H456L421 294H247"
+       id="path4"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M177 51L247 -70L318 51"
+       id="path5"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <!-- Upper and right lattice -->
+    <path
+       d="M352 -10L423 111H632L562 232L492 355L421 232L386 172L422 111L492 -10"
+       id="path6"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M422 111L352 -10"
+       id="path7"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M422 111L492 111L562 -10"
+       id="path8"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M492 111L422 -10"
+       id="path9"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M632 111L703 232L773 354"
+       id="path10"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M632 -10L703 111L668 172H386"
+       id="path11"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M668 172L598 293L562 355H703L668 294L633 233H738"
+       id="path12"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M703 111L738 51L703 -10"
+       id="path13"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M633 233H703L738 294"
+       id="path14"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <!-- Central connector -->
+    <path
+       d="M456 294L526 415L456 536H386L351 476L421 355H703L668 415H456"
+       id="path15"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M386 172L456 294L526 415"
+       id="path16"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M492 355L562 476L632 597"
+       id="path17"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M562 355L632 233"
+       id="path18"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M703 355L773 476"
+       id="path19"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <!-- Middle-right lattice -->
+    <path
+       d="M456 415H738L668 536L633 597H561L491 476L456 415Z"
+       id="path20"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M526 415L596 536L632 597"
+       id="path21"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M738 415L808 536"
+       id="path22"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M386 536H526L491 597H349L315 538L386 538L351 477"
+       id="path23"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M526 536L596 657H738V597H632"
+       id="path24"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M561 597L491 718L456 782L421 721L491 599"
+       id="path25"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <!-- Lower lattice -->
+    <path
+       d="M526 663H738L668 782L632 844L562 723L526 663Z"
+       id="path26"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M526 663L596 784L666 903"
+       id="path27"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M596 663H738"
+       id="path28"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M456 783H596L561 844H420L385 784L456 784Z"
+       id="path29"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M596 784L631 844L666 783L596 663"
+       id="path30"
+       style="stroke:#623b9f;stroke-opacity:1" />
+    <path
+       d="M738 663L808 784"
+       id="path31"
+       style="stroke:#623b9f;stroke-opacity:1" />
+  </g>
+</svg>

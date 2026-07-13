@@ -63,8 +63,12 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: theme.colors.background,
     padding: theme.spacing.lg,
+    position: "relative",
   },
-
+content: {
+  flex: 1,
+  zIndex: 1,
+},
   input: {
     height: 40,
     margin: 12,
@@ -817,5 +821,11 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "800",
   },
+  detailsSeparator: {
+  width: "100%",
+  height: 1,
+  backgroundColor: "rgba(63, 43, 84, 0.2)",// jacarte-color
+  marginVertical: 12,
+},
 
 });
