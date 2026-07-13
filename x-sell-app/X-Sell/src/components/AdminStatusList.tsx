@@ -3,7 +3,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { styles } from "@/styles/styles";
 import * as StApi from "@/services/adminTasks"
 import { useState } from "react";
-
+import {
+  ItemDetails,
+  ItemDetailsDialog,
+} from "@/components/ItemDetailsDialog";
+import { getDetails } from "@/services/statusApi";
 
 function getStatusIcon(icon: string) {
   switch (icon) {
@@ -29,7 +33,7 @@ const buttonColor = "#2d4941";
 type StatusListProps = {
   database: StApi.FormattedStatusItem[];
   onPressUpload: (id: number) => void ;
-  onPressRating: (id: number) => void;
+  onPressRating?: (id: number) => void;
   onPressDownload: (id: number) => void;
   onPressSubmit: (id: number) => void;
   onPressAccept: (id: number) => void;
@@ -50,6 +54,23 @@ export function StatusList({
 }: StatusListProps)  {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
 
+  const [detailsVisible, setDetailsVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<ItemDetails | null>(null);
+  const [loadingDetails, setLoadingDetails] = useState(false);
+
+  async function handleDetailsPress(id: number) {
+  setSelectedItem(null);
+  setLoadingDetails(true);
+  setDetailsVisible(true);
+
+  const response = await getDetails(id);
+
+  if (response.success && response.item) {
+    setSelectedItem(response.item);
+  }
+  setLoadingDetails(false);
+}
+
   const filteredDatabase =
     selectedIcon === null
       ? database
@@ -64,7 +85,7 @@ export function StatusList({
   { icon: "star", material: "star",},              
 ] as const;
   
-  return (
+  return (<>
     <View style={{flex:1}}>
       <View style={styles.filterRow}>
   <Pressable onPress={() => setSelectedIcon(null)}>
@@ -105,8 +126,16 @@ export function StatusList({
           </View>
 
           <View style={styles.right}>
-            <View style={styles.buttonRow}>
-
+          <View style={styles.buttonRow}>
+            <Pressable
+                style={styles.smallButton}
+                onPress={() => handleDetailsPress(item.id)}>
+             <MaterialIcons
+               name="search"
+              size={18}
+               color={buttonColor}
+             />
+            </Pressable>
             {item.showDownloadButton && (
               <Pressable style={styles.smallButton} onPress={ async () => onPressDownload(item.id) }>
                 <MaterialIcons
@@ -164,21 +193,21 @@ export function StatusList({
               </Pressable>
               </>
             )}
-
-            {item.showRatingButton && (
-              <Pressable style={styles.smallButton} onPress={ () => onPressRating(item.id) }>
-                <MaterialIcons
-              name={"search"}
-              size={18}
-              color={buttonColor}
-            />
-              </Pressable>
-            )}
           </View>
           </View>
         </View>
       )}
     />
-    </View>       
+    </View>
+    <ItemDetailsDialog
+  visible={detailsVisible}
+  item={selectedItem}
+  loading={loadingDetails}
+  onClose={() => {
+    setDetailsVisible(false);
+    setSelectedItem(null);
+  }}
+/>
+</>       
   );
 }

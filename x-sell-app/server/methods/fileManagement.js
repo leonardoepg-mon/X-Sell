@@ -17,6 +17,10 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 }
 
+function getCurrentDate() {
+  return new Date().toISOString();
+}
+
 export function handleUpload(req, res)  { 
   if (req.files && Object.keys(req.files).length !== 0) {
     const users = readJson(usersPath);
@@ -49,7 +53,7 @@ export function handleUpload(req, res)  {
 
       console.log("Salvo em: ", uploadPath);
       const itemId = db.length + 1;// adicionar timestamp
-      db.push({id_item: db.length + 1 , status: "0", id_usuario:userId , inputName: uploadedFile.name , outputName: "null", avaliacao:"-1"});
+      db.push({id_item: db.length + 1 , status: "0", id_usuario:userId , inputName: uploadedFile.name , outputName: "null", avaliacao:"-1", data_envio: getCurrentDate(),});
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));
         return res.json({success: true, message: "Recebido com sucesso.", msgType: "success"});
 

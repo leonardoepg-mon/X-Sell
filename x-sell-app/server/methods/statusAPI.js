@@ -17,6 +17,10 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 }
 
+function getCurrentDate() {
+  return new Date().toISOString();
+}
+
 export function searchItems(req, res) {
   try { //console.log("1");
     const users = readJson(usersPath);
@@ -28,13 +32,22 @@ export function searchItems(req, res) {
     const user = users.find(
       (user) => user.nome === res.locals.token.id
     );
+    const tightDb = db.map((item ) =>
+    {return {
+      id_item : item.id_item,
+      status: item.status,
+      avaliacao: item.avaliacao, 
+      inputName: item.inputName, 
+      outputName: item.outputName, 
+      id_usuario: item.id_usuario} 
+    });
     //console.log("3");
     if (user.id >=0) {
     let filteredDb;
       if (user.admin) {
-         filteredDb = db; 
+         filteredDb = tightDb; 
       } else {
-        filteredDb = db.filter(
+        filteredDb = tightDb.filter(
           (row) => row.id_usuario == user.id
         );}
     //console.log("4");
@@ -74,11 +87,32 @@ export function handleRating(req, res) {  //registra avaliação da solicitaçã
       db[processIdx].avaliacao = req.body.rating;
       db[processIdx].status = 4;
       db[processIdx].texto_avaliacao = req.body.reviewText;
+      db[processIdx].data_avaliado = getCurrentDate();
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));
       return res.json({success: true, message: "Avaliação registrada", msgType: "success"})
     }
     else return res.json({success: false, message: "Erro: id inválido", msgType: "error"})
     //
+}
+
+const statusDateFields = {
+  1: "data_aceito",
+  2: "data_iniciado",
+  3: "data_concluido",
+  4: "data_avaliado",
+};
+
+function applyStatusChange(item, newStatus) {
+  const normalizedStatus = Number(newStatus);
+  const dateField = statusDateFields[normalizedStatus];
+
+  item.status = String(normalizedStatus);
+
+  if (dateField && !item[dateField]) {
+    item[dateField] = getCurrentDate();
+  }
+
+  return item;
 }
 
 export function handleStatusSet(req,res) {
@@ -89,7 +123,7 @@ export function handleStatusSet(req,res) {
       (row) => row.id_item == id_item
     );
     if (processIdx>=0) {
-      db[processIdx].status = statusTo;
+      db[processIdx] = applyStatusChange(db[processIdx], statusTo);
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));
       return res.json({success: true, message: "Sucesso", msgType: "success"})
     }

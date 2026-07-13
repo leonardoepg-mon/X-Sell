@@ -79,7 +79,7 @@ export function RatingDialog({
           </>
           }
           { stillRated && 
-          <>
+          <>{  !admin &&
           <View style={styles.formField}>
             <TextInput
                   placeholder={"Sua opinião é sempre bem-vinda!"}
@@ -90,7 +90,7 @@ export function RatingDialog({
                   onChangeText={setReview}
                   style={[styles.registerInput, styles.registerTextArea]}
                 />
-              </View>
+              </View>}
               <View style={styles.formField}></View>
               <Text
                   selectable={false}
@@ -100,7 +100,7 @@ export function RatingDialog({
                 </Text>
               <View style={styles.stars}>
             {[1, 2, 3, 4, 5].map((star) => (
-              <Pressable key={star} onPress={() => setRating(star)}>
+              <Pressable disabled= {admin} key={star} onPress={() => setRating(star)}>
                 <MaterialIcons
                   name={star <= rating ? "star" : "star-border"}
                   size={20}
