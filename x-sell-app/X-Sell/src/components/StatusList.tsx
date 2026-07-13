@@ -36,7 +36,7 @@ function getStatusIcon(icon: string) {
 type StatusListProps = {
   database: FormattedStatusItem[];
   onPressReupload: (id: number) => void;
-  onPressRating: (id: number) => void;
+  onPressRating: (id: number, rated: boolean) => void;
   onPressDownload: (id: number) => void;
 };
 
@@ -124,8 +124,9 @@ export function StatusList({
             )}
 
             {item.showRatingButton && (
-              <Pressable style={styles.smallButton}  onPress={ () => onPressRating(item.id) }>
-                <Text style={styles.buttonText}>Avaliar</Text>
+              <Pressable style={styles.smallButton}  onPress={ () => {onPressRating(item.id, item.icon=="star");
+              } }>
+                <Text style={styles.buttonText}>{(item.icon == "star") ? "Mudar avaliação": "Avaliar"}</Text>
               </Pressable>
             )}
           </View>

@@ -2,7 +2,7 @@ import { useAuth } from "@/contexts/authContext";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
-  const { isLogged } = useAuth();
+  const { isLogged, isAdmin } = useAuth();
 
   return <Stack>
           <Stack.Protected guard={!isLogged}>
@@ -10,8 +10,12 @@ export default function RootLayout() {
             <Stack.Screen name="register" options={{headerShown: false}}/>
           </Stack.Protected>
           
-          <Stack.Protected guard={isLogged}>
+          <Stack.Protected guard={isLogged && !isAdmin}>
             <Stack.Screen name="(tabs)" options={{headerShown: false}} />
+          </Stack.Protected>
+
+          <Stack.Protected guard={isLogged && isAdmin}>
+            <Stack.Screen name="(admin)" options={{headerShown: false}} />
           </Stack.Protected>
 
           <Stack.Screen name="about" options={{headerShown: false}}/>

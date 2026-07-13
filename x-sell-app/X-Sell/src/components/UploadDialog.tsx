@@ -3,10 +3,12 @@ import { useState } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
 
 import { handleReupload, handleUpload, pickDocument } from "@/services/fileMgmt";
+import { handleAdminUpload } from "@/services/adminTasks";
 import { styles } from "@/styles/styles";
 import { useMessageDialog } from "@/hooks/useMessageDialog";
 
 type UploadDialogProps = {
+  admin?: boolean;
   visible: boolean;
   id_item?: string;
   onClose: () => void;
@@ -14,6 +16,7 @@ type UploadDialogProps = {
 };
 
 export function UploadDialog({
+  admin,
   visible,
   id_item,
   onClose,
@@ -31,17 +34,21 @@ export function UploadDialog({
     if (!document) return;
 
     setIsUploading(true);
-    
-    const response = isReupload
+    let response;
+    if (!admin) {
+    response = isReupload
       ? await handleReupload(document, id_item)
       : await handleUpload(document);
-
+    } else if (id_item) {
+    response = await handleAdminUpload(document, id_item);
+    }
     setIsUploading(false);
     setDocument(null);
+    if (response) {
     showMessage({message : response.message,
             msgType: response.msgType,
             afterDialog: response.success ? onUploaded: undefined });
-    }
+    }}
   
   return (
     <>
@@ -49,7 +56,7 @@ export function UploadDialog({
       <View style={styles.overlay}>
         <View style={styles.box}>
           <Text style={styles.title}>
-            {isReupload ? "Reenviar tabela" : "Subir tabela"}
+            {!admin ? isReupload ? "Reenviar documento" : "Subir documento": "Subir documento"}
           </Text>
 
           <Pressable
@@ -60,7 +67,7 @@ export function UploadDialog({
             }}
           >
             <Text style={styles.buttonText}>
-              {isReupload ? "Selecionar novo documento" : "Selecionar documento"}
+              { !admin ? isReupload ? "Selecionar novo documento" : "Selecionar documento": "Selecionar documento"}
             </Text>
           </Pressable>
 
@@ -70,14 +77,14 @@ export function UploadDialog({
 
               <Pressable style={styles.button} onPress={() => setDocument(null)}>
                 <Text style={styles.buttonText}>
-                  {isReupload ? "Cancelar Reenvio" : "Cancelar Envio"}
+                  {!admin ? isReupload ? "Cancelar Reenvio" : "Cancelar Envio": "Cancelar Envio"}
                 </Text>
               </Pressable>
 
               <Pressable style={styles.button} onPress={submitUpload}
               disabled={isUploading}>
                 <Text style={styles.buttonText}>
-                  {isUploading ? "Enviando..." : isReupload ? "Fazer Reupload" : "Fazer Upload"}
+                  {isUploading ? "Enviando..." : !admin ? isReupload ? "Fazer Reupload" : "Fazer Upload": "Fazer Upload"}
                 </Text>
               </Pressable>
             </>

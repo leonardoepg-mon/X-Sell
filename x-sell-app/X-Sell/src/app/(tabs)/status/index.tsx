@@ -8,9 +8,10 @@ import { RatingDialog } from "@/components/RatingDialog";
 import { UploadDialog } from "@/components/UploadDialog";
 import { DownloadDialog } from "@/components/DownloadDialog";
 
-import { useMessageDialog } from "@/hooks/useMessageDialog";
+import { MsgType, useMessageDialog } from "@/hooks/useMessageDialog";
 
 import { styles } from "@/styles/styles";
+import { handleDownload } from "@/services/fileMgmt";
 
 export default function StatusScreen() {
   const [showStatus, setShowStatus] = useState(false);
@@ -18,10 +19,16 @@ export default function StatusScreen() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const [ratingVisible, setRatingVisible] = useState(false);
+  const [isRated, setRated] = useState(false);
   const [uploadVisible, setUploadVisible] = useState(false);
   const [downloadVisible, setDownloadVisible] = useState(false);
   const {showMessage, MessageDialog} = useMessageDialog();
 
+  async function confirmDownload() {   
+      const response = await handleDownload(selectedId ?? 0);
+            showMessage({message : response.message,
+              msgType: response.msgType as MsgType})
+  }
 
   async function handleStatusSearch() {
     const response = await StApi.statusSearch(); 
@@ -48,8 +55,9 @@ export default function StatusScreen() {
         </Pressable>
       )}
       {showStatus && <StatusList database={database}
-                                  onPressRating={(id) => { //funçoes simples, deixar como arrow?
+                                  onPressRating={(id, rated) => { //funçoes simples, deixar como arrow?
                                                   setSelectedId(id);
+                                                  setRated(rated);
                                                   setRatingVisible(true); }}
                                   onPressReupload={(id) => {
                                                     setSelectedId(id);
@@ -86,10 +94,12 @@ export default function StatusScreen() {
      
           <RatingDialog
   visible={ratingVisible}
+  rated={isRated}
   id_item={selectedId ?? 0}
   onClose={() => setRatingVisible(false)}
   onRated={() => {handleStatusSearch();
     setRatingVisible(false);//showmessage?
+    setRated(true);
    }}
 />
       <UploadDialog
@@ -104,7 +114,8 @@ export default function StatusScreen() {
   visible={downloadVisible}
   id_item={selectedId || 0}
   onClose={() => setDownloadVisible(false)}
-  onDownloaded={() => {setDownloadVisible(false);}}/>
+  onDownloaded={() => {setDownloadVisible(false);}}
+  onPressDownload={confirmDownload}/>
   <MessageDialog/>
 </>
   );

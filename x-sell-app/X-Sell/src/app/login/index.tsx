@@ -19,8 +19,9 @@ async function OnPressLogin() {
                   msgType: response.msgType,
                   afterDialog: response.success 
                                 ? () => {
-                                ContextLogin(username, response.token);
-                                router.replace("/(tabs)");
+                                ContextLogin(username, response.token, response.isAdmin);
+                                if (!response.isAdmin) {router.replace("/(tabs)")
+                                } else {router.replace("/(admin)")}
                                 } : undefined
                               });
     }

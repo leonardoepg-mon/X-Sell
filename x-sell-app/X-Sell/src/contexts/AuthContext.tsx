@@ -4,9 +4,10 @@ import { useMessageDialog } from "@/hooks/useMessageDialog";
 
 type AuthContextType = {
   isLogged: boolean;
-  ContextLogin: (username: string, token: string) => void;
+  ContextLogin: (username: string, token: string, isAdmin: boolean) => void;
   ContextLogout: () => void;
   username: string;
+  isAdmin: boolean;
   token: string;
 };
 
@@ -20,7 +21,7 @@ export function AuthProvider({
   const [isLogged, setIsLogged] = useState(false);
   const [username, setUsername] = useState<string>("");
   const [token, setToken] = useState<string>("");
-
+  const [isAdmin, setIsAdmin] = useState(false);
   const {showMessage, MessageDialog} = useMessageDialog();
 
   useEffect(() => {
@@ -34,14 +35,16 @@ export function AuthProvider({
         setUsername(response.success?checkSession.username:"");
         setToken(response.success?checkSession.token:"");
         response.success?{}:killToken();
-        if(response.success) showMessage({message : response.message,
+        if(response.success) {showMessage({message : response.message,
             msgType: response.msgType,
             afterDialog: ()=> setIsLogged(true)}); //only showmessage if valid session found
+        if (checkSession.isAdmin) setIsAdmin(true);}
       } else { // bad session data, clear it
         setUsername("");
         setToken("");
         await killToken();
         setIsLogged(false);
+        setIsAdmin(false);
         } //then no message needed
       }
     loadSession();
@@ -54,6 +57,7 @@ export function AuthProvider({
             msgType: "warning",
             afterDialog: () => {
       setIsLogged(false);
+      setIsAdmin(false);
       setUsername("");
       setToken("");
       }});
@@ -70,14 +74,15 @@ export function AuthProvider({
   return () => clearInterval(interval);
   }, [isLogged, token]);
 
-  const ContextLogin = (username: string, token: string) => {
+  const ContextLogin = (username: string, token: string, isAdmin: boolean) => {
     showMessage({message : "Entrando",
             msgType: "success",
             afterDialog: () => {
       setIsLogged(true);
-      putToken(username, token);
+      putToken(username, token, isAdmin);
       setUsername(username);
       setToken(token);
+      setIsAdmin(isAdmin);
     }});
     //console.log("sessão iniciada: ", username);
   };
@@ -90,6 +95,7 @@ export function AuthProvider({
       setIsLogged(false);
       setUsername("");
       setToken("");
+      setIsAdmin(false)
     }});
   };
 
@@ -101,7 +107,8 @@ export function AuthProvider({
         ContextLogin,
         ContextLogout,
         username,
-        token
+        token,
+        isAdmin
       }}
     >
       {children}

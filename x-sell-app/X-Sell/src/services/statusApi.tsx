@@ -10,8 +10,8 @@ type StatusItem = {
   id: number;
   status: StatusCode;
   avaliacao: Avaliacao;
-  inputName?: string;
-  outputName?: string;
+  inputName: string;
+  outputName: string;
 };
 
 export type FormattedStatusItem = {
@@ -82,8 +82,8 @@ export function formatStatusItem(item: StatusItem): FormattedStatusItem {
         message: "Avaliado",
         icon: "star",
         showReuploadButton: false,
-        showDownloadButton: false,
-        showRatingButton: false,
+        showDownloadButton: true,
+        showRatingButton: true,
         rating: item.avaliacao,
       };
       default:
@@ -114,7 +114,7 @@ export async function statusSearch(token?: string) {
     status: Number(item.status) as StatusCode,
     avaliacao: Number(item.avaliacao) as Avaliacao,
     inputName: item.inputName,
-    outputName: item.outputName,
+    outputName: item.outputName
     }));
     //console.log(dbProcessed);
     if (success) {
@@ -128,12 +128,34 @@ export async function statusSearch(token?: string) {
   }
 }
 
-export async function handleRating(id_item: Number, rating: Number, token?: string) {
+export async function getDetails(id_item: number) {
+  try {
+    const response = await authFetch(localIP + '/details', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id_item })
+    });
+    //console.log("requisição de status por ", username);
+
+    const {success, message, msgType, item} = await response.json();
+    //console.log(dbProcessed);
+    if (success) {
+      return { success, message, msgType, item };
+    }
+
+    return { success, message, msgType, item: null };
+  } catch (err) {
+    //console.log("error aqui", err); ///// Está saindo aqui
+    return { success: false, message: err instanceof Error ? err.message : err, msgType: "error" };
+  }
+}
+
+export async function handleRating(id_item: Number, rating: Number, reviewText: string = "", token?: string) {
   try {
     const response = await authFetch(localIP + '/rating', {
       method: "POST",
       headers: token? { "Content-Type": "application/json" , "Authorization":  token} : { "Content-Type": "application/json" },
-      body: JSON.stringify({ id_item, rating }),
+      body: JSON.stringify({ id_item, rating , reviewText}),
     });
     //console.log("avaliação no processo ", id_item );
 

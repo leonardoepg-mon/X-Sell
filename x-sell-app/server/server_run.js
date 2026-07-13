@@ -12,8 +12,8 @@ import {
   handleRegister,
   verifyJWT
 } from "./methods/authentication.js";
-import { handleDownload, handleReupload, handleUpload } from "./methods/fileManagement.js";
-import { handleRating, searchItems } from "./methods/statusAPI.js";
+import { handleAdminDownload, handleAdminUpload, handleDownload, handleReupload, handleUpload } from "./methods/fileManagement.js";
+import { handleRating, searchItems, handleStatusSet, handleDetailSearch } from "./methods/statusAPI.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -45,7 +45,15 @@ app.post("/reupload", verifyJWT, handleReupload);
 
 app.post("/download", verifyJWT, handleDownload);
 
+app.post("/admin/upload", verifyJWT, handleAdminUpload);
+
+app.post("/admin/download", verifyJWT, handleAdminDownload);
+
+app.post("/admin/status", verifyJWT, handleStatusSet);
+
 app.get("/status", verifyJWT, searchItems);
+
+app.post("/details", verifyJWT, handleDetailSearch);
 
 app.post("/rating", verifyJWT, handleRating)
 

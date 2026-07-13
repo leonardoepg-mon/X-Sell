@@ -2,95 +2,115 @@
   {
     "nome": "leo",
     "senha": "123",
-    "id": 1
+    "id": 1,
+    "admin": true
   },
   {
     "nome": "bia",
     "senha": "123",
-    "id": 2
+    "id": 2,
+    "admin": false
   },
   {
     "nome": "mau",
     "senha": "123",
-    "id": 3
+    "id": 3,
+    "admin": false
   },
   {
     "nome": "marta",
     "senha": "123",
-    "id": 4
+    "id": 4,
+    "admin": false
   },
   {
     "nome": "neno",
     "senha": "123",
-    "id": 5
+    "id": 5,
+    "admin": false
   },
   {
     "nome": "nano",
     "senha": "123",
-    "id": 6
+    "id": 6,
+    "admin": false
   },
   {
     "nome": "nono",
     "senha": "1234",
-    "id": 7
+    "id": 7,
+    "admin": false
   },
   {
     "nome": "nuno",
     "senha": "123",
-    "id": 8
+    "id": 8,
+    "admin": false
   },
   {
     "nome": "nino",
     "senha": "1234",
-    "id": 9
+    "id": 9,
+    "admin": false
   },
   {
     "nome": "luana",
     "senha": "1234",
-    "id": 10
+    "id": 10,
+    "admin": false
   },
   {
     "nome": "lulu",
     "senha": "123",
-    "id": 11
+    "id": 11,
+    "admin": false
   },
   {
     "nome": "fe",
     "senha": "14",
-    "id": 12
+    "id": 12,
+    "admin": false
   },
   {
     "nome": "rufo",
     "senha": "1234",
-    "id": 13
+    "id": 13,
+    "admin": false
   },
   {
     "nome": "meercat",
     "senha": "123",
-    "id": 14
+    "id": 14,
+    "admin": false
   },
   {
     "nome": "maninho",
     "senha": "145",
-    "id": 15
+    "id": 15,
+    "admin": false
   },
   {
     "nome": "munano",
-    "senha": 16
+    "senha": 16,
+    "id": "aoaoa",
+    "admin": false
   },
   {
     "nome": "Maurício",
     "senha": "85637491",
-    "id": 17
+    "id": 17,
+    "admin": false
   },
   {
     "nome": "murici",
     "senha": "134",
-    "id": 18
+    "id": 18,
+    "admin": false
   },
   {
     "nome": "Teste",
     "senha": "t",
-    "id": 19
+    "id": 19,
+    "admin": false
   }
 ]

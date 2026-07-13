@@ -98,8 +98,7 @@ export const styles = StyleSheet.create({
 
   buttonRow: {
     flexDirection: "row",
-    gap: 10,
-    marginTop: theme.spacing.xl,
+    gap: 5,
   },
 
   welcomeMsg: {
@@ -127,26 +126,27 @@ export const styles = StyleSheet.create({
     borderColor: theme.colors.border,
     borderWidth: 1,
     borderRadius: theme.radius.lg,
-    padding: theme.spacing.md,
-    marginVertical: theme.spacing.sm,
+    padding: theme.spacing.sm,
+    marginVertical: theme.spacing.xs,
     width: "100%",
-    minHeight: 70,
+    minHeight: 40,
 
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
 
     ...theme.shadows.card,
   },
 
   left: {
-    flex: 1,
+    alignItems: "flex-start",
+    flex:1
   },
 
   titleRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: theme.spacing.sm,
+    gap: theme.spacing.xs,
   },
 
   id: {
@@ -169,15 +169,15 @@ export const styles = StyleSheet.create({
 
   right: {
     alignItems: "flex-end",
-    gap: theme.spacing.sm,
+    gap: theme.spacing.xs,
   },
 
   smallButton: {
     backgroundColor: theme.colors.primary,
-    borderRadius: theme.radius.md,
-    paddingVertical: theme.spacing.sm,
-    paddingHorizontal: theme.spacing.md,
-    minWidth: 80,
+    borderRadius: theme.radius.sm,
+    paddingVertical: theme.spacing.xs,
+    paddingHorizontal: theme.spacing.xs,
+    minWidth: 15,
   },
 
   overlay: {

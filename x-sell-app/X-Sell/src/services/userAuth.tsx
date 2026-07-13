@@ -3,7 +3,7 @@ const localIP = process.env.EXPO_PUBLIC_XSELL_SERVER_URL;
 
 export async function handleLogin(username: string, password: string) {
   if (!username || !password) {
-    return { success: false, message: "Preencha todos os campos", msgType: "warning", token: null };
+    return { success: false, message: "Preencha todos os campos", msgType: "warning", token: null, isAdmin: false};
   }
 
   try {
@@ -18,7 +18,7 @@ export async function handleLogin(username: string, password: string) {
 
   } catch (err) {
     console.log(err);
-    return { success: false, message: err instanceof Error ? err.message : err, msgType: "error", token: null };
+    return { success: false, message: err instanceof Error ? err.message : err, msgType: "error", token: null, isAdmin: false };
   }
 }
 

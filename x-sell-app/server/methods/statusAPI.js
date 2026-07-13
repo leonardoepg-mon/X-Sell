@@ -30,9 +30,13 @@ export function searchItems(req, res) {
     );
     //console.log("3");
     if (user.id >=0) {
-    const filteredDb = db.filter(
-        (row) => row.id_usuario == user.id
-    );
+    let filteredDb;
+      if (user.admin) {
+         filteredDb = db; 
+      } else {
+        filteredDb = db.filter(
+          (row) => row.id_usuario == user.id
+        );}
     //console.log("4");
     if (filteredDb.length > 0) {
     //console.log(filteredDb);
@@ -44,6 +48,22 @@ return res.json({success: false, message: "Não há processos associados", msgTy
   return res.json({success: false, message: err instanceof Error ? err.message : String(err), msgType: "error" , database: []});}
 }
 
+export function handleDetailSearch(req, res) {
+  try { //console.log("1");
+    const db = readCsv(dbPath);
+    //console.log(req.body);
+    const itemMatch = db.find(
+      (item) => item.id_item == req.body.id_item
+    );
+    //console.log("itemMatch: ", itemMatch);
+    if (itemMatch) {
+    return res.json({success: true, message: "Item obtido com sucesso", msgType: "success", item: itemMatch})}
+    else return res.json({success: false, message: "Não há processos associados", msgType: "info", item: null}); 
+  
+}  catch(err) { console.log(err);
+  return res.json({success: false, message: err instanceof Error ? err.message : String(err), msgType: "error" , item: null});}
+}
+
 export function handleRating(req, res) {  //registra avaliação da solicitação;
     const db = readCsv(dbPath);
     //req has item_id, rating and token, checks session, returns ok with message (IMPLEMENT TOKEN LATER)
@@ -53,8 +73,25 @@ export function handleRating(req, res) {  //registra avaliação da solicitaçã
     if (processIdx>=0) {
       db[processIdx].avaliacao = req.body.rating;
       db[processIdx].status = 4;
+      db[processIdx].texto_avaliacao = req.body.reviewText;
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));
       return res.json({success: true, message: "Avaliação registrada", msgType: "success"})
+    }
+    else return res.json({success: false, message: "Erro: id inválido", msgType: "error"})
+    //
+}
+
+export function handleStatusSet(req,res) {
+  const db = readCsv(dbPath);
+  const {id_item, statusTo} = req.body;
+    //req has item_id, rating and token, checks session, returns ok with message (IMPLEMENT TOKEN LATER)
+    const processIdx = db.findIndex( //checa se item_id é válido
+      (row) => row.id_item == id_item
+    );
+    if (processIdx>=0) {
+      db[processIdx].status = statusTo;
+      fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));
+      return res.json({success: true, message: "Sucesso", msgType: "success"})
     }
     else return res.json({success: false, message: "Erro: id inválido", msgType: "error"})
     //

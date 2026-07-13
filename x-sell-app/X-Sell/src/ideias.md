@@ -2,13 +2,14 @@
 
 ## 1. conteúdo e visual
 
-* ChatGPT -> criar texto e imagens ilustrativas para o componente About OK 1.0
+* ChatGPT -> criar texto e imagens ilustrativas para o componente About 1.0.0
+	* botão para ir pro about depois de logado OK
+	* corrigir redirecionamento pro about XX
 
-* Estilização OK 1.0
+* Estilização 1.0.0
+	* melhorar design do logo e colocar imagem de fundo XX
 
-* melhorar design do logo e colocar imagem de fundo OK 1.0
-
-* formulário de registro: expandir e mudar tela OK 1.0
+* formulário de registro: expandir e mudar tela 1.0.0
 
 
 ## 2. estrutura do app
@@ -16,16 +17,13 @@
 
 * enviar e-mail de confirmação para criação de conta: temporariamente usar cliente da fv? XX
 
-* incluir clique para abrir tela com detalhes: XX
-	+ momento de aprender a usar o ` [item].tsx ` 
-	+ incluir time-stamps para cada alteração no ` db.csv `
-	+ path para buscar item específico
+* incluir clique para abrir tela com detalhes: Rejeitado
+	+ incluir time-stamps para cada alteração no ` db.csv `: server e client OK
+	+ path no server para mudar status; mudar upload e download para modo admin XX
 
 
-## 3. criar app do analista:
-* tela para visualizar todas as requisições XX
+## 3. criar app do analista: (modo admin no próprio app)
+* tela para visualizar todas as requisições OK
 
-* paths no server para baixar entradas e enviar saídas e relatórios (separados) XX
-
-* sem necessidade de login ou app móvel. XX
+* paths no server para baixar entradas OK, enviar saídas e relatórios (separados?) XX, mudar status XX, aprovar entradas XX, e ver avaliações XX
 		

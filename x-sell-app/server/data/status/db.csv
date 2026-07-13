@@ -1,25 +1,25 @@
-id_item,status,id_usuario,inputName,outputName,avaliacao
-1,1,1,exemplo1.csv,teste.csv,-1
-2,0,1,exemplo1.csv,null,-1
-3,-1,1,exemplo1.csv,teste.csv,5
-4,0,2,exemplo1.csv,null,-1
-5,0,2,exemplo1.csv,null,-1
-6,0,2,exemplo1.csv,teste.csv,-1
-7,4,2,exemplo1.csv,teste.xlsx,5
-8,4,2,exemplo1.csv,teste.csv,5
-9,4,2,exemplo1.csv,teste.csv,5
-10,1,5,exemplo1.csv,teste.csv,-1
-11,1,5,exemplo1.csv,teste.csv,-1
-12,1,6,exemplo1.csv,teste.csv,-1
-13,1,6,exemplo1.csv,teste.csv,-1
-14,1,7,exemplo1.csv,teste.csv,-1
-15,1,7,exemplo1.csv,teste.csv,-1
-16,0,2,exemplo1.csv,null,-1
-17,0,2,exemplo1.csv,null,-1
-18,0,1,log_exemplo1.csv.txt,null,-1
-19,0,1,Exemplo de input.xlsx,null,-1
-20,0,17,CN29066A.RET,null,-1
-21,0,17,CN22066A.RET,null,-1
-22,0,17,CN25066A.RET,null,-1
-23,0,19,CN29066A.RET,null,-1
-24,0,2,Exemplo de input.xlsx,null,-1
+id_item,status,id_usuario,inputName,outputName,avaliacao,data_envio,data_aceito,data_concluido,data_avaliado,texto_avaliacao
+1,2,1,exemplo1.csv,,-1,,,,,
+2,0,1,exemplo1.csv,,-1,,,,,
+3,-1,1,exemplo1.csv,teste.csv,5,,,,,
+4,0,2,exemplo1.csv,,-1,,,,,
+5,0,2,exemplo1.csv,,-1,,,,,
+6,0,2,exemplo1.csv,teste.csv,-1,,,,,
+7,4,2,exemplo1.csv,teste.xlsx,3,,,,,uauu
+8,3,2,exemplo1.csv,teste.csv,-1,,,,,"testando vírgulas, e ; etc"
+9,4,2,exemplo1.csv,teste.csv,5,,,,,"testando vírgulas, e ; etc"
+10,1,5,exemplo1.csv,teste.csv,-1,,,,,
+11,3,5,exemplo1.csv,Exemplo de input.xlsx,-1,,,,,
+12,2,6,exemplo1.csv,teste.csv,-1,,,,,
+13,2,6,exemplo1.csv,teste.csv,-1,,,,,
+14,2,7,exemplo1.csv,teste.csv,-1,,,,,
+15,1,7,exemplo1.csv,teste.csv,-1,,,,,
+16,0,2,exemplo1.csv,,-1,,,,,
+17,0,2,exemplo1.csv,,-1,,,,,
+18,0,1,log_exemplo1.csv.txt,,-1,,,,,
+19,0,1,Exemplo de input.xlsx,,-1,,,,,
+20,0,17,CN29066A.RET,,-1,,,,,
+21,1,17,CN22066A.RET,,-1,,,,,
+22,2,17,CN25066A.RET,,-1,,,,,
+23,3,19,CN29066A.RET,,-1,,,,,
+24,0,2,Exemplo de input.xlsx,,-1,,,,,

@@ -35,7 +35,9 @@ export default function Index() {
     <>
     <View style={styles.container}>
       <Text style={styles.welcomeMsg} > Bem-vindo de volta, {username}! </Text>
-      <Text style={styles.infoMessage}> Explicações </Text>
+      <Pressable style={styles.button} onPress={() => router.navigate("/about")}>
+        <Text selectable={false} style={styles.buttonText} > Sobre </Text>
+      </Pressable>
       <Pressable style={styles.button} onPress={() => {router.navigate('/(tabs)/status');}}>
         <Text selectable={false} style={styles.buttonText} > Ver requisições </Text>
       </Pressable>

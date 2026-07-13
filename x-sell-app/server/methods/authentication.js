@@ -24,20 +24,21 @@ export function handleLogin(req, res) {
   const sessions = readCsv(sessionsPath);
   const data = req.body;
 
-  const auth = users.some(
+  const idx = users.findIndex(
     (user) => user.nome === data.nome && user.senha === data.senha
   );
+
   //obtenção de token
   //
-  if (auth) {
+  if (idx>=0) {
     const genToken = generateToken({id: data.nome});
     sessions.push({username: data.nome, token: genToken}); // inclusão de sessão
     fs.writeFileSync(sessionsPath, csv.stringify(sessions, {header: true}));
     //console.log("Login efetuado por usuário: ", data.nome);
     //console.log("Token gerado: ", genToken);
-    return res.json({success: auth, token: genToken, message: "Login feito com sucesso!", msgType: "success"});
+    return res.json({success: true, token: genToken, message: "Login feito com sucesso!", msgType: "success", isAdmin: users[idx].admin});
   }
-  return res.json({success: auth, token: "", message: "Usuário ou senha incorretos", msgType: "error"});
+  return res.json({success: auth, token: "", message: "Usuário ou senha incorretos", msgType: "error", isAdmin:false});
 }
 
 export function handleLogout(req, res) {
@@ -71,7 +72,7 @@ export function handleRegister(req, res) {
     return res.json({success: false, message: "Usuário já existe", msgType: "warning"});
   }
   const id = users.length + 1;
-  users.push({...data, id });
+  users.push({...data, id, admin: false });
 
   fs.writeFile(usersPath, JSON.stringify(users, null, 2), (err) => {
     if (err) {

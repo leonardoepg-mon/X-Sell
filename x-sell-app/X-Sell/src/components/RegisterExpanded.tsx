@@ -104,7 +104,7 @@ const emptyForm: XSellLeadFormData = {
   consentLgpd: false,
 };
 
-function InputField({
+export function InputField({
   label,
   value,
   placeholder,
