@@ -29,7 +29,7 @@ export default function Index() {
         ContextLogout();
         router.replace("/login");
     }
-  }
+  }//good
 
   return (
     <>

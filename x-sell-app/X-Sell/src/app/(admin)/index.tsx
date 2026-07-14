@@ -67,7 +67,8 @@ export default function AdminStatusList() {
   async function handleStatusSet(id: number, statusTo: number) {
     const response = await StApi.statusSet(id ?? 0, statusTo);
                 showMessage({message : response.message,
-                msgType: response.msgType as MsgType})
+                msgType: response.msgType as MsgType});
+                await handleStatusSearch();
   }
 
   return (
