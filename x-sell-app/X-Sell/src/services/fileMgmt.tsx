@@ -90,7 +90,7 @@ export async function handleDownload(protocol: number, token?: string) {
     const response = await authFetch(localIP + '/download', {
       method: "POST",
       headers: token? { "Content-Type": "application/json" , "Authorization":  token} : { "Content-Type": "application/json" },
-      body: JSON.stringify({ protocol: protocol }),
+      body: JSON.stringify({ id_item: protocol }),
     });
 
     if (!response.ok) { return {success: false, message: "Erro ao acessar o arquivo.", msgType: "error", fileName:""}}
