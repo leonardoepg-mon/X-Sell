@@ -6,7 +6,7 @@ export default function AboutScreen() {
 const router = useRouter();
 const { isLogged } = useAuth();
   function navigate() {
-    if (isLogged) router.navigate("/");
+    if (isLogged) router.navigate("/(tabs)");
     else router.navigate("/login");
     return
   }
