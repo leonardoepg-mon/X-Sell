@@ -5,6 +5,7 @@ import { handleLogin } from "../../services/userAuth"
 import { useAuth } from "@/contexts/authContext";
 import { styles } from "@/styles/styles";
 import { useMessageDialog } from "@/hooks/useMessageDialog";
+import { AppBackground } from "@/components/AppBackground";
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -28,7 +29,7 @@ async function OnPressLogin() {
 
   return (
     <>
-    <View style={styles.container}>
+    <AppBackground>
       <TextInput style= {styles.input} onChangeText={setUsername}
                  value={username}
                  placeholder="Nome"/>
@@ -48,7 +49,7 @@ async function OnPressLogin() {
       <Pressable style={styles.button} onPress={() => router.navigate("/about")}>
         <Text selectable={false} style={styles.buttonText} > Sobre </Text>
       </Pressable>
-    </View>
+    </AppBackground>
     <MessageDialog/>
   </>
   );

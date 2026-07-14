@@ -6,6 +6,7 @@ import { useMessageDialog } from "@/hooks/useMessageDialog";
 import { handleLogout } from "@/services/userAuth";
 
 import { styles } from "@/styles/styles";
+import { AppBackground } from "@/components/AppBackground";
 
 //Explicações
 
@@ -33,7 +34,7 @@ export default function Index() {
 
   return (
     <>
-    <View style={styles.container}>
+    <AppBackground>
       <Text style={styles.welcomeMsg} > Bem-vindo de volta, {username}! </Text>
       <Pressable style={styles.button} onPress={() => router.navigate("/about")}>
         <Text selectable={false} style={styles.buttonText} > Sobre </Text>
@@ -44,7 +45,7 @@ export default function Index() {
       <Pressable style={styles.cancelButton} onPress={OnPressLogout}>
         <Text selectable={false} style={styles.cancelBText} > Fechar sessão </Text>
       </Pressable>
-    </View>
+    </AppBackground>
     <MessageDialog/>
     </>
   );

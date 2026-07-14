@@ -15,6 +15,7 @@ import { UploadDialog } from "@/components/UploadDialog";
 import { DownloadDialog } from "@/components/DownloadDialog";
 
 import { styles } from "@/styles/styles";
+import { AppBackground } from "@/components/AppBackground";
 
 //Explicações
 
@@ -73,7 +74,7 @@ export default function AdminStatusList() {
 
   return (
     <>
-    <View style={styles.container}>
+    <AppBackground>
       {!showStatus && (
         <Pressable style={styles.button} onPress={handleStatusSearch}>
           <Text selectable={false} style={styles.buttonText}>
@@ -122,7 +123,7 @@ export default function AdminStatusList() {
         <Text selectable={false} style={styles.cancelBText} > Fechar sessão </Text>
       </Pressable>
 </View>
-    </View>
+    </AppBackground>
      
           <RatingDialog
   rated={true}

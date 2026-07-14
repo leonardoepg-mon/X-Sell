@@ -7,6 +7,7 @@ import { handleRegister } from "@/services/userAuth";
 
 import { styles } from "@/styles/styles";
 import RegisterExpanded from "@/components/RegisterExpanded";
+import { AppBackground } from "@/components/AppBackground";
 //Botão para mostrar expandido
 
 export default function Register() {
@@ -19,7 +20,7 @@ export default function Register() {
 
   return (
     <>
-    <View style={styles.container}>
+    <AppBackground>
       { !visible && <>
       <TextInput style= {styles.input} onChangeText={setUsername}
                  value={username}
@@ -48,7 +49,7 @@ export default function Register() {
       <Pressable style={styles.button} onPress={() => router.navigate("/login")}>
         <Text selectable={false} style={styles.buttonText} > Voltar à tela de login </Text>
       </Pressable>
-    </View>
+    </AppBackground>
     <MessageDialog/>
     </>
   );

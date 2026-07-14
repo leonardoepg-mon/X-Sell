@@ -12,6 +12,7 @@ import { MsgType, useMessageDialog } from "@/hooks/useMessageDialog";
 
 import { styles } from "@/styles/styles";
 import { handleDownload } from "@/services/fileMgmt";
+import { AppBackground } from "@/components/AppBackground";
 
 export default function StatusScreen() {
   const [showStatus, setShowStatus] = useState(false);
@@ -46,7 +47,7 @@ export default function StatusScreen() {
 
   return (
     <>
-    <View style={styles.container}>
+    <AppBackground>
       {!showStatus && (
         <Pressable style={styles.button} onPress={handleStatusSearch }>
           <Text selectable={false} style={styles.buttonText}>
@@ -89,8 +90,9 @@ export default function StatusScreen() {
       </Text>
     </Pressable>
   )}
-</View>
-    </View>
+      </View>
+
+    </AppBackground>
      
           <RatingDialog
   visible={ratingVisible}
