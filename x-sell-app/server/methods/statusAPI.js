@@ -2,19 +2,16 @@ import fs from "fs";
 import path from "path";
 import * as csv from "csv/sync"
 import { fileURLToPath } from "url";
+import { sendProcessCompleted } from "./mailService.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootPath = path.join(__dirname, "..");
 const dbPath = path.join(rootPath, "data", "status", "db.csv");
-const usersPath = path.join(rootPath, "data", "users", "users.json");
+const usersPath = path.join(rootPath, "data", "users", "users.csv");
 
 function readCsv(filePath) {
   return csv.parse(fs.readFileSync(filePath, "utf-8"), { columns: true});
-}
-
-function readJson(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 }
 
 function getCurrentDate() {
@@ -22,40 +19,32 @@ function getCurrentDate() {
 }
 
 export function searchItems(req, res) {
-  try { //console.log("1");
-    const users = readJson(usersPath);
+  try { 
+    const users = readCsv(usersPath);
     const db = readCsv(dbPath);
-    //req has username and token, checks session, returns all instances with user (IMPLEMENT TOKEN LATER)
-    //console.log(req.body.username)
-    //console.log(res.locals.token.id);
-    //console.log("2");
     const user = users.find(
       (user) => user.nome === res.locals.token.id
     );
     const tightDb = db.map((item ) =>
     {return {
-      id_item : item.id_item,
-      status: item.status,
-      avaliacao: item.avaliacao, 
+      id_item : Number(item.id_item),
+      status: Number(item.status),
+      avaliacao: Number(item.avaliacao), 
       inputName: item.inputName, 
       outputName: item.outputName, 
-      id_usuario: item.id_usuario} 
+      id_usuario: Number(item.id_usuario)} 
     });
-    //console.log("3");
-    if (user.id >=0) {
+    if (Number(user.id) >=0) {
     let filteredDb;
-      if (user.admin) {
+      if (user.admin == 'true') {
          filteredDb = tightDb; 
       } else {
         filteredDb = tightDb.filter(
           (row) => row.id_usuario == user.id
         );}
-    //console.log("4");
     if (filteredDb.length > 0) {
-    //console.log(filteredDb);
-    //console.log("5");
     return res.json({success: true, message: "Itens obtidos com sucesso", msgType: "success", database: filteredDb});
-    } else {     //console.log("6");
+    } else {     console.log("6");
 return res.json({success: false, message: "Não há processos associados", msgType: "info", database: []}); }
 } } catch(err) { console.log(err);
   return res.json({success: false, message: err instanceof Error ? err.message : String(err), msgType: "error" , database: []});}
@@ -115,7 +104,7 @@ function applyStatusChange(item, newStatus) {
   return item;
 }
 
-export function handleStatusSet(req,res) {
+export async function handleStatusSet(req,res) {
   const db = readCsv(dbPath);
   const {id_item, statusTo} = req.body;
     //req has item_id, rating and token, checks session, returns ok with message (IMPLEMENT TOKEN LATER)
@@ -123,8 +112,38 @@ export function handleStatusSet(req,res) {
       (row) => row.id_item == id_item
     );
     if (processIdx>=0) {
+      const wasAlreadyCompleted = Number(db[processIdx].status) === 3;
       db[processIdx] = applyStatusChange(db[processIdx], statusTo);
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));
+
+      if (Number(statusTo) === 3 && !wasAlreadyCompleted) {
+        const users = readCsv(usersPath);
+        const processOwner = users.find(
+          (user) => String(user.id) === String(db[processIdx].id_usuario)
+        );
+
+        if (processOwner?.email) {
+          try {
+            await sendProcessCompleted({
+              email: processOwner.email,
+              name: processOwner.nomeContato || processOwner.nome,
+              protocol: db[processIdx].id_item,
+              inputName: db[processIdx].inputName,
+              completedAt: db[processIdx].data_concluido,
+            });
+          } catch (mailError) {
+            console.error("Status atualizado, mas o e-mail de aviso de conclusão falhou:", mailError);
+            return res.json({
+              success: true,
+              message: "Processo concluído, mas o aviso por e-mail não foi enviado",
+              msgType: "warning",
+            });
+          }
+        } else {
+          console.warn(`Processo ${id_item} concluído sem e-mail cadastrado para o cliente.`);
+        }
+      }
+
       return res.json({success: true, message: "Sucesso", msgType: "success"})
     }
     else return res.json({success: false, message: "Erro: id inválido", msgType: "error"})

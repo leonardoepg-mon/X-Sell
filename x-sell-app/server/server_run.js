@@ -8,7 +8,6 @@ import { fileURLToPath } from "url";
 import {
   checkSession,
   handleLogin,
-  handleLogout,
   handleRegister,
   verifyJWT
 } from "./methods/authentication.js";
@@ -32,8 +31,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/login", handleLogin);
-
-app.get("/logout", verifyJWT, handleLogout);
 
 app.get("/validate", verifyJWT, checkSession);
 

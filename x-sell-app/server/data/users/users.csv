@@ -1,0 +1,10 @@
+nome,senha,email,nomeContato,id,admin
+leo,123,leonardo.epgalvao@gmail.com,Leonardo,1,true
+bia,123,leonardo.epgalvao@gmail.com,Beatriz,2,false
+neno,123,hobmon1949@gmail.com,Alex,3,false
+nono,123,hobmon1949@gmail.com,Marcelo,4,false
+nino,123,hobmon1949@gmail.com,Charles,5,false
+Maurício,85637491,mauricio@ensoft.com.br,Maurício,6,false
+Teste,t,mauricio@ensoft.com.br,Testulino,7,false
+leonidicos,12345,leonardo.epgalvao@gmail.com,Leleco,8,false
+testandolala,54321,mauricio@ensoft.com.br,Testonildo Pereira,9,false

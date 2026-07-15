@@ -1,4 +1,5 @@
-import { authFetch } from "./jwtHandling";
+import { XSellLeadFormData } from "@/components/RegisterExpanded";
+
 const localIP = process.env.EXPO_PUBLIC_XSELL_SERVER_URL;
 
 export async function handleLogin(username: string, password: string) {
@@ -13,7 +14,7 @@ export async function handleLogin(username: string, password: string) {
       body: JSON.stringify({ nome: username, senha: password }),
     });
 
-    const data = await response.json(); 
+    const data = await response.json();
     return data;
 
   } catch (err) {
@@ -22,31 +23,13 @@ export async function handleLogin(username: string, password: string) {
   }
 }
 
-export async function handleLogout(token?: string) {
-  try {
-    const response = await authFetch(localIP + '/logout', {
-      method: "GET",
-      headers: token ? { Authorization: token } : undefined,
-    });
-
-    const data = await response.json();
-    return data
-  } catch (err) {
-    console.log(err);
-    return { success: false, message: err instanceof Error ? err.message : err, msgType: "error" };
-  }
-}
-
-export async function handleRegister(username: string, password: string) {
-    if (!username || !password) {
-      return { success: false, message: "Preencha todos os campos", msgType: "warning" };
-    }
+export async function handleRegister(formData: XSellLeadFormData) {
 
 try {
     const response = await fetch(localIP + '/register', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nome: username, senha: password }),
+      body: JSON.stringify({ formData }),
     });
 
     const data = await response.json();

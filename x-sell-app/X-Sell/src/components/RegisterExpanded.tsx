@@ -11,8 +11,12 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { styles, theme } from "@/styles/styles";
+import { useMessageDialog } from "@/hooks/useMessageDialog";
+import { handleRegister } from "@/services/userAuth";
 
 export type XSellLeadFormData = {
+  username: string;
+  password: string;
   companyName: string;
   tradeName: string;
   cnpj: string;
@@ -21,7 +25,7 @@ export type XSellLeadFormData = {
   city: string;
   state: string;
 
-  contactName: string;
+  nomeContato: string;
   contactRole: string;
   email: string;
   phone: string;
@@ -50,14 +54,14 @@ export type XSellLeadFormData = {
 
 type RegisterExpandedProps = {
   initialValues?: Partial<XSellLeadFormData>;
-  loading?: boolean;
-  onSubmit?: (data: XSellLeadFormData) => void | Promise<void>;
   onCancel?: () => void;
+  onSuccess?: () => void;
 };
 
 type FieldName = keyof XSellLeadFormData;
 
 type InputProps = {
+  secret?: boolean;
   label: string;
   value: string;
   placeholder?: string;
@@ -69,6 +73,8 @@ type InputProps = {
 };
 
 const emptyForm: XSellLeadFormData = {
+  username: "",
+  password: "",
   companyName: "",
   tradeName: "",
   cnpj: "",
@@ -77,7 +83,7 @@ const emptyForm: XSellLeadFormData = {
   city: "",
   state: "",
 
-  contactName: "",
+  nomeContato: "",
   contactRole: "",
   email: "",
   phone: "",
@@ -105,6 +111,7 @@ const emptyForm: XSellLeadFormData = {
 };
 
 function InputField({
+  secret=false,
   label,
   value,
   placeholder,
@@ -121,6 +128,7 @@ function InputField({
         {required ? <Text style={styles.formRequiredMark}> *</Text> : null}
       </Text>
       <TextInput
+        secureTextEntry={secret}
         value={value}
         placeholder={placeholder}
         placeholderTextColor={theme.colors.textSecondary}
@@ -156,9 +164,8 @@ function Section({
 
 export default function RegisterExpanded({
   initialValues,
-  loading = false,
-  onSubmit,
   onCancel,
+  onSuccess,
 }: RegisterExpandedProps) {
   const initialForm = useMemo(
     () => ({
@@ -169,8 +176,8 @@ export default function RegisterExpanded({
   );
 
   const [form, setForm] = useState<XSellLeadFormData>(initialForm);
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"error" | "success" | "">("");
+  const {showMessage , MessageDialog} = useMessageDialog();
+  const [loading, setLoading] = useState(false);
 
   function updateField<K extends FieldName>(field: K, value: XSellLeadFormData[K]) {
     setForm((current) => ({
@@ -181,13 +188,10 @@ export default function RegisterExpanded({
 
   function validate() {
     const requiredFields: Array<[FieldName, string]> = [
-      ["companyName", "nome da empresa"],
-      ["segment", "segmento"],
-      ["contactName", "nome do contato"],
+      ["username", "nome de usuário"],
+      ["password", "senha do usuário"],
+      ["nomeContato", "nome do contato"],
       ["email", "e-mail corporativo"],
-      ["phone", "telefone"],
-      ["goals", "objetivo com o X-Sell"],
-      ["painPoints", "principal desafio comercial"],
     ];
 
     const missing = requiredFields.find(([field]) => {
@@ -214,22 +218,24 @@ export default function RegisterExpanded({
   async function handleSubmit() {
     const validationError = validate();
     if (validationError) {
-      setMessage(validationError);
-      setMessageType("error");
+      showMessage({message: validationError, msgType: "warning"});
       return;
     }
-
+    setLoading(true);
     try {
-      await onSubmit?.(form);
-      setMessage("Cadastro enviado com sucesso. A equipe Fractals poderá avaliar o melhor caminho para sua empresa.");
-      setMessageType("success");
+        const response = await handleRegister(form);
+          setLoading(false);
+          showMessage({message: response.message,
+            msgType: response.msgType,
+            afterDialog: response.success? () => {onSuccess?.();} : undefined });
     } catch (error) {
-      setMessage("Não foi possível enviar o cadastro agora. Confira os dados e tente novamente.");
-      setMessageType("error");
+      showMessage({message: "Não foi possível enviar o cadastro agora. Confira os dados e tente novamente.",
+        msgType: "error"});
     }
   }
 
   return (
+    <>
     <KeyboardAvoidingView
       style={styles.formKeyboardView}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -251,12 +257,31 @@ export default function RegisterExpanded({
         </View>
 
         <Section
+          title="Dados da conta"
+          description="Dados usados pelo app para identificar a empresa."
+        >
+        <InputField
+            label="Nome de usuário"
+            required
+            value={form.username}
+            placeholder="Nome de usuário"
+            onChangeText={(value) => updateField("username", value)}
+          /><InputField
+            label="Senha"
+            secret={true}
+            required
+            value={form.password}
+            placeholder="Senha do usuário"
+            onChangeText={(value) => updateField("password", value)}
+          />
+          </Section>
+
+        <Section
           title="Dados da empresa"
           description="Informações básicas para identificar o perfil do cliente potencial."
         >
           <InputField
             label="Razão social ou nome da empresa"
-            required
             value={form.companyName}
             placeholder="Ex.: Empresa ABC Ltda."
             onChangeText={(value) => updateField("companyName", value)}
@@ -276,7 +301,6 @@ export default function RegisterExpanded({
           />
           <InputField
             label="Segmento de atuação"
-            required
             value={form.segment}
             placeholder="Ex.: indústria, SaaS, logística, saúde, varejo B2B"
             onChangeText={(value) => updateField("segment", value)}
@@ -317,9 +341,9 @@ export default function RegisterExpanded({
           <InputField
             label="Nome do contato"
             required
-            value={form.contactName}
+            value={form.nomeContato}
             placeholder="Nome e sobrenome"
-            onChangeText={(value) => updateField("contactName", value)}
+            onChangeText={(value) => updateField("nomeContato", value)}
           />
           <InputField
             label="Cargo"
@@ -338,7 +362,6 @@ export default function RegisterExpanded({
           />
           <InputField
             label="Telefone"
-            required
             value={form.phone}
             placeholder="(00) 00000-0000"
             keyboardType="phone-pad"
@@ -415,7 +438,6 @@ export default function RegisterExpanded({
         >
           <InputField
             label="Principal objetivo"
-            required
             value={form.goals}
             placeholder="Ex.: vender mais para clientes atuais, reduzir churn, criar ofertas por perfil"
             multiline
@@ -423,7 +445,6 @@ export default function RegisterExpanded({
           />
           <InputField
             label="Principal desafio comercial"
-            required
             value={form.painPoints}
             placeholder="Ex.: não sabemos quem abordar, dados estão espalhados, time não prioriza carteira"
             multiline
@@ -510,10 +531,6 @@ export default function RegisterExpanded({
           </View>
         </Section>
 
-        {message ? (
-          <Text style={messageType === "success" ? styles.formSuccess : styles.formError}>{message}</Text>
-        ) : null}
-
         <View style={styles.formActions}>
           {onCancel ? (
             <Pressable style={styles.formSecondaryButton} onPress={onCancel} disabled={loading}>
@@ -532,5 +549,7 @@ export default function RegisterExpanded({
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
+    <MessageDialog/>
+    </>
   );
 }

@@ -6,7 +6,6 @@ import { useAuth } from "@/contexts/authContext";
 
 import { useMessageDialog, MsgType } from "@/hooks/useMessageDialog";
 
-import { handleLogout } from "@/services/userAuth";
 import * as StApi from "@/services/adminTasks";
 
 import { StatusList } from "@/components/AdminStatusList";
@@ -38,19 +37,10 @@ export default function AdminStatusList() {
   }
 
   async function OnPressLogout() {
-    const response = await handleLogout();
-    if(!response.success) {showMessage({message: response.message,
-      msgType: response.msgType,
-      afterDialog: () => {
-        ContextLogout();
-        router.replace("/login");
-      }
-    })}
-    else {
         ContextLogout();
         router.replace("/login");
     }
-  }
+
 
   async function handleStatusSearch() {
     const response = await StApi.statusSearch(); 

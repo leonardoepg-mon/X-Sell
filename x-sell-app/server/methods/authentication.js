@@ -4,24 +4,25 @@ import * as csv from "csv/sync";
 import { fileURLToPath } from "url";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
+import { sendAccountConfirmation } from "./mailService.js";
+import { json } from "stream/consumers";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const usersPath = path.join(__dirname, "..", "data", "users", "users.json");
-const sessionsPath = path.join(__dirname, "..", "data", "users", "sessionList.csv");
-
-function readJson(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
-}
+const usersPath = path.join(__dirname, "..", "data", "users", "users.csv");
+const usersExpandedPath = path.join(__dirname, "..", "data", "users", "users.json");
 
 function readCsv(filePath) {
   return csv.parse(fs.readFileSync(filePath, "utf-8"), { columns: true});
 }
 
-export function handleLogin(req, res) {
-  const users = readJson(usersPath);
-  const sessions = readCsv(sessionsPath);
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+}
+
+export function handleLogin(req, res) { //mudando de json para csv
+  const users = readCsv(usersPath);
   const data = req.body;
 
   const idx = users.findIndex(
@@ -32,58 +33,58 @@ export function handleLogin(req, res) {
   //
   if (idx>=0) {
     const genToken = generateToken({id: data.nome});
-    sessions.push({username: data.nome, token: genToken}); // inclusão de sessão
-    fs.writeFileSync(sessionsPath, csv.stringify(sessions, {header: true}));
-    //console.log("Login efetuado por usuário: ", data.nome);
-    //console.log("Token gerado: ", genToken);
-    return res.json({success: true, token: genToken, message: "Login feito com sucesso!", msgType: "success", isAdmin: users[idx].admin});
+
+    return res.json({success: true, token: genToken, message: "Login feito com sucesso!", msgType: "success", isAdmin: (users[idx].admin == 'true')});
   }
   return res.json({success: auth, token: "", message: "Usuário ou senha incorretos", msgType: "error", isAdmin:false});
 }
 
-export function handleLogout(req, res) {
-  const sessions = readCsv(sessionsPath);
-  const token = req.headers["authorization"];
-  const username = res.locals.token.id;
-  const index = sessions.findIndex(
-    (session) => session.token == token
-  );
-  if (index >= 0) { 
-    sessions.splice(index, 1);
-    fs.writeFile(sessionsPath, csv.stringify(sessions, {header: true}), (err)=> {if (err) console.log("erro logout: ", err);});
-    //console.log("Sessão encerrada: ", username);
-    return res.json({success: true, message: "Logout feito.", msgType: "success"});
-  }
+export async function handleRegister(req, res) {
+  const users = readCsv(usersPath);
+  const data = req.body.formData;
+  const usersDetailed = readJson(usersExpandedPath);
 
-  else {
-    console.log("Erro excluindo sessão: ", username);
-    return res.json({success: false, message: "Erro no logout.", msgType: "error"});
-  }
-}
-
-export function handleRegister(req, res) {
-  const users = readJson(usersPath);
-  const data = req.body;
-
-  const userExists = users.some((user) => user.nome === data.nome);
+  const userExists = users.some((user) => user.nome === data.username);
 
   if (userExists) {
     //console.log("Tentativa de criação de conta falhou.");
     return res.json({success: false, message: "Usuário já existe", msgType: "warning"});
   }
-  const id = users.length + 1;
-  users.push({...data, id, admin: false });
+  if (!data.email) { //supérfluo
+    return res.json({success: false, message: "Informe um e-mail válido", msgType: "warning"});
+  } 
 
-  fs.writeFile(usersPath, JSON.stringify(users, null, 2), (err) => {
-    if (err) {
-      console.log(err);
-    return res.json({success: false, message: "Erro no servidor", msgType: "error"});
+    try {
+      await sendAccountConfirmation({
+        email: data.email,
+        name: data.nomeContato || data.nome,
+        username: data.nome,
+      });
+    } catch (mailError) {
+      console.error("Tentativa de criar conta falhou:", mailError);
+      return res.json({
+        success: true,
+        message: "Não foi possível criar a conta. Tente novamente mais tarde",
+        msgType: "error",
+      });
     }
 
-    //console.log("Usuário adicionado: ", data.nome);
-
-    return res.json({success: true, message: "Conta criada com sucesso", msgType: "success"});
-  });
+  try {
+    const id = users.length + 1;
+    users.push({nome: data.username,
+      senha: data.password,
+      nomeContato: data.nomeContato,
+      email: data.email,
+      id,
+      admin: 'false', });
+    usersDetailed.push({...data});
+    fs.writeFileSync(usersPath, csv.stringify(users, {header: true}));
+    fs.writeFileSync(usersExpandedPath, JSON.stringify(usersDetailed, null, 2));
+    return res.json({success: true, message: "Cadastro enviado com sucesso. A equipe Fractals poderá avaliar o melhor caminho para sua empresa. Verifique seu e-mail.", msgType: "success"});
+  } catch (err) {
+    console.log(err);
+    return res.json({success: false, message: "Erro no servidor", msgType: "error"});
+  }
 }
 
 export function checkSession(req, res) {
@@ -111,7 +112,7 @@ export function verifyJWT(req, res, next) {
   const jwtSecretKey = process.env.JWT_SECRET_KEY;
   //console.log(req.headers);
   const token = req.headers["authorization"];
-  if (!token) return res.status(401).json({success: false, message: "Sem token.", msgType: "warning" });
+  if (!token) return res.status(401).json({success: false, message: "Acesso negado.", msgType: "warning" });
   
   //token = req.headers["authorization"].replace("Bearer ", "");
   //if (blacklist[token]) return res.status(403).json({ message: "Invalid token." });

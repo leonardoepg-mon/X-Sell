@@ -3,7 +3,6 @@ import { Text, View, Pressable } from "react-native";
 
 import { useAuth } from "@/contexts/authContext";
 import { useMessageDialog } from "@/hooks/useMessageDialog";
-import { handleLogout } from "@/services/userAuth";
 
 import { styles } from "@/styles/styles";
 import { AppBackground } from "@/components/AppBackground";
@@ -18,18 +17,8 @@ export default function Index() {
 
 
   async function OnPressLogout() {
-    const response = await handleLogout();
-    if(!response.success) {showMessage({message: response.message,
-      msgType: response.msgType,
-      afterDialog: () => {
         ContextLogout();
         router.replace("/login");
-      }
-    })}
-    else {
-        ContextLogout();
-        router.replace("/login");
-    }
   }//good
 
   return (

@@ -7,14 +7,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootPath = path.join(__dirname, "..");
 const dbPath = path.join(rootPath, "data", "status", "db.csv");
-const usersPath = path.join(rootPath, "data", "users", "users.json");
+const usersPath = path.join(rootPath, "data", "users", "users.csv");
 
 function readCsv(filePath) {
   return csv.parse(fs.readFileSync(filePath, "utf-8"), { columns: true});
-}
-
-function readJson(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 }
 
 function getCurrentDate() {
@@ -23,7 +19,7 @@ function getCurrentDate() {
 
 export function handleUpload(req, res)  { 
   if (req.files && Object.keys(req.files).length !== 0) {
-    const users = readJson(usersPath);
+    const users = readCsv(usersPath);
     const db = readCsv(dbPath);
     
     const uploadedFile = req.files.uploadFile;
@@ -53,7 +49,7 @@ export function handleUpload(req, res)  {
 
       console.log("Salvo em: ", uploadPath);
       const itemId = db.length + 1;// adicionar timestamp
-      db.push({id_item: db.length + 1 , status: "0", id_usuario:userId , inputName: uploadedFile.name , outputName: "null", avaliacao:"-1", data_envio: getCurrentDate(),});
+      db.push({id_item: db.length + 1 , status: "0", id_usuario:userId , inputName: uploadedFile.name , outputName: "", avaliacao:"-1", data_envio: getCurrentDate(),});
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));
         return res.json({success: true, message: "Recebido com sucesso.", msgType: "success"});
 
@@ -114,6 +110,7 @@ export function handleReupload(req, res)  {
       console.log("Salvo em: ", uploadPath);
       db[idx].id_item = req.body.id_item;
       db[idx].status = 0;// adicionar timestamp
+      db[idx].data_envio = getCurrentDate();
       db[idx].inputName = uploadedFile.name;
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true})); 
       return res.json({success: true, message: "Recebido com sucesso.", msgType: "success"});
@@ -150,7 +147,7 @@ export function handleAdminUpload(req, res)  {
       }
 
       console.log("Salvo em: ", uploadPath);
-      db[idx].id_item = req.body.id_item;// adicionar timestamps
+      db[idx].id_item = req.body.id_item;
       db[idx].outputName = uploadedFile.name;
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true})); 
       return res.json({success: true, message: "Recebido com sucesso.", msgType: "success"});
@@ -161,13 +158,12 @@ export function handleAdminUpload(req, res)  {
 }
 
 export function handleAdminDownload(req, res) {
-  console.log("Protocolo: ", req.body.id_item);
   const db = readCsv(dbPath);
   
   const idx = db.findIndex(
     (row) => row.id_item == req.body.id_item
   );
-  const fileName = db[idx].inputName;// adicionar timestamp
+  const fileName = db[idx].inputName;
   const filePath = path.join(rootPath, "data", "input", fileName);
 
   res.download(filePath, (err) => {
