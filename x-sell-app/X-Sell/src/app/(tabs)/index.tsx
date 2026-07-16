@@ -1,8 +1,7 @@
 import { useRouter } from "expo-router";
-import { Text, View, Pressable } from "react-native";
+import { Text, Pressable } from "react-native";
 
 import { useAuth } from "@/contexts/authContext";
-import { useMessageDialog } from "@/hooks/useMessageDialog";
 
 import { styles } from "@/styles/styles";
 import { AppBackground } from "@/components/AppBackground";
@@ -12,9 +11,6 @@ import { AppBackground } from "@/components/AppBackground";
 export default function Index() {
   const router = useRouter();
   const {ContextLogout, username} = useAuth();
-
-  const {showMessage, MessageDialog} = useMessageDialog();
-
 
   async function OnPressLogout() {
         ContextLogout();
@@ -35,7 +31,6 @@ export default function Index() {
         <Text selectable={false} style={styles.cancelBText} > Fechar sessão </Text>
       </Pressable>
     </AppBackground>
-    <MessageDialog/>
     </>
   );
 }

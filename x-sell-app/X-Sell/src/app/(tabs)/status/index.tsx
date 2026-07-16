@@ -4,32 +4,20 @@ import { Text, View, Pressable } from "react-native";
 import * as StApi from "@/services/statusApi";
 
 import { StatusList } from "@/components/StatusList";
-import { RatingDialog } from "@/components/RatingDialog";
 import { UploadDialog } from "@/components/UploadDialog";
-import { DownloadDialog } from "@/components/DownloadDialog";
 
-import { MsgType, useMessageDialog } from "@/hooks/useMessageDialog";
+import { useMessageDialog } from "@/hooks/useMessageDialog";
 
 import { styles } from "@/styles/styles";
-import { handleDownload } from "@/services/fileMgmt";
 import { AppBackground } from "@/components/AppBackground";
 
 export default function StatusScreen() {
   const [showStatus, setShowStatus] = useState(false);
   const [database, setDb] = useState<StApi.FormattedStatusItem[]>([]);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
 
-  const [ratingVisible, setRatingVisible] = useState(false);
-  const [isRated, setRated] = useState(false);
   const [uploadVisible, setUploadVisible] = useState(false);
-  const [downloadVisible, setDownloadVisible] = useState(false);
   const {showMessage, MessageDialog} = useMessageDialog();
 
-  async function confirmDownload() {   
-      const response = await handleDownload(selectedId ?? 0);
-            showMessage({message : response.message,
-              msgType: response.msgType as MsgType})
-  }
 
   async function handleStatusSearch() {
     const response = await StApi.statusSearch(); 
@@ -55,25 +43,11 @@ export default function StatusScreen() {
           </Text>
         </Pressable>
       )}
-      {showStatus && <StatusList database={database}
-                                  onPressRating={(id, rated) => { //funçoes simples, deixar como arrow?
-                                                  setSelectedId(id);
-                                                  setRated(rated);
-                                                  setRatingVisible(true); }}
-                                  onPressReupload={(id) => {
-                                                    setSelectedId(id);
-                                                    setUploadVisible(true); 
-                                                    }}
-                                  onPressDownload= {(id) => {
-                                                      setSelectedId(id);
-                                                      setDownloadVisible(true);
-                                                    }}
-        />}
+      {showStatus && <StatusList database={database} refresh={handleStatusSearch}/>}
       <View style={styles.buttonRow}>
   <Pressable
     style={styles.button}
-    onPress={() => {setSelectedId(null);
-      setUploadVisible(true);
+    onPress={() => {setUploadVisible(true);
         }}
   > 
     <Text selectable={false} style={styles.buttonText}>
@@ -91,33 +65,12 @@ export default function StatusScreen() {
     </Pressable>
   )}
       </View>
-
     </AppBackground>
-     
-          <RatingDialog
-  visible={ratingVisible}
-  rated={isRated}
-  id_item={selectedId ?? 0}
-  onClose={() => setRatingVisible(false)}
-  onRated={() => {handleStatusSearch();
-    setRatingVisible(false);//showmessage?
-    setRated(true);
-   }}
-/>
-      <UploadDialog
+  <UploadDialog
   visible={uploadVisible}
-  id_item={selectedId ? String(selectedId) : undefined}
-  onClose={() => setUploadVisible(false)}
-  onUploaded={() => {handleStatusSearch();
-    setUploadVisible(false);
-   }}
-/>
-      <DownloadDialog
-  visible={downloadVisible}
-  id_item={selectedId || 0}
-  onClose={() => setDownloadVisible(false)}
-  onDownloaded={() => {setDownloadVisible(false);}}
-  onPressDownload={confirmDownload}/>
+  onClose={() => {handleStatusSearch();setUploadVisible(false);}}
+  onUploaded={() => {handleStatusSearch();setUploadVisible(false);}}
+  />
   <MessageDialog/>
 </>
   );

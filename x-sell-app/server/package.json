@@ -1,9 +1,9 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Server for the X-Sell App",
   "license": "ISC",
-  "author": "",
+  "author": "Leonardo Galvão",
   "type": "module",
   "main": "server_run.js",
   "scripts": {

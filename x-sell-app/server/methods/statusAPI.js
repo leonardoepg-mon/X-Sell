@@ -91,12 +91,14 @@ const statusDateFields = {
   4: "data_avaliado",
 };
 
-function applyStatusChange(item, newStatus) {
+function applyStatusChange(item, newStatus, reason) {
   const normalizedStatus = Number(newStatus);
   const dateField = statusDateFields[normalizedStatus];
 
   item.status = String(normalizedStatus);
-
+  if (reason) {
+    item["motivo_rejeicao"] = reason;
+  }
   if (dateField && !item[dateField]) {
     item[dateField] = getCurrentDate();
   }
@@ -106,14 +108,14 @@ function applyStatusChange(item, newStatus) {
 
 export async function handleStatusSet(req,res) {
   const db = readCsv(dbPath);
-  const {id_item, statusTo} = req.body;
+  const {id_item, statusTo, comment} = req.body;
     //req has item_id, rating and token, checks session, returns ok with message (IMPLEMENT TOKEN LATER)
     const processIdx = db.findIndex( //checa se item_id é válido
       (row) => row.id_item == id_item
     );
     if (processIdx>=0) {
       const wasAlreadyCompleted = Number(db[processIdx].status) === 3;
-      db[processIdx] = applyStatusChange(db[processIdx], statusTo);
+      db[processIdx] = applyStatusChange(db[processIdx], statusTo,comment);
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));
 
       if (Number(statusTo) === 3 && !wasAlreadyCompleted) {

@@ -104,6 +104,10 @@ content: {
     flexDirection: "row",
     gap: 5,
   },
+  buttonColumn: {
+    flexDirection: "column",
+    gap: 2,
+  },
 
   welcomeMsg: {
     fontWeight: "900",
@@ -122,7 +126,7 @@ content: {
 
   list: {
     width: "100%",
-    paddingHorizontal: theme.spacing.md,
+    paddingHorizontal: theme.spacing.xs,
   },
 
   card: {
@@ -133,7 +137,7 @@ content: {
     padding: theme.spacing.sm,
     marginVertical: theme.spacing.xs,
     width: "100%",
-    minHeight: 40,
+    minHeight: 20,
 
     flexDirection: "row",
     justifyContent: "center",
@@ -154,7 +158,7 @@ content: {
   },
 
   id: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "700",
     color: theme.colors.text,
   },
@@ -171,6 +175,12 @@ content: {
     color: theme.colors.textSecondary,
   },
 
+  detailsText: {
+    marginTop: theme.spacing.xs,
+    fontSize: 10,
+    color: theme.colors.textSecondary,
+  },
+
   right: {
     alignItems: "flex-end",
     gap: theme.spacing.xs,
@@ -181,7 +191,7 @@ content: {
     borderRadius: theme.radius.sm,
     paddingVertical: theme.spacing.xs,
     paddingHorizontal: theme.spacing.xs,
-    minWidth: 15,
+    minWidth: 10,
   },
 
   overlay: {
@@ -195,7 +205,8 @@ content: {
     width: 300,
     backgroundColor: theme.colors.surfaceLight,
     borderRadius: theme.radius.lg,
-    padding: theme.spacing.xl,
+    padding: theme.spacing.md,
+    justifyContent: "space-evenly",
     alignItems: "center",
     borderColor: theme.colors.borderLight,
     borderWidth: 1,
@@ -307,7 +318,7 @@ content: {
   }, 
   aboutScreen: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: "rgba(0,0,0,0,1)"
   },
 
   aboutContent: {
@@ -370,7 +381,6 @@ content: {
 
   aboutHeroImage: {
     width: "100%",
-    height: 210,
     borderRadius: theme.radius.lg,
     backgroundColor: theme.colors.surfaceAlt,
   },

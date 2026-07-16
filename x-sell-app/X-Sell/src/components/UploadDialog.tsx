@@ -63,7 +63,8 @@ export function UploadDialog({
             style={styles.button}
             onPress={async () => {
               const result = await pickDocument(); // message?
-              setDocument(result);
+              if (result.document) setDocument(result.document);
+              if (!result.success) showMessage({message: result.message, msgType: "warning"});
             }}
           >
             <Text style={styles.buttonText}>

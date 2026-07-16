@@ -1,8 +1,14 @@
 import { FlatList, Pressable, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { styles } from "@/styles/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  ItemDetails,
+  ItemDetailsDialog,
+} from "@/components/ItemDetailsDialog";
+import { getDetails } from "@/services/statusApi";
 
+const buttonColor = "#2d4941";
 
 type FormattedStatusItem = {
   id: number;
@@ -35,16 +41,18 @@ function getStatusIcon(icon: string) {
 
 type StatusListProps = {
   database: FormattedStatusItem[];
-  onPressReupload: (id: number) => void;
-  onPressRating: (id: number, rated: boolean) => void;
-  onPressDownload: (id: number) => void;
+  onPressReupload?: (id: number) => void;
+  onPressRating?: (id: number, rated: boolean) => void;
+  onPressDownload?: (id: number) => void;
+  refresh?: () => void;
 };
 
 export function StatusList({
   database,
   onPressReupload,
   onPressRating,
-  onPressDownload
+  onPressDownload,
+  refresh
 }: StatusListProps)  {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
 
@@ -62,10 +70,24 @@ export function StatusList({
   { icon: "star", material: "star" },               // status 4
 ] as const;
 
+  const [detailsVisible, setDetailsVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<ItemDetails | null>(null);
+  const [loadingDetails, setLoadingDetails] = useState(false);
 
-  
-  return (
-    <View style={{flex:1}}>
+  async function handleDetailsPress(id: number) {
+  setSelectedItem(null);
+  setLoadingDetails(true);
+  setDetailsVisible(true);
+  const response = await getDetails(id);
+
+  if (response.success && response.item) {
+    setSelectedItem(response.item);
+  }
+  setLoadingDetails(false);
+}
+
+  return (<>
+    <View style={{flex:1}}> 
       <View style={styles.filterRow}>
   <Pressable onPress={() => setSelectedIcon(null)}>
     <MaterialIcons name="list" 
@@ -95,6 +117,11 @@ export function StatusList({
         <View style={styles.card}>
           <View style={styles.left}>
             <View style={styles.titleRow}>
+              <MaterialIcons
+              name={getStatusIcon(item.icon)}
+              size={18}
+              color="#d35cd3"
+            />
               <Text style={styles.id}>{item.id}</Text>
               <Text style={styles.status}>{item.message}</Text>
             </View>
@@ -105,34 +132,39 @@ export function StatusList({
           </View>
 
           <View style={styles.right}>
-            <MaterialIcons
-              name={getStatusIcon(item.icon)}
-              size={24}
-              color="#d35cd3"
-            />
+            <View style={styles.buttonColumn}>
+            <View style={{...styles.buttonRow, justifyContent:"space-evenly"}}>
+            
+            <Pressable
+                            style={styles.smallButton}
+                            onPress={() => handleDetailsPress(item.id)}>
+                         <MaterialIcons
+                           name="search"
+                          size={18}
+                           color={buttonColor}
+                         />
+                        </Pressable>            
+            </View>
 
-            {item.showReuploadButton && (
-              <Pressable style={styles.smallButton} onPress={ () => onPressReupload(item.id) }> 
-                <Text style={styles.buttonText}>Reenviar</Text>
-              </Pressable>
-            )}
-
-            {item.showDownloadButton && (
-              <Pressable style={styles.smallButton} onPress={ async () => onPressDownload(item.id) }>
-                <Text style={styles.buttonText}>Download</Text>
-              </Pressable>
-            )}
-
-            {item.showRatingButton && (
-              <Pressable style={styles.smallButton}  onPress={ () => {onPressRating(item.id, item.icon=="star");
-              } }>
-                <Text style={styles.buttonText}>{(item.icon == "star") ? "Mudar avaliação": "Avaliar"}</Text>
-              </Pressable>
-            )}
+            </View>
           </View>
         </View>
+        
       )}
+      
     />
-    </View>       
+    </View> 
+    <ItemDetailsDialog
+  visible={detailsVisible}
+  item={selectedItem}
+  loading={loadingDetails}
+  onClose={() => {
+    setDetailsVisible(false);
+    setSelectedItem(null);
+    refresh?.();
+  }}
+  refresh={() => {handleDetailsPress(Number(selectedItem?.id_item));
+  }}
+/> </>     
   );
 }

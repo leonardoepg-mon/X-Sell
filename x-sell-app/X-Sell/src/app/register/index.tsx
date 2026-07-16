@@ -11,7 +11,8 @@ export default function Register() {
   return (
     <AppBackground>
       <RegisterExpanded
-      onSuccess={() => {router.navigate("/login")}} />
+      onSuccess={() => {router.navigate("/login")}} 
+      onCancel={() => {router.navigate("/login")}}/>
     </AppBackground>
     
   );

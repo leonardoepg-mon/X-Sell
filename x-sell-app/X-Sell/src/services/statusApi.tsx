@@ -140,9 +140,9 @@ export async function getDetails(id_item: number) {
     const {success, message, msgType, item} = await response.json();
     //console.log(dbProcessed);
     if (success) {
+    
       return { success, message, msgType, item };
     }
-
     return { success, message, msgType, item: null };
   } catch (err) {
     //console.log("error aqui", err); ///// Está saindo aqui
