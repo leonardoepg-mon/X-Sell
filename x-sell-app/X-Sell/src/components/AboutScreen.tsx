@@ -10,17 +10,8 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { styles, theme } from "@/styles/styles";
 
-// Ajuste o caminho dos assets conforme a pasta onde este componente ficar.
-// Sugestao de arquivos:
-// assets/images/fractals-logo.png
-// assets/images/xsell-hero.png
-// assets/images/xsell-dashboard.png
-// assets/images/xsell-flow.png
 const images: Record<string, ImageSourcePropType> = {
-  logo: require("@/assets/images/fractals-logo.png"),
-  hero: require("@/assets/images/xsell-hero.png"),
-  dashboard: require("@/assets/images/xsell-dashboard.png"),
-  flow: require("@/assets/images/xsell-flow.png"),
+  logo: require("@/assets/images/fractals-logo.png")
 };
 
 type IconName = React.ComponentProps<typeof Feather>["name"];
@@ -120,8 +111,6 @@ export default function About({ onStart }: AboutProps) {
           Uma solução da Fractals para organizar dados comerciais, encontrar oportunidades de cross-sell e orientar a equipe para vender mais dentro da carteira atual.
         </Text>
 
-        <Image source={images.hero} style={styles.aboutHeroImage} resizeMode="cover" />
-
         <View style={styles.aboutCtaRow}>
           <TouchableOpacity activeOpacity={0.85} style={styles.aboutPrimaryButton} onPress={onStart}>
             <Text style={styles.aboutPrimaryButtonText}> Começar a usar </Text>
@@ -144,16 +133,6 @@ export default function About({ onStart }: AboutProps) {
         ))}
       </View>
 
-      <View style={styles.aboutImageCard}>
-        <Image source={images.dashboard} style={styles.aboutImageFull} resizeMode="cover" />
-        <View style={styles.aboutImageTextBox}>
-          <Text style={styles.aboutCardTitle}>Visão executiva e operacional</Text>
-          <Text style={styles.aboutCardText}>
-            Acompanhe status, prioridades e evolução das oportunidades em uma interface simples para gestão, vendas e atendimento.
-          </Text>
-        </View>
-      </View>
-
       <View style={styles.aboutSection}>
         <Text style={styles.aboutSectionKicker}>Como funciona</Text>
         <Text style={styles.aboutSectionTitle}>Da informação bruta à ação comercial.</Text>
@@ -174,16 +153,6 @@ export default function About({ onStart }: AboutProps) {
             </View>
           </View>
         ))}
-      </View>
-
-      <View style={styles.aboutImageCard}>
-        <Image source={images.flow} style={styles.aboutImageFull} resizeMode="cover"/>
-        <View style={styles.aboutImageTextBox}>
-          <Text style={styles.aboutCardTitle}>Fluxo pensado para conversão</Text>
-          <Text style={styles.aboutCardText}>
-            Cada etapa existe para reduzir fricção: entender o cliente, priorizar oportunidades, orientar a abordagem e acompanhar o resultado.
-          </Text>
-        </View>
       </View>
 
       <View style={styles.aboutSection}>

@@ -23,7 +23,6 @@ export function RatingDialog({
 }: RatingDialogProps) {
   
   const [rating, setRating] = useState(0);
-  const [stillRated, setRated] = useState(rated ?? false);
   const [reviewText, setReview] = useState("");
   const [reviewedText, setReviewed] = useState("");
   
@@ -34,7 +33,6 @@ export function RatingDialog({
     onRated();
     onClose();
     setRating(0);
-    setRated(true);
   }
 
   useEffect( () => {
@@ -42,7 +40,6 @@ export function RatingDialog({
       const response = await getDetails(id_item);
       if (response.success) {
       setReviewed(response.item.texto_avaliacao);
-      setRated(response.item.status == 4);
       setRating(response.item.avaliacao);
     } }
     if (id_item == 0 || !visible) return
@@ -53,7 +50,7 @@ export function RatingDialog({
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.box}>
-          { !stillRated &&
+          { !rated &&
           <>
           <Text style={styles.title}>Avalie o resultado</Text>
           <View style={styles.formField}>
@@ -67,18 +64,30 @@ export function RatingDialog({
                   style={[styles.registerInput, styles.registerTextArea]}
                 />
               </View>
-
+            </>}
+          <View style={styles.stars}>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <Pressable disabled= {admin} key={star} onPress={() => setRating(star)}>
+                <MaterialIcons
+                  name={star <= rating ? "star" : "star-border"}
+                  size={20}
+                  color="#09a8a0"
+                />
+              </Pressable>
+            ))}
+          </View>
+          { !rated &&
           <View style={styles.buttonRow}>
-            <Pressable style={styles.sendButton} onPress={submitRating}>
+            <Pressable style={styles.sendButton} onPress={submitRating} disabled={rating <0  || rating>5}> 
               <Text style={styles.sendText}>Enviar</Text>
             </Pressable>
             <Pressable style={styles.cancelButton} onPress={onClose}>
               <Text style={styles.cancelBText}>Cancelar</Text>
             </Pressable>
           </View>
-          </>
           }
-          { stillRated && 
+          
+          { rated && 
           <>{  !admin &&
           <View style={styles.formField}>
             <TextInput
@@ -98,17 +107,7 @@ export function RatingDialog({
                   style={[styles.registerInput, styles.registerTextArea]}>
                     {reviewedText}
                 </Text>
-              <View style={styles.stars}>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <Pressable disabled= {admin} key={star} onPress={() => setRating(star)}>
-                <MaterialIcons
-                  name={star <= rating ? "star" : "star-border"}
-                  size={20}
-                  color="#09a8a0"
-                />
-              </Pressable>
-            ))}
-          </View>
+              
           <View style={styles.buttonRow}>
             
             { !admin &&

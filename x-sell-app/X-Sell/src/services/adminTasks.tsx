@@ -294,12 +294,12 @@ if (disposition) {
   }
 }
 
-export async function statusSet(id_item: number, statusTo: number) {
+export async function statusSet(id_item: number, statusTo: number, comment?:  string) {
   try {
     const response = await authFetch(localIP + '/admin/status', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id_item: id_item , statusTo: statusTo}),
+      body: JSON.stringify({ id_item: id_item , statusTo: statusTo, comment}),
     });
     //console.log("requisição de status por ", username);
 

@@ -111,7 +111,7 @@ const emptyForm: XSellLeadFormData = {
 };
 
 function InputField({
-  secret=false,
+  secret,
   label,
   value,
   placeholder,
@@ -268,7 +268,7 @@ export default function RegisterExpanded({
             onChangeText={(value) => updateField("username", value)}
           /><InputField
             label="Senha"
-            secret={true}
+            secret
             required
             value={form.password}
             placeholder="Senha do usuário"

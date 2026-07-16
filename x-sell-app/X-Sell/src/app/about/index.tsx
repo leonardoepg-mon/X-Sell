@@ -1,4 +1,5 @@
 import About from "@/components/AboutScreen"
+import { AppBackground } from "@/components/AppBackground";
 import { useAuth } from "@/contexts/authContext";
 import { useRouter } from "expo-router"
 
@@ -11,5 +12,7 @@ const { isLogged } = useAuth();
     return
   }
 
-  return <About onStart={navigate}/>
+  return <AppBackground>
+  <About onStart={navigate}/>
+  </AppBackground>
 }

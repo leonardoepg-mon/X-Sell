@@ -70,19 +70,41 @@ export async function handleReupload(document: DocumentPicker.DocumentPickerAsse
   }
     }
 
-export async function pickDocument() { 
+type pickerResult = {
+  document?: DocumentPicker.DocumentPickerAsset;
+  success: boolean;
+  message: string;
+}
+    
+export async function pickDocument(): Promise<pickerResult> { 
+  const typesAllowed = [
+        "text/csv",
+        "application/vnd.ms-excel", // .xls
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+      ]
+  const allowedExtensions = [".csv", ".xls", ".xlsx"];
     try {
       const result = await DocumentPicker.getDocumentAsync({
-        type: "*/*", // all files
+        type: typesAllowed, // all files
         copyToCacheDirectory: true,
       });
       if (!result.canceled) {
-        return result.assets[0]
+        const document = result.assets[0];
+
+    const hasAllowedExtension = allowedExtensions.some((extension) =>
+      document.name.toLowerCase().endsWith(extension)
+    );
+
+    const hasAllowedMimeType =
+      !document.mimeType || typesAllowed.includes(document.mimeType);
+
+    if (!hasAllowedExtension || !hasAllowedMimeType) {return {success: false, message: "Selecione uma planilha"}}
+        return {document, success: true, message: ""}
       }
     } catch (err) {
       console.log("Error picking document:", err);
     }
-    return null
+    return { success: false, message: "Nenhuma planilha selecionada."}
 }
 
 export async function handleDownload(protocol: number, token?: string) {

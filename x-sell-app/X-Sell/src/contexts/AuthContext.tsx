@@ -54,13 +54,11 @@ export function AuthProvider({
     setOnExpiredToken(async () => {
       await killToken();
       showMessage({message : "Sessão expirada",
-            msgType: "warning",
-            afterDialog: () => {
+            msgType: "warning"});
       setIsLogged(false);
       setIsAdmin(false);
       setUsername("");
       setToken("");
-      }});
     });
   }, []);
 

@@ -9,38 +9,18 @@ import {
 } from "@/components/ItemDetailsDialog";
 import { getDetails } from "@/services/statusApi";
 
-function getStatusIcon(icon: string) {
-  switch (icon) {
-    case "upload":
-      return "file-upload";
-    case "ok":
-      return "check-circle";
-    case "alert":
-      return "warning";
-    case "waiting":
-      return "hourglass-empty";
-    case "download":
-      return "file-download";
-    case "star":
-      return "star";
-    default:
-      return "help";
-  }
-}
-
 const buttonColor = "#2d4941";
 
 type StatusListProps = {
   database: StApi.FormattedStatusItem[];
-  onPressUpload: (id: number) => void ;
-  onPressRating?: (id: number) => void;
-  onPressDownload: (id: number) => void;
-  onPressSubmit: (id: number) => void;
-  onPressAccept: (id: number) => void;
-  onPressStart: (id: number) => void;
-  onPressReject: (id: number) => void;
+  onPressUpload?: (id: number) => void ;
+  onPressDownload?: (id: number) => void;
+  onPressSubmit?: (id: number) => void;
+  onPressAccept?: (id: number) => void;
+  onPressStart?: (id: number) => void;
+  onPressReject?: (id: number) => void;
+  refresh?: () => void;
 };
-
 
 export function StatusList({
   database,
@@ -49,8 +29,8 @@ export function StatusList({
   onPressAccept,
   onPressReject,
   onPressStart,
-  onPressRating,
-  onPressDownload
+  onPressDownload,
+  refresh
 }: StatusListProps)  {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
 
@@ -64,7 +44,7 @@ export function StatusList({
   setDetailsVisible(true);
 
   const response = await getDetails(id);
-
+ 
   if (response.success && response.item) {
     setSelectedItem(response.item);
   }
@@ -126,7 +106,6 @@ export function StatusList({
           </View>
 
           <View style={styles.right}>
-          <View style={styles.buttonRow}>
             <Pressable
                 style={styles.smallButton}
                 onPress={() => handleDetailsPress(item.id)}>
@@ -136,77 +115,23 @@ export function StatusList({
                color={buttonColor}
              />
             </Pressable>
-            {item.showDownloadButton && (
-              <Pressable style={styles.smallButton} onPress={ async () => onPressDownload(item.id) }>
-                <MaterialIcons
-              name={"file-download"}
-              size={18}
-              color={buttonColor}
-            />
-              </Pressable>
-            )}
-
-            {item.showUploadButton && (
-              <Pressable style={styles.smallButton} onPress={ () => onPressUpload(item.id) }> 
-                <MaterialIcons
-              name={"file-upload"}
-              size={18}
-              color={buttonColor}
-            />
-              </Pressable>
-            )}
-
-            {item.showSubmitButton && (
-              <Pressable style={styles.smallButton} onPress={ () => onPressSubmit(item.id) }>
-                <MaterialIcons
-              name={"check-box"}
-              size={18}
-              color={buttonColor}
-            />
-              </Pressable>
-            )}
-
-            {item.showStartButton && (
-              <Pressable style={styles.smallButton} onPress={ () => onPressStart(item.id) }>
-                <MaterialIcons
-              name={"start"}
-              size={18}
-              color={buttonColor}
-            />
-              </Pressable>
-            )}
-
-            {item.showAcceptButton && (<>
-              <Pressable style={styles.smallButton} onPress={ () => onPressAccept(item.id) }>
-                <MaterialIcons
-              name={"thumb-up"}
-              size={18}
-              color={buttonColor}
-            />
-              </Pressable>
-              <Pressable style={styles.smallButton} onPress={ () => onPressReject(item.id) }> 
-                <MaterialIcons
-              name={"thumb-down"}
-              size={18}
-              color={buttonColor}
-            />
-              </Pressable>
-              </>
-            )}
           </View>
           </View>
-        </View>
+        
       )}
     />
     </View>
     <ItemDetailsDialog
+  isAdmin={true}
   visible={detailsVisible}
   item={selectedItem}
   loading={loadingDetails}
   onClose={() => {
     setDetailsVisible(false);
     setSelectedItem(null);
+    refresh?.();
   }}
+  refresh={() => {handleDetailsPress(Number(selectedItem?.id_item))}}
 />
 </>       
   );
