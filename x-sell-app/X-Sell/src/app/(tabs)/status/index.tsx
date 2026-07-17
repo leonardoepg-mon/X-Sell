@@ -3,8 +3,8 @@ import { Text, View, Pressable } from "react-native";
 
 import * as StApi from "@/services/statusApi";
 
-import { StatusList } from "@/components/StatusList";
-import { UploadDialog } from "@/components/UploadDialog";
+import { StatusList } from "@/components/StatusScreen/StatusList";
+import { UploadDialog } from "@/components/StatusScreen/UploadDialog";
 
 import { useMessageDialog } from "@/hooks/useMessageDialog";
 

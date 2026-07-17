@@ -6,13 +6,13 @@ import { useMessageDialog, MsgType } from "@/hooks/useMessageDialog";
 
 import * as StApiAdmin from "@/services/adminTasks";
 
-import { RatingDialog } from "@/components/RatingDialog";
-import { UploadDialog } from "@/components/UploadDialog";
-import { DownloadDialog } from "@/components/DownloadDialog";
+import { RatingDialog } from "@/components/StatusScreen/RatingDialog";
+import { UploadDialog } from "@/components/StatusScreen/UploadDialog";
+import { DownloadDialog } from "@/components/StatusScreen/DownloadDialog";
 
 import { styles } from "@/styles/styles";
 import { handleDownload } from "@/services/fileMgmt";
-import { CommentDialog } from "./CommentDialog";
+import { CommentDialog } from "@/components/Admin/CommentDialog"
 
 export type ItemDetails = {
   id_item: string;

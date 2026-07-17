@@ -8,11 +8,11 @@ import { useMessageDialog } from "@/hooks/useMessageDialog";
 
 import * as StApi from "@/services/adminTasks";
 
-import { StatusList } from "@/components/AdminStatusList";
+import { StatusList } from "@/components/Admin/AdminStatusList";
 
 import { styles } from "@/styles/styles";
 import { AppBackground } from "@/components/AppBackground";
-import { UserDetailsBox } from "@/components/UserDetails";
+import { UserDetailsBox } from "@/components/Admin/UserDetails";
 
 //Explicações
 

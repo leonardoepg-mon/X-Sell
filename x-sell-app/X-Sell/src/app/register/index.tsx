@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 
-import RegisterExpanded from "@/components/RegisterExpanded";
+import RegisterExpanded from "@/components/UserAuth/RegisterExpanded";
 import { AppBackground } from "@/components/AppBackground";
 //Botão para mostrar expandido
 

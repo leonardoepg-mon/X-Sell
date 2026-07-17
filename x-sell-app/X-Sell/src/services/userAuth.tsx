@@ -1,4 +1,4 @@
-import { XSellLeadFormData } from "@/components/RegisterExpanded";
+import { XSellLeadFormData } from "@/components/UserAuth/RegisterExpanded";
 
 const localIP = process.env.EXPO_PUBLIC_XSELL_SERVER_URL;
 

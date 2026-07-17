@@ -16,7 +16,7 @@ export function BackgroundOverlay() {
     >
       <FractalsPattern
         width="100%"
-        height="100%"
+        height="150%"
         opacity={0.3}
       />
     </View>
@@ -30,21 +30,21 @@ type Props = {
 };
 
 function FractalsPattern({
-  width = "100%",
-  height = "100%",
+  width = "200%",
+  height = "200%",
   opacity = 1,
 }: Props) {
   return (
     <Svg
       width={width}
       height={height}
-      viewBox="0 0 709 845"
+      viewBox="0 0 600 600"
       fill="none"
       opacity={opacity}
     >
       <G
         stroke="#42C2C2"
-        strokeWidth={1.75}
+        strokeWidth={1.25}
         strokeLinecap="square"
         strokeLinejoin="miter"
       >

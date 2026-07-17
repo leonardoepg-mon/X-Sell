@@ -1,74 +1,38 @@
 import { FlatList, Pressable, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { styles } from "@/styles/styles";
-import { useEffect, useState } from "react";
+import * as StApi from "@/services/adminTasks"
+import { useState } from "react";
 import {
   ItemDetails,
   ItemDetailsDialog,
-} from "@/components/ItemDetailsDialog";
+} from "@/components//StatusScreen/ItemDetailsDialog";
 import { getDetails } from "@/services/statusApi";
 
 const buttonColor = "#2d4941";
 
-type FormattedStatusItem = {
-  id: number;
-  message: string;
-  icon: "upload" | "ok" | "alert" | "waiting" | "download" | "star";
-  showReuploadButton: boolean;
-  showDownloadButton: boolean;
-  showRatingButton: boolean;
-  rating?: number;
-};
-
-function getStatusIcon(icon: string) {
-  switch (icon) {
-    case "upload":
-      return "file-upload";
-    case "ok":
-      return "check-circle";
-    case "alert":
-      return "warning";
-    case "waiting":
-      return "hourglass-empty";
-    case "download":
-      return "file-download";
-    case "star":
-      return "star";
-    default:
-      return "help";
-  }
-}
-
 type StatusListProps = {
-  database: FormattedStatusItem[];
-  onPressReupload?: (id: number) => void;
-  onPressRating?: (id: number, rated: boolean) => void;
+  database: StApi.FormattedStatusItem[];
+  onPressUpload?: (id: number) => void ;
   onPressDownload?: (id: number) => void;
+  onPressSubmit?: (id: number) => void;
+  onPressAccept?: (id: number) => void;
+  onPressStart?: (id: number) => void;
+  onPressReject?: (id: number) => void;
   refresh?: () => void;
 };
 
 export function StatusList({
   database,
-  onPressReupload,
-  onPressRating,
+  onPressUpload,
+  onPressSubmit,
+  onPressAccept,
+  onPressReject,
+  onPressStart,
   onPressDownload,
   refresh
 }: StatusListProps)  {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
-
-  const filteredDatabase =
-    selectedIcon === null
-      ? database
-      : database.filter(item => item.icon === selectedIcon);
-
-  const filters = [
-  { icon: "upload", material: "file-upload" },      // status 0
-  { icon: "alert", material: "warning" },           // status -1
-  { icon: "waiting", material: "hourglass-empty" }, // status 1
-  { icon: "ok", material: "check-circle" },         // status 2
-  { icon: "download", material: "file-download" },  // status 3
-  { icon: "star", material: "star" },               // status 4
-] as const;
 
   const [detailsVisible, setDetailsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ItemDetails | null>(null);
@@ -78,16 +42,31 @@ export function StatusList({
   setSelectedItem(null);
   setLoadingDetails(true);
   setDetailsVisible(true);
-  const response = await getDetails(id);
 
+  const response = await getDetails(id);
+ 
   if (response.success && response.item) {
     setSelectedItem(response.item);
   }
   setLoadingDetails(false);
 }
 
-  return <>
-    <View style={{flex:1, flexGrow:1}}> 
+  const filteredDatabase =
+    selectedIcon === null
+      ? database
+      : database.filter(item => item.icon === selectedIcon);
+
+  const filters = [
+  { icon: "upload", material: "file-upload", },      
+  { icon: "alert", material: "warning", },
+  { icon: "ok", material: "check-circle",},       
+  { icon: "waiting", material: "hourglass-empty", }, 
+  { icon: "download", material: "file-download", },  
+  { icon: "star", material: "star",},              
+] as const;
+  
+  return (<>
+    <View style={{flex:1}}>
       <View style={styles.filterRow}>
   <Pressable onPress={() => setSelectedIcon(null)}>
     <MaterialIcons name="list" 
@@ -117,11 +96,6 @@ export function StatusList({
         <View style={styles.card}>
           <View style={styles.left}>
             <View style={styles.titleRow}>
-              <MaterialIcons
-              name={getStatusIcon(item.icon)}
-              size={18}
-              color="#d35cd3"
-            />
               <Text style={styles.id}>{item.id}</Text>
               <Text style={styles.status}>{item.message}</Text>
             </View>
@@ -132,29 +106,23 @@ export function StatusList({
           </View>
 
           <View style={styles.right}>
-            <View style={styles.buttonColumn}>
-            <View style={{...styles.buttonRow, justifyContent:"space-evenly"}}>
-            
             <Pressable
-                            style={styles.smallButton}
-                            onPress={() => handleDetailsPress(item.id)}>
-                         <MaterialIcons
-                           name="search"
-                          size={18}
-                           color={buttonColor}
-                         />
-                        </Pressable>            
-            </View>
-
-            </View>
+                style={styles.smallButton}
+                onPress={() => handleDetailsPress(item.id)}>
+             <MaterialIcons
+               name="search"
+              size={18}
+               color={buttonColor}
+             />
+            </Pressable>
           </View>
-        </View>
+          </View>
         
       )}
-      
     />
-    </View> 
+    </View>
     <ItemDetailsDialog
+  isAdmin={true}
   visible={detailsVisible}
   item={selectedItem}
   loading={loadingDetails}
@@ -163,8 +131,8 @@ export function StatusList({
     setSelectedItem(null);
     refresh?.();
   }}
-  refresh={() => {handleDetailsPress(Number(selectedItem?.id_item));
-  }}
-/> </>     
-  
+  refresh={() => {handleDetailsPress(Number(selectedItem?.id_item))}}
+/>
+</>       
+  );
 }
