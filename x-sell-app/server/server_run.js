@@ -9,16 +9,22 @@ import {
   checkSession,
   handleLogin,
   handleRegister,
+  seeUsers,
+  setAdmin,
   verifyJWT
 } from "./methods/authentication.js";
 import { handleAdminDownload, handleAdminUpload, handleDownload, handleReupload, handleUpload } from "./methods/fileManagement.js";
 import { handleRating, searchItems, handleStatusSet, handleDetailSearch } from "./methods/statusAPI.js";
+import { initializePersistentData } from "./methods/deployTasks.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
+initializePersistentData();
+
 app.use(cors({
   exposedHeaders: ["Content-Disposition"],
 }));
@@ -48,6 +54,10 @@ app.post("/admin/download", verifyJWT, handleAdminDownload);
 
 app.post("/admin/status", verifyJWT, handleStatusSet);
 
+app.post("/admin/users", verifyJWT, setAdmin);
+
+app.get("/admin/users", verifyJWT, seeUsers);
+
 app.get("/status", verifyJWT, searchItems);
 
 app.post("/details", verifyJWT, handleDetailSearch);
@@ -55,5 +65,5 @@ app.post("/details", verifyJWT, handleDetailSearch);
 app.post("/rating", verifyJWT, handleRating)
 
 app.listen(PORT, () => {
-  console.log(`X-Sell server running at http://localhost:${PORT}/`);
+  console.log("X-Sell server running at", `${process.env.LOCAL_IP}:${PORT}`);
 });

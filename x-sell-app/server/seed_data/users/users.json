@@ -1,0 +1,18 @@
+[
+  {
+    "username": "leo",
+    "password": "314159",
+    "id": 1,
+    "admin": true,
+    "email": "leonardo.epgalvao@gmail.com",
+    "nomeContato": "Leonardo"
+  },
+  {
+    "username": "bia",
+    "password": "123",
+    "id": 2,
+    "admin": false,
+    "email": "leonardo.epgalvao@gmail.com",
+    "nomeContato": "Beatriz"
+  }
+]

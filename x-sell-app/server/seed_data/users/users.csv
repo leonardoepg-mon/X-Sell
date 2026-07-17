@@ -1,0 +1,3 @@
+username,password,email,nomeContato,id,admin
+leo,123,leonardo.epgalvao@gmail.com,Leonardo,1,true
+bia,123,leonardo.epgalvao@gmail.com,Beatriz,2,false

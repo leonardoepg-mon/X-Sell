@@ -1,3 +1,0 @@
-Coluna,id_item,status,id_usuario,outputName,inputName
-MetaData,unique int,enum,unique int,string,string
-Key?,primary,,fk
