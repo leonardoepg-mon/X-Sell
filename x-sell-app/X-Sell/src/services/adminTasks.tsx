@@ -1,9 +1,9 @@
 import { authFetch } from "./jwtHandling";
-
 import { Platform } from "react-native";
 import * as DocumentPicker from "expo-document-picker"
 import { File, Paths} from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import { MsgType } from "@/hooks/useMessageDialog";
 
 const localIP = process.env.EXPO_PUBLIC_XSELL_SERVER_URL;
 
@@ -22,6 +22,12 @@ type StatusItem = {
   data_concluido: string;
   data_avaliado: string;
 };
+
+type StandardResponse = {
+  success: boolean;
+  message: string | "";
+  msgType: MsgType;
+}
 
 export type FormattedStatusItem = {
   id: number;
@@ -317,5 +323,51 @@ export async function statusSet(id_item: number, statusTo: number, comment?:  st
   }
 }
 
+export async function setAdmin(id: Number, setTo: boolean): Promise<StandardResponse> {
+
+  try {
+    const response = await authFetch(localIP + '/admin/users', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, setTo }),
+    });
+
+    const data = await response.json();
+    return data;
+
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: String(err instanceof Error ? err.message : err), msgType: "error" };
+  }
+}
+
+export type UserDetails = {
+  id: number;
+  nomeContato: string;
+  admin: boolean;
+};
+
+type seeUsersRes = {
+  success: boolean;
+  message?: string | "";
+  msgType?: MsgType;
+  data?: UserDetails[];
+}
+
+export async function seeUsers() : Promise<seeUsersRes> {
+  try {
+    const response = await authFetch(localIP + '/admin/users', {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    });
+
+    const data = await response.json();
+    return {success: true, data};
+
+  } catch (err) {
+    console.log(err);
+    return { success: false, message: String(err instanceof Error ? err.message : err ), msgType: "error" };
+  }
+}
 
 

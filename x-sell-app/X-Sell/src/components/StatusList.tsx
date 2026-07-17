@@ -86,8 +86,8 @@ export function StatusList({
   setLoadingDetails(false);
 }
 
-  return (<>
-    <View style={{flex:1}}> 
+  return <>
+    <View style={{flex:1, flexGrow:1}}> 
       <View style={styles.filterRow}>
   <Pressable onPress={() => setSelectedIcon(null)}>
     <MaterialIcons name="list" 
@@ -166,5 +166,5 @@ export function StatusList({
   refresh={() => {handleDetailsPress(Number(selectedItem?.id_item));
   }}
 /> </>     
-  );
+  
 }

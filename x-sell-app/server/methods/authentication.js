@@ -6,6 +6,7 @@ import "dotenv/config";
 import jwt from "jsonwebtoken";
 import { sendAccountConfirmation } from "./mailService.js";
 import { json } from "stream/consumers";
+import { stringify } from "querystring";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,17 +27,17 @@ export function handleLogin(req, res) { //mudando de json para csv
   const data = req.body;
 
   const idx = users.findIndex(
-    (user) => user.nome === data.nome && user.senha === data.senha
+    (user) => user.username === data.username && user.password === data.password
   );
 
   //obtenção de token
   //
   if (idx>=0) {
-    const genToken = generateToken({id: data.nome});
+    const genToken = generateToken({id: data.username});
 
     return res.json({success: true, token: genToken, message: "Login feito com sucesso!", msgType: "success", isAdmin: (users[idx].admin == 'true')});
   }
-  return res.json({success: auth, token: "", message: "Usuário ou senha incorretos", msgType: "error", isAdmin:false});
+  return res.json({success: false, token: "", message: "Usuário ou senha incorretos", msgType: "error", isAdmin:false});
 }
 
 export async function handleRegister(req, res) {
@@ -44,7 +45,7 @@ export async function handleRegister(req, res) {
   const data = req.body.formData;
   const usersDetailed = readJson(usersExpandedPath);
 
-  const userExists = users.some((user) => user.nome === data.username);
+  const userExists = users.some((user) => user.username === data.username);
 
   if (userExists) {
     //console.log("Tentativa de criação de conta falhou.");
@@ -57,8 +58,8 @@ export async function handleRegister(req, res) {
     try {
       await sendAccountConfirmation({
         email: data.email,
-        name: data.nomeContato || data.nome,
-        username: data.nome,
+        name: data.nomeContato || data.username,
+        username: data.username,
       });
     } catch (mailError) {
       console.error("Tentativa de criar conta falhou:", mailError);
@@ -71,13 +72,13 @@ export async function handleRegister(req, res) {
 
   try {
     const id = users.length + 1;
-    users.push({nome: data.username,
-      senha: data.password,
+    users.push({username: data.username,
+      password: data.password,
       nomeContato: data.nomeContato,
       email: data.email,
       id,
       admin: 'false', });
-    usersDetailed.push({...data});
+    usersDetailed.push({...data, id});
     fs.writeFileSync(usersPath, csv.stringify(users, {header: true}));
     fs.writeFileSync(usersExpandedPath, JSON.stringify(usersDetailed, null, 2));
     return res.json({success: true, message: "Cadastro enviado com sucesso. A equipe Fractals poderá avaliar o melhor caminho para sua empresa. Verifique seu e-mail.", msgType: "success"});
@@ -129,4 +130,35 @@ export function verifyJWT(req, res, next) {
     //console.log(err);
     return res.status(403).json({ success: false,  message: err instanceof Error ? err.message : String(err) , msgType: "error" });
   }
+}
+
+export function setAdmin(req,res) {
+  const users = readCsv(usersPath);
+  const {id, setTo} = req.body;
+
+  const idx = users.findIndex(
+    (user) => user.id === String(id) 
+  );
+  if (idx>0) {
+   try {
+    users[idx].admin = String(setTo);
+    console.log(users);
+    fs.writeFileSync(usersPath, csv.stringify(users, {header: true}));
+    return res.json({success: true, message: "Mudança de status registrada.", msgType: "success"});
+  } catch (err) {
+    console.log(err);
+    return res.json({success: false, message: "Erro no servidor", msgType: "error"});
+  }}
+  return res.json({success: false, message: "Mudança não registrada. Tente novamente mais tarde.", msgType: "warning" })
+}
+
+export function seeUsers(req,res) {
+  const users = readCsv(usersPath);
+  const safeUsers = users.map(
+     (user) => {return {
+        id: Number(user.id),
+        nomeContato: user.nomeContato,
+        admin: user.admin === "true"
+     }} );
+  return res.json(safeUsers); 
 }

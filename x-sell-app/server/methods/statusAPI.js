@@ -23,7 +23,7 @@ export function searchItems(req, res) {
     const users = readCsv(usersPath);
     const db = readCsv(dbPath);
     const user = users.find(
-      (user) => user.nome === res.locals.token.id
+      (user) => user.username === res.locals.token.id
     );
     const tightDb = db.map((item ) =>
     {return {
@@ -68,8 +68,7 @@ export function handleDetailSearch(req, res) {
 
 export function handleRating(req, res) {  //registra avaliação da solicitação;
     const db = readCsv(dbPath);
-    //req has item_id, rating and token, checks session, returns ok with message (IMPLEMENT TOKEN LATER)
-    const processIdx = db.findIndex( //checa se item_id é válido
+    const processIdx = db.findIndex( 
       (row) => row.id_item == req.body.id_item
     );
     if (processIdx>=0) {
@@ -109,8 +108,7 @@ function applyStatusChange(item, newStatus, reason) {
 export async function handleStatusSet(req,res) {
   const db = readCsv(dbPath);
   const {id_item, statusTo, comment} = req.body;
-    //req has item_id, rating and token, checks session, returns ok with message (IMPLEMENT TOKEN LATER)
-    const processIdx = db.findIndex( //checa se item_id é válido
+    const processIdx = db.findIndex( 
       (row) => row.id_item == id_item
     );
     if (processIdx>=0) {

@@ -126,7 +126,15 @@ content: {
 
   list: {
     width: "100%",
+    flex: 1,
+    justifyContent: "space-around",
     paddingHorizontal: theme.spacing.xs,
+  },
+  boxContent: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: "space-around",
+    flexDirection:"row"
   },
 
   card: {
@@ -146,8 +154,20 @@ content: {
     ...theme.shadows.card,
   },
 
+  userDetails: {
+    padding: theme.spacing.xs,
+    width: "100%",
+    minHeight: 12,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderEndWidth: 0,
+    borderColor: theme.colors.border,
+  },
+
   left: {
-    alignItems: "flex-start",
+    alignItems: "baseline",
     flex:1
   },
 

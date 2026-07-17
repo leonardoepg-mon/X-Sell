@@ -9,8 +9,10 @@ import { useMessageDialog } from "@/hooks/useMessageDialog";
 import * as StApi from "@/services/adminTasks";
 
 import { StatusList } from "@/components/AdminStatusList";
+
 import { styles } from "@/styles/styles";
 import { AppBackground } from "@/components/AppBackground";
+import { UserDetailsBox } from "@/components/UserDetails";
 
 //Explicações
 
@@ -20,6 +22,7 @@ export default function AdminStatusList() {
   const [showStatus, setShowStatus] = useState(false);
   const [database, setDb] = useState<StApi.FormattedStatusItem[]>([]);
   const {showMessage, MessageDialog} = useMessageDialog();
+  const [usersVisible, setUsersVisible] = useState(false);
 
   async function OnPressLogout() {
         ContextLogout();
@@ -62,12 +65,18 @@ export default function AdminStatusList() {
       </Text>
     </Pressable>
   )}
-  <Pressable style={styles.button} onPress={OnPressLogout}>
+  
+  <Pressable style={styles.button} onPress={() => {setUsersVisible(true);}}>
+        <Text selectable={false} style={styles.buttonText} > Gerenciar usuários </Text>
+      </Pressable>
+  <Pressable style={styles.cancelButton} onPress={OnPressLogout}>
         <Text selectable={false} style={styles.cancelBText} > Fechar sessão </Text>
       </Pressable>
 </View>
     </AppBackground>
-
+  <UserDetailsBox
+  visible={usersVisible}
+  onClose={() => setUsersVisible(false)}/>
   <MessageDialog/>
 </>
   );

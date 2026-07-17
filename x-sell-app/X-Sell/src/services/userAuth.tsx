@@ -11,7 +11,7 @@ export async function handleLogin(username: string, password: string) {
     const response = await fetch(localIP + '/login', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nome: username, senha: password }),
+      body: JSON.stringify({ username, password }),
     });
 
     const data = await response.json();
