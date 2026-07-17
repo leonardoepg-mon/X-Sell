@@ -51,6 +51,7 @@ export async function handleRegister(req, res) {
     //console.log("Tentativa de criação de conta falhou.");
     return res.json({success: false, message: "Usuário já existe", msgType: "warning"});
   }
+  if (process.env.EMAIL_USE === "true") {
   if (!data.email) { //supérfluo
     return res.json({success: false, message: "Informe um e-mail válido", msgType: "warning"});
   } 
@@ -68,7 +69,7 @@ export async function handleRegister(req, res) {
         message: "Não foi possível criar a conta. Tente novamente mais tarde",
         msgType: "error",
       });
-    }
+    }}
 
   try {
     const id = users.length + 1;

@@ -121,8 +121,8 @@ export async function handleStatusSet(req,res) {
         const processOwner = users.find(
           (user) => String(user.id) === String(db[processIdx].id_usuario)
         );
-
-        if (processOwner?.email) {
+        
+        if (processOwner?.email && process.env.EMAIL_USE === "true") {
           try {
             await sendProcessCompleted({
               email: processOwner.email,
