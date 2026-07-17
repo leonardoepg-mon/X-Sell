@@ -3,6 +3,7 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 import morgan from "morgan";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 
 import {
@@ -15,13 +16,26 @@ import {
 } from "./methods/authentication.js";
 import { handleAdminDownload, handleAdminUpload, handleDownload, handleReupload, handleUpload } from "./methods/fileManagement.js";
 import { handleRating, searchItems, handleStatusSet, handleDetailSearch } from "./methods/statusAPI.js";
-import { initializePersistentData } from "./methods/deployTasks.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+function initializePersistentData() {
+  const seedDir = path.resolve("./seed_data");
+  const dataDir = path.resolve("./data");
+
+  fs.mkdirSync(dataDir, { recursive: true });
+
+  const volumeIsEmpty = fs.readdirSync(dataDir).length === 0;
+
+  if (volumeIsEmpty) {
+    fs.cpSync(seedDir, dataDir, { recursive: true });
+    console.log("Dados iniciais copiados para o Volume.");
+  }
+}
 
 initializePersistentData();
 
