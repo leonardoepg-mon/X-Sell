@@ -18,8 +18,8 @@ export const theme = {
     textOnLight: "#172033",
     textOnPrimary: "#cbd5e1",// columbia-blue-color
 
-    success: "#22c2c5",// maximum-blue-green-color
-    warning: "#ff6731",//smashed-pumpkin-color
+    success: "#116163",// maximum-blue-green-color
+    warning: "#cc4322",//smashed-pumpkin-color
     error: "#d90429",//red-color
     info: "#7d3682",// jacarte-color-light?
 
@@ -56,286 +56,7 @@ export const theme = {
   },
 };
 
-export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: theme.colors.background,
-    padding: theme.spacing.lg,
-    position: "relative",
-  },
-content: {
-  flex: 1,
-  zIndex: 1,
-},
-  input: {
-    height: 40,
-    margin: 12,
-    padding: 10,
-    justifyContent: "center",
-    minWidth: 50,
-    borderWidth: 1,
-    backgroundColor: theme.colors.surfaceLight,
-    borderColor: theme.colors.borderLight,
-    color: theme.colors.textOnLight,
-    borderRadius: theme.radius.md,
-    paddingVertical: theme.spacing.md,
-    paddingHorizontal: theme.spacing.lg,
-    marginVertical: theme.spacing.sm,
-  },
-
-  buttonText: {
-    color: theme.colors.textOnPrimary,
-    fontWeight: "700",
-    textAlign: "center",
-  },
-
-  button: {
-    backgroundColor: theme.colors.primary,
-    borderWidth: 1,
-    borderColor: theme.colors.primaryDark,
-    borderRadius: theme.radius.md,
-    paddingVertical: theme.spacing.md,
-    paddingHorizontal: theme.spacing.lg,
-  },
-
-  buttonRow: {
-    flexDirection: "row",
-    gap: 5,
-  },
-  buttonColumn: {
-    flexDirection: "column",
-    gap: 2,
-  },
-
-  welcomeMsg: {
-    fontWeight: "900",
-    fontSize: 20,
-    fontFamily: "sans-serif",
-    color: theme.colors.text,
-    textAlign: "center",
-  },
-
-  errorMessage: {
-    fontWeight: "700",
-    color: theme.colors.error,
-    fontSize: 20,
-    textAlign: "center",
-  },
-
-  list: {
-    width: "100%",
-    flex: 1,
-    justifyContent: "space-around",
-    paddingHorizontal: theme.spacing.xs,
-  },
-  boxContent: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: "space-around",
-    flexDirection:"row"
-  },
-
-  card: {
-    backgroundColor: theme.colors.surface,
-    borderColor: theme.colors.border,
-    borderWidth: 1,
-    borderRadius: theme.radius.lg,
-    padding: theme.spacing.sm,
-    marginVertical: theme.spacing.xs,
-    width: "100%",
-    minHeight: 20,
-
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-
-    ...theme.shadows.card,
-  },
-
-  userDetails: {
-    padding: theme.spacing.xs,
-    width: "100%",
-    minHeight: 12,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderEndWidth: 0,
-    borderColor: theme.colors.border,
-  },
-
-  left: {
-    alignItems: "baseline",
-    flex:1
-  },
-
-  titleRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: theme.spacing.xs,
-  },
-
-  id: {
-    fontSize: 12,
-    fontWeight: "700",
-    color: theme.colors.text,
-  },
-
-  status: {
-    fontSize: 14,
-    color: theme.colors.accent,
-    fontWeight: "600",
-  },
-
-  message: {
-    marginTop: theme.spacing.sm,
-    fontSize: 13,
-    color: theme.colors.textSecondary,
-  },
-
-  detailsText: {
-    marginTop: theme.spacing.xs,
-    fontSize: 10,
-    color: theme.colors.textSecondary,
-  },
-
-  right: {
-    alignItems: "flex-end",
-    gap: theme.spacing.xs,
-  },
-
-  smallButton: {
-    backgroundColor: theme.colors.primary,
-    borderRadius: theme.radius.sm,
-    paddingVertical: theme.spacing.xs,
-    paddingHorizontal: theme.spacing.xs,
-    minWidth: 10,
-  },
-
-  overlay: {
-    flex: 1,
-    backgroundColor: theme.colors.overlay,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  box: {
-    width: 300,
-    backgroundColor: theme.colors.surfaceLight,
-    borderRadius: theme.radius.lg,
-    padding: theme.spacing.md,
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    borderColor: theme.colors.borderLight,
-    borderWidth: 1,
-    ...theme.shadows.card,
-  },
-
-  title: {
-    fontSize: 18,
-    marginBottom: theme.spacing.lg,
-    fontWeight: "700",
-    color: theme.colors.textOnLight,
-    textAlign: "center",
-  },
-
-  fileName: {
-    color: theme.colors.primaryDark,
-    fontStyle: "italic",
-    marginVertical: theme.spacing.md,
-  },
-
-  cancelButton: {
-    padding: theme.spacing.md,
-    marginTop: theme.spacing.sm,
-    backgroundColor: theme.colors.backgroundSoft,
-    borderRadius: theme.radius.md,
-    paddingVertical: theme.spacing.sm,
-    paddingHorizontal: theme.spacing.md,
-    minWidth: 50,
-  },
-
-  cancelBText: {
-    color: theme.colors.textOnPrimary,
-    fontWeight: "700",
-    textAlign: "center",
-  }
-  ,
-
-  errorText: {
-    fontWeight: "700",
-    color: theme.colors.error,
-    fontSize: 16,
-    marginTop: theme.spacing.sm,
-    textAlign: "center",
-  },
-
-  stars: {
-    flexDirection: "row",
-    marginBottom: theme.spacing.xl,
-  },
-
-  buttons: {
-    flexDirection: "row",
-    gap: theme.spacing.md,
-  },
-
-  sendButton: {
-    backgroundColor: theme.colors.primary,
-    padding: theme.spacing.md,
-    borderRadius: theme.radius.md,
-  },
-
-  sendText: {
-    color: theme.colors.textOnPrimary,
-    fontWeight: "700",
-    textAlign: "center",
-  },
-
-  successMessage: {
-    color: theme.colors.success,
-    fontWeight: "700",
-    fontSize: 18,
-    textAlign: "center",
-  },
-
-  warningMessage: {
-    color: theme.colors.warning,
-    fontWeight: "700",
-    fontSize: 18,
-    textAlign: "center",
-  },
-
-  infoMessage: {
-    color: theme.colors.info,
-    fontWeight: "700",
-    fontSize: 18,
-    textAlign: "center",
-  },
-
-  filterRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: theme.spacing.xs,
-    gap: theme.spacing.sm,
-    marginBottom: theme.spacing.md,
-  },
-
-  filterButton: {
-    padding: theme.spacing.sm,
-    borderRadius: theme.radius.pill,
-    backgroundColor: theme.colors.surfaceAlt,
-    borderColor: theme.colors.border,
-    borderWidth: 1,
-  },
-
-  filterButtonActive: {
-    backgroundColor: theme.colors.primary,
-    borderColor: theme.colors.primaryLight,
-  }, 
+export const aboutStyles = StyleSheet.create({
   aboutScreen: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0,1)"
@@ -635,227 +356,117 @@ content: {
     fontSize: 15,
     lineHeight: 23,
   },
+});
 
-  formKeyboardView: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
+export const styles = StyleSheet.create({
+ 
+  // ─── Estrutura geral de tela ───────────────────────────────────────────────
+  container: { flex: 1, alignSelf: "stretch", alignItems: "center",minWidth: "70%", justifyContent: "center", padding: theme.spacing.lg, position: "relative" },
+  content: { flex: 1, zIndex: 1, alignSelf: "stretch", justifyContent: "center"  },
+  formKeyboardView: { flex: 1, backgroundColor: theme.colors.background },
+  formScreen: { flex: 1, backgroundColor: theme.colors.background },
 
-  formScreen: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
+  // ─── Inputs ───────────────────────────────────────────────────────────────
+  input: { height: 40, margin: 12, padding: 10, justifyContent: "center", alignSelf: "center",
+     minWidth: 50, maxWidth: "60%", borderWidth: 1, backgroundColor: theme.colors.surfaceLight,
+      borderColor: theme.colors.borderLight, color: theme.colors.textOnLight,
+       borderRadius: theme.radius.md, paddingVertical: theme.spacing.md,
+        paddingHorizontal: theme.spacing.lg, marginVertical: theme.spacing.sm },
+  registerInput: { width: "100%", minHeight: 16, backgroundColor: theme.colors.backgroundSoft,
+     borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.md,
+      paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.lg,
+       color: theme.colors.text, fontSize: 15 },
+  registerTextArea: { minHeight: 110, lineHeight: 22 },
+  oldTextInput: { width: "100%", minHeight: 16, backgroundColor: theme.colors.backgroundSoft,
+     borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.md, textAlign: "center",
+      paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.lg, marginTop: 5,
+       color: theme.colors.textSecondary, fontSize: 12 },
+  oldTextArea: { minHeight: 48, lineHeight: 16 },
 
-  formContent: {
-    padding: theme.spacing.lg,
-    paddingBottom: theme.spacing.xxl,
-    gap: theme.spacing.lg,
-  },
+  // ─── Textos genéricos e mensagens ─────────────────────────────────────────
+  welcomeMsg: { fontWeight: "900", fontSize: 20, fontFamily: "sans-serif", 
+    color: theme.colors.text, textAlign: "center" },
+  errorMessage: { fontWeight: "700", color: theme.colors.error, fontSize: 20, 
+    textAlign: "center" },
+  errorText: { fontWeight: "700", color: theme.colors.error, fontSize: 16, marginTop: theme.spacing.sm, textAlign: "center" },
+  successMessage: { color: theme.colors.success, fontWeight: "700", fontSize: 18, textAlign: "center" },
+  warningMessage: { color: theme.colors.warning, fontWeight: "700", fontSize: 18, textAlign: "center" },
+  infoMessage: { color: theme.colors.text, fontWeight: "700", fontSize: 18, textAlign: "center" },
+  title: { fontSize: 18, marginBottom: theme.spacing.lg, fontWeight: "700", color: theme.colors.textOnLight, textAlign: "center" },
+  fileName: { color: theme.colors.primaryDark, fontStyle: "italic", marginVertical: theme.spacing.md },
+  usernameText: {color: theme.colors.textOnLight, fontWeight: "700", textAlign: "center",},
 
-  formHeader: {
-    backgroundColor: theme.colors.surface,
-    borderColor: theme.colors.border,
-    borderWidth: 1,
-    borderRadius: theme.radius.xl,
-    padding: theme.spacing.xl,
-    gap: theme.spacing.md,
-    ...theme.shadows.card,
-  },
+  // ─── Botões genéricos ──────────────────────────────────────────────────────
+  button: { backgroundColor: theme.colors.primary, borderWidth: 1, alignSelf: "center", 
+    borderColor: theme.colors.primaryDark, borderRadius: theme.radius.md,
+     paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.lg },
+  buttonText: { color: theme.colors.textOnPrimary, fontWeight: "700", textAlign: "center" },
+  cancelButton: { alignSelf: "center",padding: theme.spacing.md,  marginTop: theme.spacing.sm, backgroundColor: theme.colors.backgroundSoft, borderRadius: theme.radius.md, paddingVertical: theme.spacing.sm, paddingHorizontal: theme.spacing.md, minWidth: 50 },
+  cancelBText: { color: theme.colors.textOnPrimary, fontWeight: "700", textAlign: "center" },
+  sendButton: { backgroundColor: theme.colors.primary, padding: theme.spacing.md, borderRadius: theme.radius.md },
+  sendText: { color: theme.colors.textOnPrimary, fontWeight: "700", textAlign: "center" },
+  smallButton: { backgroundColor: theme.colors.primary, borderRadius: theme.radius.sm,
+     paddingVertical: theme.spacing.xs, paddingHorizontal: theme.spacing.xs, minWidth: "5%" },
+  buttonRow: { flexDirection: "row", gap: 5 },
+  buttonColumn: { flexDirection: "column", gap: 5 },
+  buttons: { flexDirection: "row", gap: theme.spacing.md },
 
-  formHeaderIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: theme.radius.lg,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: theme.colors.surfaceAlt,
-    borderColor: theme.colors.border,
-    borderWidth: 1,
-  },
+  // ─── Cards e listas de status ──────────────────────────────────────────────
+  list: { width: "100%", flex: 1, justifyContent: "flex-start", paddingHorizontal: theme.spacing.xs },
+  card: {backgroundColor: theme.colors.surface, borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.lg,
+    padding: theme.spacing.sm, marginVertical: theme.spacing.xs, width: "100%", minHeight: 20,
+    flexDirection: "row", justifyContent: "center", alignItems: "center",
+    ...theme.shadows.card,},
+  id: { fontSize: 12, fontWeight: "700", color: theme.colors.text },
+  status: { fontSize: 14, color: theme.colors.accent, fontWeight: "600" },
+  message: { marginTop: theme.spacing.sm, fontSize: 13, color: theme.colors.textSecondary },
+  detailsText: { marginTop: theme.spacing.xs, fontSize: 10, color: theme.colors.textSecondary },
+  stars: { flexDirection: "row", marginBottom: theme.spacing.xl },
+  listContainer: {alignSelf: "stretch", },
 
-  formTitle: {
-    color: theme.colors.text,
-    fontSize: 26,
-    lineHeight: 33,
-    fontWeight: "900",
-  },
+  // ─────────────────────── listas ───────────────────────
+  userDetails: { padding: theme.spacing.xs, width: "100%",  minHeight: 12, flexDirection: "row",
+    justifyContent: "center",  alignItems: "center", borderBottomWidth: 1, borderEndWidth: 0,
+    borderColor: theme.colors.border,},
+  left: {  alignItems: "flex-start", marginRight: 10, flex:1  },
+  right: {    alignItems: "flex-end",   marginLeft: 10,   gap: theme.spacing.xs,  },
+  titleRow: { flexDirection: "row", alignItems: "center", gap: theme.spacing.xs },
+  detailsSeparator: { width: "100%", height: 1, backgroundColor: "rgba(63, 43, 84, 0.2)", marginVertical: 12 },
 
-  formSubtitle: {
-    color: theme.colors.textSecondary,
-    fontSize: 15,
-    lineHeight: 23,
-  },
+  // ─── Filtros ───────────────────────────────────────────────────────────────
+  filterRow: { flexDirection: "row", alignSelf: "center", alignItems: "center", paddingHorizontal: theme.spacing.xs, gap: theme.spacing.sm, marginBottom: theme.spacing.md },
+  filterButton: { padding: theme.spacing.sm, borderRadius: theme.radius.pill, backgroundColor: theme.colors.surfaceAlt, borderColor: theme.colors.border, borderWidth: 1 },
+  filterButtonActive: { backgroundColor: theme.colors.primary, borderColor: theme.colors.primaryLight },
 
-  formSection: {
-    backgroundColor: theme.colors.surface,
-    borderColor: theme.colors.border,
-    borderWidth: 1,
-    borderRadius: theme.radius.xl,
-    padding: theme.spacing.lg,
-    gap: theme.spacing.md,
-  },
+  // ─── Modal genérica ────────────────────────────────────────────────────────
+  overlay: { flex: 1, backgroundColor: theme.colors.overlay, alignItems: "center", justifyContent: "center" },
+  boxContainer: {minWidth:"30%", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, justifyContent: "space-evenly", alignItems: "center", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
+  boxContent: {display: 'flex', flexWrap: 'wrap', alignSelf: "stretch", justifyContent: "space-around", flexDirection:"row", alignItems: "center",},
 
-  formSectionTitle: {
-    color: theme.colors.text,
-    fontSize: 19,
-    fontWeight: "900",
-  },
-
-  formSectionDescription: {
-    color: theme.colors.textSecondary,
-    fontSize: 14,
-    lineHeight: 21,
-    marginTop: -theme.spacing.xs,
-  },
-
-  formField: {
-    width: "100%",
-    gap: theme.spacing.xs,
-  },
-
-  formLabel: {
-    color: theme.colors.text,
-    fontSize: 14,
-    fontWeight: "700",
-  },
-
-  formRequiredMark: {
-    color: theme.colors.accent,
-    fontWeight: "900",
-  },
-
-  registerInput: {
-    width: "100%",
-    minHeight: 48,
-    backgroundColor: theme.colors.backgroundSoft,
-    borderColor: theme.colors.border,
-    borderWidth: 1,
-    borderRadius: theme.radius.md,
-    paddingVertical: theme.spacing.md,
-    paddingHorizontal: theme.spacing.lg,
-    color: theme.colors.text,
-    fontSize: 15,
-  },
-
-  registerTextArea: {
-    minHeight: 110,
-    lineHeight: 22,
-  },
-
-  formRow: {
-    width: "100%",
-    flexDirection: "row",
-    gap: theme.spacing.md,
-  },
-
-  formHalf: {
-    flex: 1,
-    minWidth: 130,
-  },
-
-  formSwitchRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    gap: theme.spacing.md,
-    backgroundColor: theme.colors.backgroundSoft,
-    borderColor: theme.colors.border,
-    borderWidth: 1,
-    borderRadius: theme.radius.lg,
-    padding: theme.spacing.md,
-  },
-
-  formSwitchTextBox: {
-    flex: 1,
-    gap: theme.spacing.xs,
-  },
-
-  formSwitchTitle: {
-    color: theme.colors.text,
-    fontSize: 14,
-    fontWeight: "800",
-  },
-
-  formSwitchDescription: {
-    color: theme.colors.textSecondary,
-    fontSize: 13,
-    lineHeight: 19,
-  },
-
-  formError: {
-    color: theme.colors.error,
-    fontSize: 15,
-    fontWeight: "800",
-    textAlign: "center",
-    backgroundColor: theme.colors.backgroundSoft,
-    borderColor: theme.colors.error,
-    borderWidth: 1,
-    borderRadius: theme.radius.lg,
-    padding: theme.spacing.md,
-  },
-
-  formSuccess: {
-    color: theme.colors.success,
-    fontSize: 15,
-    fontWeight: "800",
-    textAlign: "center",
-    backgroundColor: theme.colors.backgroundSoft,
-    borderColor: theme.colors.success,
-    borderWidth: 1,
-    borderRadius: theme.radius.lg,
-    padding: theme.spacing.md,
-  },
-
-  formActions: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-end",
-    gap: theme.spacing.md,
-  },
-
-  formPrimaryButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: theme.spacing.sm,
-    backgroundColor: theme.colors.primary,
-    borderColor: theme.colors.primaryLight,
-    borderWidth: 1,
-    borderRadius: theme.radius.md,
-    paddingVertical: theme.spacing.md,
-    paddingHorizontal: theme.spacing.xl,
-  },
-
-  formPrimaryButtonDisabled: {
-    opacity: 0.6,
-  },
-
-  formButtonText: {
-    color: theme.colors.textOnPrimary,
-    fontSize: 15,
-    fontWeight: "900",
-  },
-
-  formSecondaryButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: theme.colors.backgroundSoft,
-    borderColor: theme.colors.border,
-    borderWidth: 1,
-    borderRadius: theme.radius.md,
-    paddingVertical: theme.spacing.md,
-    paddingHorizontal: theme.spacing.xl,
-  },
-
-  formSecondaryButtonText: {
-    color: theme.colors.text,
-    fontSize: 15,
-    fontWeight: "800",
-  },
-  detailsSeparator: {
-  width: "100%",
-  height: 1,
-  backgroundColor: "rgba(63, 43, 84, 0.2)",// jacarte-color
-  marginVertical: 12,
-},
-
+  // ─── Formulários ───────────────────────────────────────────────────────────
+  formContent: { padding: theme.spacing.lg, paddingBottom: theme.spacing.xxl, gap: theme.spacing.lg },
+  formHeader: { backgroundColor: theme.colors.surface, borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.xl, padding: theme.spacing.xl, gap: theme.spacing.md, ...theme.shadows.card },
+  formHeaderIcon: { width: 50, height: 50, borderRadius: theme.radius.lg, alignItems: "center", justifyContent: "center", backgroundColor: theme.colors.surfaceAlt, borderColor: theme.colors.border, borderWidth: 1 },
+  formTitle: { color: theme.colors.text, fontSize: 26, lineHeight: 33, fontWeight: "900" },
+  formSubtitle: { color: theme.colors.textSecondary, fontSize: 15, lineHeight: 23 },
+  formSection: { backgroundColor: theme.colors.surface, borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.xl, padding: theme.spacing.lg, gap: theme.spacing.md },
+  formSectionTitle: { color: theme.colors.text, fontSize: 19, fontWeight: "900" },
+  formSectionDescription: { color: theme.colors.textSecondary, fontSize: 14, lineHeight: 21, marginTop: -theme.spacing.xs },
+  formField: { width: "100%", gap: theme.spacing.xs },
+  formLabel: { color: theme.colors.text, fontSize: 14, fontWeight: "700" },
+  formRequiredMark: { color: theme.colors.accent, fontWeight: "900" },
+  formRow: { width: "100%", flexDirection: "row", gap: theme.spacing.md },
+  formHalf: { flex: 1, minWidth: 130 },
+  formSwitchRow: { flexDirection: "row", alignItems: "flex-start", gap: theme.spacing.md, backgroundColor: theme.colors.backgroundSoft, borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.lg, padding: theme.spacing.md },
+  formSwitchTextBox: { flex: 1, gap: theme.spacing.xs },
+  formSwitchTitle: { color: theme.colors.text, fontSize: 14, fontWeight: "800" },
+  formSwitchDescription: { color: theme.colors.textSecondary, fontSize: 13, lineHeight: 19 },
+  formError: { color: theme.colors.error, fontSize: 15, fontWeight: "800", textAlign: "center", backgroundColor: theme.colors.backgroundSoft, borderColor: theme.colors.error, borderWidth: 1, borderRadius: theme.radius.lg, padding: theme.spacing.md },
+  formSuccess: { color: theme.colors.success, fontSize: 15, fontWeight: "800", textAlign: "center", backgroundColor: theme.colors.backgroundSoft, borderColor: theme.colors.success, borderWidth: 1, borderRadius: theme.radius.lg, padding: theme.spacing.md },
+  formActions: { flexDirection: "row", flexWrap: "wrap", justifyContent: "flex-end", gap: theme.spacing.md },
+  formPrimaryButton: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: theme.spacing.sm, backgroundColor: theme.colors.primary, borderColor: theme.colors.primaryLight, borderWidth: 1, borderRadius: theme.radius.md, paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.xl },
+  formPrimaryButtonDisabled: { opacity: 0.6 },
+  formButtonText: { color: theme.colors.textOnPrimary, fontSize: 15, fontWeight: "900" },
+  formSecondaryButton: { alignItems: "center", justifyContent: "center", backgroundColor: theme.colors.backgroundSoft, borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.md, paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.xl },
+  formSecondaryButtonText: { color: theme.colors.text, fontSize: 15, fontWeight: "800" },
 });

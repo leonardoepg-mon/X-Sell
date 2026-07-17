@@ -44,10 +44,10 @@ export default function StatusScreen() {
         </Pressable>
       )}
       {showStatus && <StatusList database={database} refresh={handleStatusSearch}/>}
-      <View style={styles.buttonRow}>
+      <View style={{...styles.buttonRow, justifyContent: showStatus? "flex-end": "center"}}>
   <Pressable
     style={styles.button}
-    onPress={() => {setUploadVisible(true);
+    onPress={() => {setUploadVisible(true); 
         }}
   > 
     <Text selectable={false} style={styles.buttonText}>

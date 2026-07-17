@@ -54,7 +54,7 @@ export function UploadDialog({
     <>
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
-        <View style={styles.box}>
+        <View style={styles.boxContainer}>
           <Text style={styles.title}>
             {!admin ? isReupload ? "Reenviar documento" : "Subir documento": "Subir documento"}
           </Text>

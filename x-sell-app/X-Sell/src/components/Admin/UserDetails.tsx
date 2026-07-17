@@ -52,7 +52,7 @@ export function UserDetailsBox({
       onRequestClose={onClose}
     >
       <View style={styles.overlay}>
-        <View style={styles.box}>
+        <View style={styles.boxContainer}>
           <View style={styles.boxContent}>
             {isLoading && 
             <Text style={{alignContent:"center", ...styles.buttonText}}> Carregando... </Text>}
@@ -70,8 +70,8 @@ export function UserDetailsBox({
                         size={18}
                         color={item.admin? "#16be2c": "#3894d1" }
                       />
-                        <Text style={styles.id}>{item.id}</Text>
-                        <Text style={styles.aboutBadgeText}>{item.nomeContato}</Text>
+                        <Text style={styles.buttonText}>{item.id}</Text>
+                        <Text style={styles.usernameText}>{item.nomeContato}</Text>
                       </View>
                     </View>
           

@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Text, Pressable } from "react-native";
+import { Text, Pressable, View } from "react-native";
 
 import { useAuth } from "@/contexts/authContext";
 
@@ -17,9 +17,10 @@ export default function Index() {
         router.replace("/login");
   }//good
 
-  return (
+  return ( 
     <>
-    <AppBackground>
+    <AppBackground>  
+      <View style={{flexDirection:"column", alignContent: "center",}}>
       <Text style={styles.welcomeMsg} > Bem-vindo de volta, {username}! </Text>
       <Pressable style={styles.button} onPress={() => router.navigate("/about")}>
         <Text selectable={false} style={styles.buttonText} > Sobre </Text>
@@ -30,6 +31,7 @@ export default function Index() {
       <Pressable style={styles.cancelButton} onPress={OnPressLogout}>
         <Text selectable={false} style={styles.cancelBText} > Fechar sessão </Text>
       </Pressable>
+      </View>
     </AppBackground>
     </>
   );

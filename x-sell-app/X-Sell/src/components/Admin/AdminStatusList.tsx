@@ -66,7 +66,7 @@ export function StatusList({
 ] as const;
   
   return (<>
-    <View style={{flex:1}}>
+    <View style={styles.container}>
       <View style={styles.filterRow}>
   <Pressable onPress={() => setSelectedIcon(null)}>
     <MaterialIcons name="list" 
@@ -90,6 +90,7 @@ export function StatusList({
 </View>
     <FlatList
       data={filteredDatabase}
+      style={styles.listContainer}
       keyExtractor={(item) => item.id.toString()}
       contentContainerStyle={styles.list}
       renderItem={({ item }) => (

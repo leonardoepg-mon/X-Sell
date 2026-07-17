@@ -19,6 +19,7 @@ export function AppBackground({ children }: PropsWithChildren) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    alignContent: "stretch",
 
     // É opaco de propósito, para esconder a tela anterior do Stack.
     backgroundColor: theme.colors.background,
@@ -26,7 +27,8 @@ const styles = StyleSheet.create({
 
   content: {
     flex: 1,
-    alignItems: "center",
+    alignSelf: "center",
+    width:"80%",
     justifyContent: "center",
     padding: theme.spacing.lg,
   },

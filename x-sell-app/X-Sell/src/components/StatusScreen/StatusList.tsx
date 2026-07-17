@@ -87,7 +87,7 @@ export function StatusList({
 }
 
   return <>
-    <View style={{flex:1, flexGrow:1}}> 
+    <View style={styles.container}> 
       <View style={styles.filterRow}>
   <Pressable onPress={() => setSelectedIcon(null)}>
     <MaterialIcons name="list" 
@@ -108,9 +108,10 @@ export function StatusList({
       />
     </Pressable>
   ))}
-</View>
+    </View>
     <FlatList
       data={filteredDatabase}
+      style={styles.listContainer}
       keyExtractor={(item) => item.id.toString()}
       contentContainerStyle={styles.list}
       renderItem={({ item }) => (
@@ -160,7 +161,6 @@ export function StatusList({
   loading={loadingDetails}
   onClose={() => {
     setDetailsVisible(false);
-    setSelectedItem(null);
     refresh?.();
   }}
   refresh={() => {handleDetailsPress(Number(selectedItem?.id_item));

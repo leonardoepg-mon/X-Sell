@@ -19,7 +19,7 @@ export function DownloadDialog({
     <>
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
-        <View style={styles.box}>
+        <View style={styles.boxContainer}>
           
               <Text style={styles.fileName}>{fileName}</Text>
               

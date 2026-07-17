@@ -54,10 +54,10 @@ export default function AdminStatusList() {
       )}
       {showStatus && <StatusList database={database}
       refresh={handleStatusSearch}/>}
-      <View style={styles.buttonRow}>
+      <View style={showStatus? {...styles.buttonRow, justifyContent:  "flex-end"}:{...styles.buttonColumn, justifyContent: "center"}}>
   {showStatus && (
     <Pressable
-      style={styles.button}
+      style={styles.button} 
       onPress={handleStatusSearch}
     >
       <Text selectable={false} style={styles.buttonText}>
@@ -65,7 +65,6 @@ export default function AdminStatusList() {
       </Text>
     </Pressable>
   )}
-  
   <Pressable style={styles.button} onPress={() => {setUsersVisible(true);}}>
         <Text selectable={false} style={styles.buttonText} > Gerenciar usuários </Text>
       </Pressable>

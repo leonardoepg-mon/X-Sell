@@ -30,6 +30,7 @@ async function OnPressLogin() {
   return (
     <>
     <AppBackground>
+      <View style={{marginTop: "10%", ...styles.container}}>
       <TextInput style= {styles.input} onChangeText={setUsername}
                  value={username}
                  placeholder="Nome"/>
@@ -37,7 +38,7 @@ async function OnPressLogin() {
                  value={password}
                  secureTextEntry={true}
                  placeholder="Senha"/>
-                  <Pressable
+      <Pressable
                 style={styles.button}
                 onPress={OnPressLogin}>
         <Text selectable={false} style={styles.buttonText} > Login </Text>
@@ -49,6 +50,7 @@ async function OnPressLogin() {
       <Pressable style={styles.button} onPress={() => router.navigate("/about")}>
         <Text selectable={false} style={styles.buttonText} > Sobre </Text>
       </Pressable>
+      </View>
     </AppBackground>
     <MessageDialog/>
   </>

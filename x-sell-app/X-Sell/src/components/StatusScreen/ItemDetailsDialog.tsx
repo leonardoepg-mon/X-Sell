@@ -108,7 +108,7 @@ export function ItemDetailsDialog({
       onRequestClose={onClose}
     >
       <View style={styles.overlay}>
-        <View style={styles.box}>
+        <View style={styles.boxContainer}>
           <Text style={styles.title}>Detalhes do processo</Text>
 
           {loading && (
@@ -340,7 +340,7 @@ export function ItemDetailsDialog({
             </View>
           )}
 
-          {!loading && !item && (
+          {!loading && !item && visible && (
             <Text style={styles.message}>
               Não foi possível obter os detalhes.
             </Text>

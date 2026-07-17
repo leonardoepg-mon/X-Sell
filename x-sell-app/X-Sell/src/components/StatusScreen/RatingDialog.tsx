@@ -49,7 +49,7 @@ export function RatingDialog({
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
-        <View style={styles.box}>
+        <View style={styles.boxContainer}>
           { !rated &&
           <>
           <Text style={styles.title}>Avalie o resultado</Text>
@@ -64,8 +64,7 @@ export function RatingDialog({
                   style={[styles.registerInput, styles.registerTextArea]}
                 />
               </View>
-            </>}
-          <View style={styles.stars}>
+              <View style={styles.stars}>
             {[1, 2, 3, 4, 5].map((star) => (
               <Pressable disabled= {admin} key={star} onPress={() => setRating(star)}>
                 <MaterialIcons
@@ -76,6 +75,7 @@ export function RatingDialog({
               </Pressable>
             ))}
           </View>
+            </>}
           { !rated &&
           <View style={styles.buttonRow}>
             <Pressable style={styles.sendButton} onPress={submitRating} disabled={rating <0  || rating>5}> 
@@ -89,25 +89,26 @@ export function RatingDialog({
           
           { rated && 
           <>{  !admin &&
+            <>
+            <Text style={styles.title}> Mude sua avaliação </Text>
           <View style={styles.formField}>
             <TextInput
                   placeholder={"Sua opinião é sempre bem-vinda!"}
-                  placeholderTextColor={theme.colors.textOnPrimary}
+                  placeholderTextColor={theme.colors.textSecondary}
                   multiline={true}
                   numberOfLines={4}
                   textAlignVertical={"top"}
                   onChangeText={setReview}
                   style={[styles.registerInput, styles.registerTextArea]}
                 />
-              </View>}
-              <View style={styles.formField}></View>
+              </View> </>}
+              <View style={styles.formField}>
               <Text
                   selectable={false}
-                  numberOfLines={4}
-                  style={[styles.registerInput, styles.registerTextArea]}>
+                  style={[styles.oldTextInput, styles.oldTextArea]}>
                     {reviewedText}
                 </Text>
-              
+              </View>
           <View style={styles.buttonRow}>
             
             { !admin &&
