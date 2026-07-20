@@ -7,3 +7,4 @@ example_data
 # arquivos do VSCode
 .vscode
 *.zip
+.env.not

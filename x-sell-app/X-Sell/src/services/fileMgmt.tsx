@@ -8,7 +8,7 @@ import { authFetch } from "./jwtHandling";
 
 const localIP = process.env.EXPO_PUBLIC_XSELL_SERVER_URL;
 
-export async function handleUpload(document: DocumentPicker.DocumentPickerAsset | null, token?: string) {
+export async function handleUpload(document: DocumentPicker.DocumentPickerAsset | null, userId: number = 0, token?: string, ) {
   if (!document) {
     return {success: false, message: "Nenhum documento selecionado.", msgType: "info" };
   }
@@ -20,7 +20,8 @@ export async function handleUpload(document: DocumentPicker.DocumentPickerAsset 
     const blob = await file.blob();
 
     formData.append("uploadFile", blob, document.name);
-  
+    formData.append("userId", String(userId))// no caso do admin dar um usuário
+    
     const response = await authFetch(localIP + '/upload', {
       method: "POST",
       headers: token ? { Authorization: token } : undefined,

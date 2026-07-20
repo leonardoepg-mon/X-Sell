@@ -21,13 +21,15 @@ export function handleUpload(req, res)  {
   if (req.files && Object.keys(req.files).length !== 0) {
     const users = readCsv(usersPath);
     const db = readCsv(dbPath);
-    
     const uploadedFile = req.files.uploadFile;
     const username = res.locals.token.id;
-
-    const userId = users.find(
-      (user) => user.nome === username
+    let userId; 
+    console.log(req.body);
+    if (req.body.userId==="0") {
+    userId = users.find(
+      (user) => user.username === username
     ).id;
+    } else {userId = req.body.userId}
     //console.log(userId);
 
     //console.log("upload by user", username, ", de id: ",  userId);
