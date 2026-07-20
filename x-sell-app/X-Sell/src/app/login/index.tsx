@@ -30,7 +30,7 @@ async function OnPressLogin() {
   return (
     <>
     <AppBackground>
-      <View style={{marginTop: "10%", ...styles.container}}>
+      <View style={{ ...styles.container, alignSelf: "center"}}>
       <TextInput style= {styles.input} onChangeText={setUsername}
                  value={username}
                  placeholder="Nome"/>

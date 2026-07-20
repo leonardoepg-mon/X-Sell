@@ -50,7 +50,7 @@ export function RatingDialog({
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.boxContainer}>
-          { !rated &&
+          { !rated && !admin &&
           <>
           <Text style={styles.title}>Avalie o resultado</Text>
           <View style={styles.formField}>
@@ -76,19 +76,8 @@ export function RatingDialog({
             ))}
           </View>
             </>}
-          { !rated &&
-          <View style={styles.buttonRow}>
-            <Pressable style={styles.sendButton} onPress={submitRating} disabled={rating <0  || rating>5}> 
-              <Text style={styles.sendText}>Enviar</Text>
-            </Pressable>
-            <Pressable style={styles.cancelButton} onPress={onClose}>
-              <Text style={styles.cancelBText}>Cancelar</Text>
-            </Pressable>
-          </View>
-          }
           
-          { rated && 
-          <>{  !admin &&
+          { rated &&  !admin &&
             <>
             <Text style={styles.title}> Mude sua avaliação </Text>
           <View style={styles.formField}>
@@ -101,30 +90,37 @@ export function RatingDialog({
                   onChangeText={setReview}
                   style={[styles.registerInput, styles.registerTextArea]}
                 />
-              </View> </>}
+              </View> 
               <View style={styles.formField}>
               <Text
                   selectable={false}
                   style={[styles.oldTextInput, styles.oldTextArea]}>
                     {reviewedText}
                 </Text>
-              </View>
-          <View style={styles.buttonRow}>
-            
-            { !admin &&
+              </View></>
+          }
+
+          <View style={styles.buttonRow}>          
+            { !admin && rated &&
           <Pressable style={styles.sendButton} onPress={submitRating}>
               <Text style={styles.sendText}> Mudar Avaliação </Text>
               
             </Pressable>
           }
+          { !admin && !rated &&<>
+            <Pressable style={styles.sendButton} onPress={submitRating} disabled={rating <0  || rating>5}> 
+              <Text style={styles.sendText}>Enviar</Text>
+            </Pressable>
+          </>
+          }
             <Pressable style={styles.cancelButton} onPress={onClose}>
               <Text style={styles.cancelBText}>Fechar</Text>
             </Pressable>
           </View>
-          </>
-          }
+          
+        
         </View>
-      </View>
+        </View>
     </Modal>
   );
 }

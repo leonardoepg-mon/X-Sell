@@ -393,7 +393,7 @@ export const styles = StyleSheet.create({
   warningMessage: { color: theme.colors.warning, fontWeight: "700", fontSize: 18, textAlign: "center" },
   infoMessage: { color: theme.colors.text, fontWeight: "700", fontSize: 18, textAlign: "center" },
   title: { fontSize: 18, marginBottom: theme.spacing.lg, fontWeight: "700", color: theme.colors.textOnLight, textAlign: "center" },
-  fileName: { color: theme.colors.primaryDark, fontStyle: "italic", marginVertical: theme.spacing.md },
+  fileName: { alignSelf: "center", color: theme.colors.primaryDark, fontStyle: "italic", marginVertical: theme.spacing.md },
   usernameText: {color: theme.colors.textOnLight, fontWeight: "700", textAlign: "center",},
 
   // ─── Botões genéricos ──────────────────────────────────────────────────────
@@ -407,31 +407,32 @@ export const styles = StyleSheet.create({
   sendText: { color: theme.colors.textOnPrimary, fontWeight: "700", textAlign: "center" },
   smallButton: { backgroundColor: theme.colors.primary, borderRadius: theme.radius.sm,
      paddingVertical: theme.spacing.xs, paddingHorizontal: theme.spacing.xs, minWidth: "5%" },
-  buttonRow: { flexDirection: "row", gap: 5 },
-  buttonColumn: { flexDirection: "column", gap: 5 },
+  buttonRow: { flexDirection: "row", gap: 5, alignSelf: "center" },
+  buttonColumn: { flexDirection: "column", gap: 5, },
   buttons: { flexDirection: "row", gap: theme.spacing.md },
 
   // ─── Cards e listas de status ──────────────────────────────────────────────
   list: { width: "100%", flex: 1, justifyContent: "flex-start", paddingHorizontal: theme.spacing.xs },
   card: {backgroundColor: theme.colors.surface, borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.lg,
     padding: theme.spacing.sm, marginVertical: theme.spacing.xs, width: "100%", minHeight: 20,
-    flexDirection: "row", justifyContent: "center", alignItems: "center",
+    flexDirection: "row", justifyContent: "space-between", alignItems: "center",
     ...theme.shadows.card,},
   id: { fontSize: 12, fontWeight: "700", color: theme.colors.text },
   status: { fontSize: 14, color: theme.colors.accent, fontWeight: "600" },
   message: { marginTop: theme.spacing.sm, fontSize: 13, color: theme.colors.textSecondary },
   detailsText: { marginTop: theme.spacing.xs, fontSize: 10, color: theme.colors.textSecondary },
-  stars: { flexDirection: "row", marginBottom: theme.spacing.xl },
+  stars: { flexDirection: "row", marginBottom: theme.spacing.xl, justifyContent: "center" },
   listContainer: {alignSelf: "stretch", },
 
   // ─────────────────────── listas ───────────────────────
-  userDetails: { padding: theme.spacing.xs, width: "100%",  minHeight: 12, flexDirection: "row",
-    justifyContent: "center",  alignItems: "center", borderBottomWidth: 1, borderEndWidth: 0,
+  userDetails: { flexDirection: "row", padding: theme.spacing.xs, width: "100%",  minHeight: 12,
+    justifyContent: "space-between",  alignItems: "stretch", borderBottomWidth: 1, borderEndWidth: 0,
     borderColor: theme.colors.border,},
-  left: {  alignItems: "flex-start", marginRight: 10, flex:1  },
-  right: {    alignItems: "flex-end",   marginLeft: 10,   gap: theme.spacing.xs,  },
-  titleRow: { flexDirection: "row", alignItems: "center", gap: theme.spacing.xs },
+  left: {  justifyContent: "center", marginRight: 10, gap: theme.spacing.xs, },
+  right: {    justifyContent: "center",   marginLeft: 10,   gap: theme.spacing.xs,  },
+  titleRow: { flexDirection: "row", gap: theme.spacing.sm },
   detailsSeparator: { width: "100%", height: 1, backgroundColor: "rgba(63, 43, 84, 0.2)", marginVertical: 12 },
+  detailCategory: { flexDirection: "row", justifyContent: "space-between"},
 
   // ─── Filtros ───────────────────────────────────────────────────────────────
   filterRow: { flexDirection: "row", alignSelf: "center", alignItems: "center", paddingHorizontal: theme.spacing.xs, gap: theme.spacing.sm, marginBottom: theme.spacing.md },
@@ -439,9 +440,9 @@ export const styles = StyleSheet.create({
   filterButtonActive: { backgroundColor: theme.colors.primary, borderColor: theme.colors.primaryLight },
 
   // ─── Modal genérica ────────────────────────────────────────────────────────
-  overlay: { flex: 1, backgroundColor: theme.colors.overlay, alignItems: "center", justifyContent: "center" },
-  boxContainer: {minWidth:"30%", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, justifyContent: "space-evenly", alignItems: "center", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
-  boxContent: {display: 'flex', flexWrap: 'wrap', alignSelf: "stretch", justifyContent: "space-around", flexDirection:"row", alignItems: "center",},
+  overlay: { flex: 1 , backgroundColor: theme.colors.overlay, alignItems: "center", justifyContent: "center" },
+  boxContainer: { minWidth:"30%", display: "flex", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, justifyContent: "center", alignItems: "stretch", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
+  boxContent: {flexDirection: 'column', alignItems: "stretch", justifyContent: "space-around",},
 
   // ─── Formulários ───────────────────────────────────────────────────────────
   formContent: { padding: theme.spacing.lg, paddingBottom: theme.spacing.xxl, gap: theme.spacing.lg },

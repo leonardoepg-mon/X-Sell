@@ -70,14 +70,22 @@ export function ItemDetailsDialog({
     const [uploadVisible, setUploadVisible] = useState(false);
     const [downloadVisible, setDownloadVisible] = useState(false);
     const [commentVisible, setCommentVisible] = useState(false);
+    const [isInputDownload, setInputDownload] = useState(false);
     const [fileName, setFileName] = useState("");
     const {showMessage, MessageDialog} = useMessageDialog();
   
     async function confirmDownload() {   
-          const response = isAdmin? await StApiAdmin.handleDownload(Number(item?.id_item) ?? 0): await handleDownload(Number(item?.id_item) ?? 0);
+          const response = await handleDownload(Number(item?.id_item) ?? 0);
                 showMessage({message : response.message,
                   msgType: response.msgType as MsgType})
     }
+
+    async function confirmDownloadAdmin() {   
+          const response = await StApiAdmin.handleDownload(Number(item?.id_item) ?? 0);
+                showMessage({message : response.message,
+                  msgType: response.msgType as MsgType})
+    }
+  
   
     async function handleStatusSet(statusTo: number) {
       const response = await StApiAdmin.statusSet(Number(item?.id_item ) , statusTo);
@@ -89,14 +97,15 @@ export function ItemDetailsDialog({
     const buttonTasks = {
       admin: {onPressRating: () => { setRatingVisible(true); }, //ok
               onPressUpload: () => { setUploadVisible(true); }, //ok, uploadDialog handles it
-              onPressDownload: () => {setFileName(item?.inputName || "");setDownloadVisible(true);},  //OK
+              onPressDownloadInput: () => {setFileName(item?.inputName || "");setInputDownload(true);setDownloadVisible(true);},  //OK
+              onPressDownload: () => {setFileName(item?.inputName || "");setInputDownload(false);setDownloadVisible(true);},  //OK
               onPressSubmit:() => { handleStatusSet(3);},
               onPressAccept: () => {handleStatusSet(1);},
               onPressReject: () => {setCommentVisible(true);},
               onPressStart: ()=> {handleStatusSet( 2)}},
       user: {onPressRating:() => {setRatingVisible(true); },
               onPressReupload: () => {setUploadVisible(true);},
-              onPressDownload:() => {setFileName(item?.outputName || "");setDownloadVisible(true);}}
+              onPressDownload:() => {setFileName(item?.outputName || "");setInputDownload(false);setDownloadVisible(true);}}
     }
 
   return (
@@ -122,7 +131,8 @@ export function ItemDetailsDialog({
               <Text style={styles.status}>
                 Processo #{item.id_item}
               </Text>
-              <View style={{flexDirection: "row"}}>
+              <Separator/>
+              <View style={styles.detailCategory}>
               <View style={styles.left}>
                 <View style={styles.formField}>
                   <Text style={styles.detailsText}>
@@ -144,9 +154,9 @@ export function ItemDetailsDialog({
                 </View>
               </View >
                 <View style={styles.right}>
-                  <View style={styles.buttonColumn}> 
+                  <View style={styles.buttonRow}> 
                     {(isAdmin && item.status !== "-1") && (<>
-                                  <Pressable style={styles.smallButton} onPress={ async () => buttonTasks.admin.onPressDownload() }>
+                                  <Pressable style={styles.smallButton} onPress={ async () => buttonTasks.admin.onPressDownloadInput() }>
                                                   <MaterialIcons
                                                 name={"file-download"}
                                                 size={18}
@@ -161,7 +171,7 @@ export function ItemDetailsDialog({
                                   color={buttonColor}
                                 />
                                   </Pressable>
-                                  <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressReject() }> 
+                                  <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressReject() } accessibilityHint="Rejeitar arquivo"> 
                                     <MaterialIcons
                                   name={"thumb-down"}
                                   size={18}
@@ -186,7 +196,7 @@ export function ItemDetailsDialog({
             
               {Boolean(item.data_aceito) && (
                 <><Separator/>
-                <View style={{flexDirection: "row"}}>
+                <View style={styles.detailCategory}>
                   <View style={styles.left}>
                     <View style={styles.formField}>
                       <Text style={styles.detailsText}>
@@ -196,7 +206,7 @@ export function ItemDetailsDialog({
                     </View>
                   </View >
                   <View style={styles.right}>
-                    <View style={styles.buttonColumn}>
+                    <View style={styles.buttonRow}>
                       {(item.status === '1' && isAdmin) && (
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressStart() }>
                                 <MaterialIcons
@@ -215,7 +225,7 @@ export function ItemDetailsDialog({
 
               {Boolean(item.data_iniciado) && ( 
                 <><Separator/>
-                <View style={{flexDirection: "row"}}>
+                <View style={styles.detailCategory}>
                   <View style={styles.left}>
                     <View style={styles.formField}>
                       <Text style={styles.detailsText}>
@@ -232,7 +242,7 @@ export function ItemDetailsDialog({
                     </View>
                </View >
                   <View style={styles.right}>
-                    <View style={styles.buttonColumn}>
+                    <View style={styles.buttonRow}>
                       {(item.status === '2' && isAdmin) && ( <>
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressUpload() }>
                                 <MaterialIcons
@@ -241,7 +251,7 @@ export function ItemDetailsDialog({
                               color={buttonColor}
                             />
                               </Pressable>
-                              <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressSubmit() }>
+                              <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressSubmit() } disabled={item.outputName==""}>
                                 <MaterialIcons
                               name={"check-box"}
                               size={18}
@@ -258,7 +268,7 @@ export function ItemDetailsDialog({
 
               {Boolean(item.data_concluido) && (
                 <><Separator/>
-                <View style={{flexDirection: "row"}}>
+                <View style={styles.detailCategory}>
                   <View style={styles.left}>
                 <View style={styles.formField}>
                   <Text style={styles.detailsText}>
@@ -275,7 +285,7 @@ export function ItemDetailsDialog({
                                     </View>
                </View >
                   <View style={styles.right}>
-                    <View style={styles.buttonColumn}>
+                    <View style={styles.buttonRow}>
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.user.onPressDownload() }>
                                 <MaterialIcons
                               name={"file-download"}
@@ -301,7 +311,7 @@ export function ItemDetailsDialog({
 
               {Boolean(item.data_avaliado) && ( 
                 <><Separator/>
-                <View style={{flexDirection: "row"}}>
+                <View style={styles.detailCategory}>
                   <View style={styles.left}>
                     <View style={styles.formField}>
                       <Text style={styles.detailsText}>
@@ -321,7 +331,7 @@ export function ItemDetailsDialog({
                     </View>
                </View >
                   <View style={styles.right}>
-                    <View style={styles.buttonColumn}>
+                    <View style={styles.buttonRow}>
                       {(item.status === '4' && !isAdmin) && ( 
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.user.onPressRating() }>
                                 <MaterialIcons
@@ -375,7 +385,7 @@ export function ItemDetailsDialog({
   visible={downloadVisible}
   fileName={fileName}
   onClose={() => setDownloadVisible(false)}
-  onPressDownload={confirmDownload}/>
+  onPressDownload={isInputDownload? confirmDownloadAdmin: confirmDownload }/>
   <CommentDialog
   visible={commentVisible}
   id_item={Number(item?.id_item)}
