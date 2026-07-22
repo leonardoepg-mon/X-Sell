@@ -44,20 +44,18 @@ export function searchItems(req, res) {
         );}
     if (filteredDb.length > 0) {
     return res.json({success: true, message: "Itens obtidos com sucesso", msgType: "success", database: filteredDb});
-    } else {     console.log("6");
+    } else {
 return res.json({success: false, message: "Não há processos associados", msgType: "info", database: []}); }
 } } catch(err) { console.log(err);
   return res.json({success: false, message: err instanceof Error ? err.message : String(err), msgType: "error" , database: []});}
 }
 
 export function handleDetailSearch(req, res) {
-  try { //console.log("1");
+  try {
     const db = readCsv(dbPath);
-    //console.log(req.body);
     const itemMatch = db.find(
       (item) => item.id_item == req.body.id_item
     );
-    //console.log("itemMatch: ", itemMatch);
     if (itemMatch) {
     return res.json({success: true, message: "Item obtido com sucesso", msgType: "success", item: itemMatch})}
     else return res.json({success: false, message: "Não há processos associados", msgType: "info", item: null}); 
@@ -132,7 +130,7 @@ export async function handleStatusSet(req,res) {
               completedAt: db[processIdx].data_concluido,
             });
           } catch (mailError) {
-            console.error("Status atualizado, mas o e-mail de aviso de conclusão falhou:", mailError);
+            console.log("Status atualizado, mas o e-mail de aviso de conclusão falhou:", mailError);
             return res.json({
               success: true,
               message: "Processo concluído, mas o aviso por e-mail não foi enviado",
@@ -140,7 +138,7 @@ export async function handleStatusSet(req,res) {
             });
           }
         } else {
-          console.warn(`Processo ${id_item} concluído sem e-mail cadastrado para o cliente.`);
+          console.log(`Processo ${id_item} concluído sem envio de e-mail para o cliente.`);
         }
       }
 

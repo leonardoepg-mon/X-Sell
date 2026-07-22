@@ -1,7 +1,9 @@
 import fs from "fs";
 import path from "path";
-import * as csv from "csv/sync"
+import crypto from "crypto";
+import * as csv from "csv/sync";
 import { fileURLToPath } from "url";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,53 +19,60 @@ function getCurrentDate() {
   return new Date().toISOString();
 }
 
+function createSafeFileName(originalName) {
+  const baseName = path.basename(originalName);
+
+  const sanitizedName = baseName
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9._-]/g, "_")
+    .replace(/_+/g, "_");
+
+  return `${crypto.randomUUID()}_${sanitizedName}`;
+}
+
 export function handleUpload(req, res)  { 
   if (req.files && Object.keys(req.files).length !== 0) {
     const users = readCsv(usersPath);
     const db = readCsv(dbPath);
+
     const uploadedFile = req.files.uploadFile;
+    const storedFileName = createSafeFileName(uploadedFile.name);
+
     const username = res.locals.token.id;
     let userId; 
-    console.log(req.body);
     if (req.body.userId==="0") {
     userId = users.find(
       (user) => user.username === username
     ).id;
     } else {userId = req.body.userId}
-    //console.log(userId);
-
-    //console.log("upload by user", username, ", de id: ",  userId);
 
     console.log("Arquivo recebido: ", uploadedFile.name);
+    console.log("Arquivo armazenado como:", storedFileName);
 
     const uploadPath = path.join(
       rootPath,
       "data",
       "input",
-      uploadedFile.name
+      storedFileName
     );
-
     uploadedFile.mv(uploadPath, (err) => {
       if (err) {
         console.log(err);
         return res.json({success: false, message: "Falha no envio.", msgType: "warning"});
       }
-
-      console.log("Salvo em: ", uploadPath);
       const itemId = db.length + 1;// adicionar timestamp
-      db.push({id_item: db.length + 1 , status: "0", id_usuario:userId , inputName: uploadedFile.name , outputName: "", avaliacao:"-1", data_envio: getCurrentDate(),});
+      db.push({id_item: db.length + 1 , status: "0", id_usuario:userId , inputName: storedFileName, outputName: "", avaliacao:"-1", data_envio: getCurrentDate(),});
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));
         return res.json({success: true, message: "Recebido com sucesso.", msgType: "success"});
 
     });
   } else {
         return res.json({success: false, message: "Nenhum arquivo recebido!", msgType: "error"});
-
   }
 }
 
 export function handleDownload(req, res) {
-  //console.log("Protocolo: ", req.body.id_item);
   const db = readCsv(dbPath);
   
   const idx = db.findIndex(
@@ -87,20 +96,20 @@ export function handleReupload(req, res)  {
     const db = readCsv(dbPath);
     
     const uploadedFile = req.files.uploadFile;
+    const storedFileName = createSafeFileName(uploadedFile.name);
 
     const idx = db.findIndex(
     (row) => row.id_item == req.body.id_item
     );
 
-    //console.log("upload by user", username, ", de id: ",  userId);
-
     console.log("Re-upload de arquivo recebido: ", uploadedFile.name);
+    console.log("Arquivo armazenado como:", storedFileName);
 
     const uploadPath = path.join(
       rootPath,
       "data",
       "input",
-      uploadedFile.name
+      storedFileName
     );
 
     uploadedFile.mv(uploadPath, (err) => {
@@ -108,12 +117,10 @@ export function handleReupload(req, res)  {
         console.log(err);
         return res.json({success: false, message: "Falha no reenvio.", msgType: "error"});
       }
-
-      console.log("Salvo em: ", uploadPath);
       db[idx].id_item = req.body.id_item;
       db[idx].status = 0;// adicionar timestamp
       db[idx].data_envio = getCurrentDate();
-      db[idx].inputName = uploadedFile.name;
+      db[idx].inputName = storedFileName;
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true})); 
       return res.json({success: true, message: "Recebido com sucesso.", msgType: "success"});
     });
@@ -127,30 +134,29 @@ export function handleAdminUpload(req, res)  {
     const db = readCsv(dbPath);
     
     const uploadedFile = req.files.uploadFile;
+    const storedFileName = createSafeFileName(uploadedFile.name);
 
     const idx = db.findIndex(
     (row) => row.id_item == req.body.id_item
     );
 
-    
     console.log("Upload de analista recebido: ", uploadedFile.name);
+    console.log("Arquivo armazenado como:", storedFileName);
 
     const uploadPath = path.join(
       rootPath,
       "data",
       "output",
-      uploadedFile.name
+      storedFileName
     );
 
-    uploadedFile.mv(uploadPath, (err) => {
+    uploadedFile.mv(uploadPath, (err) => { 
       if (err) {
         console.log(err);
         return res.json({success: false, message: "Falha no envio.", msgType: "error"});
       }
-
-      console.log("Salvo em: ", uploadPath);
       db[idx].id_item = req.body.id_item;
-      db[idx].outputName = uploadedFile.name;
+      db[idx].outputName = storedFileName;
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true})); 
       return res.json({success: true, message: "Recebido com sucesso.", msgType: "success"});
     });

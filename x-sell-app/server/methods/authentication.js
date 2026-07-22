@@ -48,7 +48,6 @@ export async function handleRegister(req, res) {
   const userExists = users.some((user) => user.username === data.username);
 
   if (userExists) {
-    //console.log("Tentativa de criação de conta falhou.");
     return res.json({success: false, message: "Usuário já existe", msgType: "warning"});
   }
   if (process.env.EMAIL_USE === "true") {
@@ -63,7 +62,7 @@ export async function handleRegister(req, res) {
         username: data.username,
       });
     } catch (mailError) {
-      console.error("Tentativa de criar conta falhou:", mailError);
+      console.log("Tentativa de criar conta falhou:", mailError);
       return res.json({
         success: true,
         message: "Não foi possível criar a conta. Tente novamente mais tarde",
@@ -82,7 +81,7 @@ export async function handleRegister(req, res) {
     usersDetailed.push({...data, id});
     fs.writeFileSync(usersPath, csv.stringify(users, {header: true}));
     fs.writeFileSync(usersExpandedPath, JSON.stringify(usersDetailed, null, 2));
-    return res.json({success: true, message: "Cadastro enviado com sucesso. A equipe Fractals poderá avaliar o melhor caminho para sua empresa. Verifique seu e-mail.", msgType: "success"});
+    return res.json({success: true, message: "Cadastro enviado com sucesso. A equipe Fractals poderá avaliar o melhor caminho para sua empresa." + ( process.env.EMAIL_USE && " Verifique seu e-mail."), msgType: "success"});
   } catch (err) {
     console.log(err);
     return res.json({success: false, message: "Erro no servidor", msgType: "error"});
@@ -112,23 +111,17 @@ export function generateToken(body)  {
 export function verifyJWT(req, res, next) {
 
   const jwtSecretKey = process.env.JWT_SECRET_KEY;
-  //console.log(req.headers);
   const token = req.headers["authorization"];
   if (!token) return res.status(401).json({success: false, message: "Acesso negado.", msgType: "warning" });
-  
-  //token = req.headers["authorization"].replace("Bearer ", "");
-  //if (blacklist[token]) return res.status(403).json({ message: "Invalid token." });
- 
   try {
     const decoded = jwt.verify(token, jwtSecretKey);
-    //console.log(decoded);
     if (!decoded) return res.status(403).json({success: false, message: "Acesso negado", msgType: "warning"});
   
     res.locals.token = decoded;
     
     return next();
   } catch (err) {
-    //console.log(err);
+    console.log(err.message ?? err);
     return res.status(403).json({ success: false,  message: err instanceof Error ? err.message : String(err) , msgType: "error" });
   }
 }
@@ -143,7 +136,6 @@ export function setAdmin(req,res) {
   if (idx>0) {
    try {
     users[idx].admin = String(setTo);
-    console.log(users);
     fs.writeFileSync(usersPath, csv.stringify(users, {header: true}));
     return res.json({success: true, message: "Mudança de status registrada.", msgType: "success"});
   } catch (err) {

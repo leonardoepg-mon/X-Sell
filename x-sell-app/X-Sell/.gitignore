@@ -5,7 +5,7 @@
 
 # dependencies
 node_modules/
-.claude/
+.claude
 .vscode
 
 # Expo
