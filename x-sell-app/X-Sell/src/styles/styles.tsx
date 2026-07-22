@@ -380,7 +380,7 @@ export const styles = StyleSheet.create({
   oldTextInput: { width: "100%", minHeight: 16, backgroundColor: theme.colors.backgroundSoft,
      borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.md, textAlign: "center",
       paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.lg, marginTop: 5,
-       color: theme.colors.textSecondary, fontSize: 12 },
+       color: theme.colors.accent, fontSize: 12 },
   oldTextArea: { minHeight: 48, lineHeight: 16 },
 
   // ─── Textos genéricos e mensagens ─────────────────────────────────────────
@@ -391,7 +391,7 @@ export const styles = StyleSheet.create({
   errorText: { fontWeight: "700", color: theme.colors.error, fontSize: 16, marginTop: theme.spacing.sm, textAlign: "center" },
   successMessage: { color: theme.colors.success, fontWeight: "700", fontSize: 18, textAlign: "center" },
   warningMessage: { color: theme.colors.warning, fontWeight: "700", fontSize: 18, textAlign: "center" },
-  infoMessage: { color: theme.colors.text, fontWeight: "700", fontSize: 18, textAlign: "center" },
+  infoMessage: { color: theme.colors.textOnLight, fontWeight: "700", fontSize: 18, textAlign: "center" },
   title: { fontSize: 18, marginBottom: theme.spacing.lg, fontWeight: "700", color: theme.colors.textOnLight, textAlign: "center" },
   fileName: { alignSelf: "center", color: theme.colors.primaryDark, fontStyle: "italic", marginVertical: theme.spacing.md },
   usernameText: {color: theme.colors.textOnLight, fontWeight: "700", textAlign: "center",},
