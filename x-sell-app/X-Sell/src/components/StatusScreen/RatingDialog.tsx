@@ -25,6 +25,7 @@ export function RatingDialog({
   const [rating, setRating] = useState(0);
   const [reviewText, setReview] = useState("");
   const [reviewedText, setReviewed] = useState("");
+  const [oldRating, setOldRating] = useState(0);
   
   async function submitRating() {
     if (rating === 0) return;
@@ -40,7 +41,7 @@ export function RatingDialog({
       const response = await getDetails(id_item);
       if (response.success) {
       setReviewed(response.item.texto_avaliacao);
-      setRating(response.item.avaliacao);
+      setOldRating(Number(response.item.avaliacao));
     } }
     if (id_item == 0 || !visible) return
     getItemDetails(id_item);
@@ -80,6 +81,17 @@ export function RatingDialog({
           { rated &&  !admin &&
             <>
             <Text style={styles.title}> Mude sua avaliação </Text>
+            <View style={styles.stars}>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <Pressable key={star} onPress={() => setRating(star)}>
+                <MaterialIcons
+                  name={star <= rating ? "star" : "star-border"}
+                  size={20}
+                  color="#09a8a0"
+                />
+              </Pressable>
+            ))}
+          </View>
           <View style={styles.formField}>
             <TextInput
                   placeholder={"Sua opinião é sempre bem-vinda!"}
@@ -97,7 +109,17 @@ export function RatingDialog({
                   style={[styles.oldTextInput, styles.oldTextArea]}>
                     {reviewedText}
                 </Text>
-              </View></>
+              </View>
+              <View style={styles.stars}>
+            {[1, 2, 3, 4, 5].map((star) => (
+                <MaterialIcons
+                  name={star <= oldRating ? "star" : "star-border"}
+                  size={20}
+                  color={theme.colors.primaryDark}
+                />
+            ))}
+          </View>
+          </>
           }
 
           <View style={styles.buttonRow}>          

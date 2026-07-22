@@ -1,87 +1,78 @@
-# <big> X-sell app  </big>
+# <big> X-Sell </big>
 
-
-## 1\. App mobile
-
-Inclui:
-
-* login, com sessões guardadas, faltando implementar a geração e checagem de token para autorizar operações, e expiração de sessões;
-
-* tela de instruções, falta providenciar todo o texto explicativo;
-
-* upload de arquivo OK (falta incluir id no filename para garantir unicidade);
-
-* lista/histórico de solicitações, implementada pesquisa de status e avaliação OK;
-
-* download de arquivos finais OK.
-
-
-## 2\. Backend e storage
+## 1\. Aplicação mobile
 
 Inclui:
 
-* autenticação OK;
+* Login, com JWT para expiração de sessões;
 
-* registro de solicitações OK;
+* Registro, com todas as informações pertinentes do cliente;
 
-* armazenamento dos arquivos OK;
+* Tela Sobre, explicando o funcionamento do serviço;
 
-* associação input/output por protocolo OK;
+* Tela com todas as solicitações, com opções de enviar novas entradas, baixar saídas, e avaliar serviço;
 
-* notificações básicas: faltando;
+* Tela para usuários administradores, com opções de aprovar/rejeitar entradas enviadas, sinalizar início e conclusão de análise, enviar saída.
 
-* API para status: OK.
+## 2\. Servidor
 
-* incluir métodos remotos para analistas postarem e obterem dados? 
+* Autenticação;
+
+* Registro de solicitações;
+
+* Armazenamento dos arquivos;
+
+* Associação de entrada/saída por protocolo;
+
+* Visualização de status da solicitação.
 
 ## 3\. Processamento analítico
 
-GPT de usuário
+* GPT de usuário
 
-## 4\. Revisão interpretativa
+### Revisão interpretativa
 
-revisar se as recomendações fazem sentido:
+Revisar se as recomendações fazem sentido:
 
-produtos sugeridos são realmente complementares?
+* Produtos sugeridos são realmente complementares?
 
-algum cluster está pouco confiável?
+* Algum cluster está pouco confiável?
 
-há concentração excessiva em um único produto? 
+* Há concentração excessiva em um único produto? 
 
-os bundles são acionáveis para campanha?
+* Os bundles são acionáveis para campanha?
 
-há grupos pequenos demais para justificar recomendação?
+* Há grupos pequenos demais para justificar recomendação?
 
-existe alguma recomendação óbvia, mas comercialmente fraca? (preço? não temos acesso)
+* Existe alguma recomendação óbvia, mas comercialmente fraca?
 
-
-## 6\. Geração dos entregáveis
+### Geração dos entregáveis
 
 O analista entrega dois arquivos:
 
-### Planilha de output:
+* Planilha de output:
 
-* base original
+    * base original
 
-* cluster
+    * cluster
 
-    - recomendação 1
+        - recomendação 1
 
-    - recomendação 2
+        - recomendação 2
 
-    - recomendação 3
+        - recomendação 3
 
-* score/confiança, se disponível
+    * score/confiança, se disponível
 
-* abas complementares: 
-    - resumo de
-        + clusters
-        + oportunidades
-        + bundles
+    * abas complementares: 
+        - resumo de
+            + clusters
+            + oportunidades
+            + bundles
 
 ### Relatório analítico:
  
-fornecer base para chat padronizar, contendo:
+Fornecer base para chat padronizar, contendo:
 
 * sumário executivo
 

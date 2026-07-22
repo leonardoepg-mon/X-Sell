@@ -45,9 +45,46 @@ app.use(cors({
 app.use(express.json());
 app.use(fileUpload());
 app.use(morgan("dev"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  res.send("Você acessou o servidor de X-Sell App.");
+  res.type("html").send(`
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+      <head>
+        <meta charset="UTF-8" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        />
+        <title>X-Sell</title>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+        <style>
+          * {
+            box-sizing: border-box;
+          }
+
+          html,
+          body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+          }
+
+          body {
+            background:
+              #493b5f
+              url("/x-sell-icon.svg")
+              center / min(70vw, 400px)
+              no-repeat;
+          }
+        </style>
+      </head>
+
+      <body></body>
+    </html>
+  `);
 });
 
 app.post("/login", handleLogin);
