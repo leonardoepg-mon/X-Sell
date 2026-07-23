@@ -21,7 +21,7 @@
       "package": "X.Sell.alpha"
     },
     "web": {
-      "output": "static",
+      "output": "single",
       "favicon": "./assets/images/icon.png"
     },
     "plugins": [
