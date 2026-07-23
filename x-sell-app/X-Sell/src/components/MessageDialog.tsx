@@ -37,7 +37,7 @@ function handleMsgStyle() {
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
-        <View style={styles.boxContainer}>
+        <View style={styles.boxContainerSmall}>
           <Text style={handleMsgStyle()}>{message}</Text>
 
           <View>

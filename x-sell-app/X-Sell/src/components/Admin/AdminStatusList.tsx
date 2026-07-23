@@ -1,6 +1,6 @@
 import { FlatList, Pressable, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { styles } from "@/styles/styles";
+import { styles, theme } from "@/styles/styles";
 import * as StApi from "@/services/adminTasks"
 import { useState } from "react";
 import {
@@ -67,11 +67,12 @@ export function StatusList({
   
   return (<>
     <View style={styles.container}>
-      <View style={styles.filterRow}>
+      <View style={styles.filterRow}> 
   <Pressable onPress={() => setSelectedIcon(null)}>
     <MaterialIcons name="list" 
-                   size={22} 
-                   color={!selectedIcon ? "#d35cd3" : "#e1e1e1"} />
+                  size={theme.icons.lg}
+                  color={!selectedIcon ? theme.colors.filterButtonInactive : theme.colors.filterButtonActive}
+                  />
   </Pressable>
 
   {filters.map(filter => (
@@ -81,9 +82,8 @@ export function StatusList({
     >
       <MaterialIcons
         name={filter.material}
-        size={22}
-        color={selectedIcon == filter.icon ? "#d35cd3" : "#e1e1e1"}
-
+        size={theme.icons.lg}
+        color={selectedIcon == filter.icon ? theme.colors.filterButtonInactive : theme.colors.filterButtonActive}
       />
     </Pressable>
   ))}
@@ -112,8 +112,8 @@ export function StatusList({
                 onPress={() => handleDetailsPress(item.id)}>
              <MaterialIcons
                name="search"
-              size={18}
-               color={buttonColor}
+              size={theme.icons.lg}
+              color={theme.colors.accent}
              />
             </Pressable>
           </View>

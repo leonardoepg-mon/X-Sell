@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, View, Pressable } from "react-native";
 
 import { useAuth } from "@/contexts/authContext";
@@ -19,7 +19,7 @@ import { AppBackground } from "@/components/AppBackground";
 export default function AdminStatusList() {
   const router = useRouter();
   const {ContextLogout} = useAuth();
-  const [showStatus, setShowStatus] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [database, setDb] = useState<StApi.FormattedStatusItem[]>([]);
   const {showMessage, MessageDialog} = useMessageDialog();
   const [uploadVisible, setUploadVisible] = useState(false);
@@ -34,29 +34,27 @@ export default function AdminStatusList() {
     const response = await StApi.statusSearch(); 
     if (response.success) {
       setDb(response.dbProcessed);
-      setShowStatus(true);
+      setIsLoading(false);
     } else {
-      setShowStatus(false);
+      setIsLoading(true);
       setDb([]);
       //console.log(response);
       showMessage( {message: response.message,
         msgType: response.msgType,
   });}}
 
+  useEffect( () => { handleStatusSearch() }, []);
+
   return (
     <>
     <AppBackground>
-      {!showStatus && (
-        <Pressable style={styles.button} onPress={handleStatusSearch}>
-          <Text selectable={false} style={styles.buttonText}>
-            Ver solicitações
-          </Text>
-        </Pressable>
-      )}
-      {showStatus && <StatusList database={database}
+      {!isLoading && <StatusList database={database}
       refresh={handleStatusSearch}/>}
-      <View style={showStatus? {...styles.buttonRow, justifyContent:  "flex-end"}:{...styles.buttonColumn, justifyContent: "center"}}>
-  {showStatus && (
+      <View style={!isLoading? {...styles.buttonRow, alignSelf:  "flex-end", marginRight: "10%"}:{...styles.buttonColumn, alignSelf: "center"}}>
+        {isLoading && (
+          <Text selectable={false} style={styles.welcomeMsg}>
+            Carregando...
+          </Text>)}
     <Pressable
       style={styles.button} 
       onPress={handleStatusSearch}
@@ -65,20 +63,19 @@ export default function AdminStatusList() {
         Atualizar
       </Text>
     </Pressable>
-  )}
   <Pressable
     style={styles.button}
     onPress={() => {setUploadVisible(true); 
         }}> 
     <Text selectable={false} style={styles.buttonText}>
-      Nova solicitação
+      Nova planilha
     </Text>
   </Pressable>
   <Pressable style={styles.button} onPress={() => {setUsersVisible(true);}}>
-        <Text selectable={false} style={styles.buttonText} > Gerenciar usuários </Text>
+        <Text selectable={false} style={styles.buttonText} > Usuários </Text>
       </Pressable>
   <Pressable style={styles.cancelButton} onPress={OnPressLogout}>
-        <Text selectable={false} style={styles.cancelBText} > Fechar sessão </Text>
+        <Text selectable={false} style={styles.cancelBText} > Sair </Text>
       </Pressable>
 </View>
     </AppBackground>

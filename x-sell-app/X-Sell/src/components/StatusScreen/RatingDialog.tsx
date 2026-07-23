@@ -70,8 +70,8 @@ export function RatingDialog({
               <Pressable disabled= {admin} key={star} onPress={() => setRating(star)}>
                 <MaterialIcons
                   name={star <= rating ? "star" : "star-border"}
-                  size={20}
-                  color="#09a8a0"
+                  size={theme.icons.md}
+                  color={theme.colors.stars}
                 />
               </Pressable>
             ))}
@@ -86,8 +86,8 @@ export function RatingDialog({
               <Pressable key={star} onPress={() => setRating(star)}>
                 <MaterialIcons
                   name={star <= rating ? "star" : "star-border"}
-                  size={20}
-                  color="#09a8a0"
+                  size={theme.icons.md}
+                  color={theme.colors.stars}
                 />
               </Pressable>
             ))}
@@ -102,20 +102,21 @@ export function RatingDialog({
                   onChangeText={setReview}
                   style={[styles.registerInput, styles.registerTextArea]}
                 />
-              </View> 
-              <View style={styles.formField}>
-              <Text
+          </View> 
+          <View style={styles.formField}>
+            <Text
                   selectable={false}
                   style={[styles.oldTextInput, styles.oldTextArea]}>
                     {reviewedText}
-                </Text>
+              </Text>
               </View>
               <View style={styles.stars}>
             {[1, 2, 3, 4, 5].map((star) => (
                 <MaterialIcons
+                  key={star}
                   name={star <= oldRating ? "star" : "star-border"}
-                  size={20}
-                  color={theme.colors.primaryDark}
+                  size={theme.icons.md}
+                  color={theme.colors.starsOld}
                 />
             ))}
           </View>

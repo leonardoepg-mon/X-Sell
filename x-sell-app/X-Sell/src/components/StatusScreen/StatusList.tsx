@@ -1,14 +1,13 @@
 import { FlatList, Pressable, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { styles } from "@/styles/styles";
-import { useEffect, useState } from "react";
+import { styles, theme } from "@/styles/styles";
+import { useState } from "react";
 import {
   ItemDetails,
   ItemDetailsDialog,
 } from "@/components/StatusScreen/ItemDetailsDialog";
 import { getDetails } from "@/services/statusApi";
-
-const buttonColor = "#2d4941";
+ 
 
 type FormattedStatusItem = {
   id: number;
@@ -91,8 +90,8 @@ export function StatusList({
       <View style={styles.filterRow}>
   <Pressable onPress={() => setSelectedIcon(null)}>
     <MaterialIcons name="list" 
-                   size={22} 
-                   color={!selectedIcon ? "#d35cd3" : "#e1e1e1"} />
+                   size={theme.icons.lg}
+                   color={!selectedIcon ? theme.colors.filterButtonInactive : theme.colors.filterButtonActive} />
   </Pressable>
 
   {filters.map(filter => (
@@ -102,9 +101,8 @@ export function StatusList({
     >
       <MaterialIcons
         name={filter.material}
-        size={22}
-        color={selectedIcon == filter.icon ? "#d35cd3" : "#e1e1e1"}
-
+        size={theme.icons.lg}
+        color={selectedIcon == filter.icon ? theme.colors.filterButtonInactive : theme.colors.filterButtonActive}
       />
     </Pressable>
   ))}
@@ -120,8 +118,8 @@ export function StatusList({
             <View style={styles.titleRow}>
               <MaterialIcons
               name={getStatusIcon(item.icon)}
-              size={18}
-              color="#d35cd3"
+              size={theme.icons.lg}
+              color={theme.colors.accent}
             />
               <Text style={styles.id}>{item.id}</Text>
               <Text style={styles.status}>{item.message} {item.rating !== undefined && (
@@ -139,8 +137,8 @@ export function StatusList({
                             onPress={() => handleDetailsPress(item.id)}>
                          <MaterialIcons
                            name="search"
-                          size={18}
-                           color={buttonColor}
+                           size={theme.icons.md}
+                           color={theme.colors.iconButtonColor}
                          />
                         </Pressable>            
             </View>

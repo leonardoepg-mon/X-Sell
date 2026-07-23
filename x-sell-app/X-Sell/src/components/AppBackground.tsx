@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     alignSelf: "center",
-    width:"80%",
+    width:"92%",
     justifyContent: "center",
     padding: theme.spacing.lg,
   },

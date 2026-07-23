@@ -5,7 +5,7 @@ import {  useEffect, useState } from "react";
 import { useMessageDialog, MsgType } from "@/hooks/useMessageDialog";
 
 import { seeUsers , setAdmin, UserDetails }from "@/services/adminTasks";
-import { styles } from "@/styles/styles";
+import { styles, theme } from "@/styles/styles";
 
 type UserDetailProps = {
   visible: boolean;
@@ -52,8 +52,7 @@ export function UserDetailsBox({
       onRequestClose={onClose}
     >
       <View style={styles.overlay}>
-        <View style={styles.boxContainer}>
-          <View style={styles.boxContent}>
+        <View style={styles.boxContainerSmall}>
             {isLoading && 
             <Text style={{alignContent:"center", ...styles.buttonText}}> Carregando... </Text>}
             {!isLoading && users &&   
@@ -67,8 +66,8 @@ export function UserDetailsBox({
                       <View style={styles.titleRow}>
                         <MaterialIcons
                         name={  (item.id == 1) ? "key" : item.admin ? "verified-user" : "person"}
-                        size={18}
-                        color={item.admin? "#16be2c": "#3894d1" }
+                        size={theme.icons.sm}
+                        color={item.admin? theme.colors.isAdmin: theme.colors.notAdmin }
                       />
                         <Text style={styles.buttonText}>{item.id}</Text>
                         <Text style={styles.usernameText}>{item.nomeContato}</Text>
@@ -88,14 +87,13 @@ export function UserDetailsBox({
                     </View>
                   </View>
                 )}/>}
-              </View>
-              <View>
+                <View>
             <Pressable style={styles.cancelButton} onPress={onClose}>
               <Text style={styles.cancelBText}>Fechar</Text>
             </Pressable>
           </View>
+              </View>
         </View>
-      </View>
     </Modal>
     <MessageDialog/>
   </>

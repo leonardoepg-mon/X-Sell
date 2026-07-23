@@ -16,16 +16,13 @@ export default function Login() {
 
 async function OnPressLogin() {
     const response = await handleLogin(username, password);
-    showMessage( {message: response.message,
-                  msgType: response.msgType,
-                  afterDialog: response.success 
-                                ? () => {
-                                  ContextLogin(
+    if (response.success) {ContextLogin(
                                     username,
                                     response.token,
                                     response.isAdmin
-                                  );
-                                } : undefined
+                                  );}
+    showMessage( {message: response.message,
+                  msgType: response.msgType
                               });
     }
 

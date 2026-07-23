@@ -23,6 +23,14 @@ export const theme = {
     error: "#d90429",//red-color
     info: "#7d3682",// jacarte-color-light?
 
+    iconButtonColor: "#2d4941",
+    filterButtonActive: "#e1e1e1",
+    filterButtonInactive: "#d35cd3",
+    stars: "#09a8a0",
+    starsOld: "#045450",
+    isAdmin: "#16be2c",
+    notAdmin: "#3894d1",
+
     border: "#083031", // maximum-blue-green-darkest?
     borderLight:  "#cbd5e1",// columbia-blue-color
     overlay: "rgba(61, 43, 84, 0.65)",
@@ -43,6 +51,12 @@ export const theme = {
     lg: 12,
     xl: 20,
     pill: 999,
+  },
+
+  icons: {
+    sm: 18,
+    md: 24,
+    lg: 32,
   },
 
   shadows: {
@@ -361,14 +375,14 @@ export const aboutStyles = StyleSheet.create({
 export const styles = StyleSheet.create({
  
   // ─── Estrutura geral de tela ───────────────────────────────────────────────
-  container: { flex: 1, alignSelf: "stretch", alignItems: "center",minWidth: "70%", justifyContent: "center", padding: theme.spacing.lg, position: "relative" },
+  container: { flex: 1, alignSelf: "stretch", alignItems: "center",width: "92%", justifyContent: "center", padding: theme.spacing.lg, position: "relative" },
   content: { flex: 1, zIndex: 1, alignSelf: "stretch", justifyContent: "center"  },
   formKeyboardView: { flex: 1, backgroundColor: theme.colors.background },
   formScreen: { flex: 1, backgroundColor: theme.colors.background },
 
   // ─── Inputs ───────────────────────────────────────────────────────────────
-  input: { height: 40, margin: 12, padding: 10, justifyContent: "center", alignSelf: "center",
-     minWidth: 50, maxWidth: "60%", borderWidth: 1, backgroundColor: theme.colors.surfaceLight,
+  input: { height: 50, margin: 12, padding: 10, justifyContent: "center", alignSelf: "center",
+     minWidth: 130, maxWidth: "60%", borderWidth: 1, backgroundColor: theme.colors.surfaceLight,
       borderColor: theme.colors.borderLight, color: theme.colors.textOnLight,
        borderRadius: theme.radius.md, paddingVertical: theme.spacing.md,
         paddingHorizontal: theme.spacing.lg, marginVertical: theme.spacing.sm },
@@ -378,10 +392,10 @@ export const styles = StyleSheet.create({
        color: theme.colors.text, fontSize: 15 },
   registerTextArea: { minHeight: 110, lineHeight: 22 },
   oldTextInput: { width: "100%", minHeight: 16, backgroundColor: theme.colors.backgroundSoft,
-     borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.md, textAlign: "center",
+     borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.md,
       paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.lg, marginTop: 5,
        color: theme.colors.accent, fontSize: 12 },
-  oldTextArea: { minHeight: 48, lineHeight: 16 },
+  oldTextArea: { minHeight: 48, lineHeight: 16, textAlign: "center" },
 
   // ─── Textos genéricos e mensagens ─────────────────────────────────────────
   welcomeMsg: { fontWeight: "900", fontSize: 20, fontFamily: "sans-serif", 
@@ -407,8 +421,9 @@ export const styles = StyleSheet.create({
   sendText: { color: theme.colors.textOnPrimary, fontWeight: "700", textAlign: "center" },
   smallButton: { backgroundColor: theme.colors.primary, borderRadius: theme.radius.sm,
      paddingVertical: theme.spacing.xs, paddingHorizontal: theme.spacing.xs, minWidth: "5%" },
-  buttonRow: { flexDirection: "row", gap: 5, alignSelf: "center" },
-  buttonColumn: { flexDirection: "column", gap: 5, },
+  buttonRow: { flexDirection: "row", gap: 5, alignSelf: "center", },
+  bottomButtonRow: { width: "100%", flexDirection: "row", gap: 5, alignSelf: "center", alignItems: "stretch" },
+  buttonColumn: { flexDirection: "column", gap: theme.spacing.md, margin: theme.spacing.sm, },
   buttons: { flexDirection: "row", gap: theme.spacing.md },
 
   // ─── Cards e listas de status ──────────────────────────────────────────────
@@ -441,8 +456,12 @@ export const styles = StyleSheet.create({
 
   // ─── Modal genérica ────────────────────────────────────────────────────────
   overlay: { flex: 1 , backgroundColor: theme.colors.overlay, alignItems: "center", justifyContent: "center" },
-  boxContainer: { minWidth:"30%", display: "flex", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, justifyContent: "center", alignItems: "stretch", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
+  boxContainer: { width:"60%", display: "flex", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, justifyContent: "center", alignItems: "stretch", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
   boxContent: {flexDirection: 'column', alignItems: "stretch", justifyContent: "space-around",},
+  boxContainerLarge: { width:"80%", display: "flex", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, justifyContent: "center", alignItems: "stretch", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
+  boxContentLarge: {flexDirection: 'column', alignItems: "stretch", justifyContent: "space-around",},
+  boxContainerSmall: { width:"40%", display: "flex", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, justifyContent: "center", alignItems: "stretch", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
+  boxContentSmall: {flexDirection: 'column', alignItems: "stretch", justifyContent: "space-around",},
 
   // ─── Formulários ───────────────────────────────────────────────────────────
   formContent: { padding: theme.spacing.lg, paddingBottom: theme.spacing.xxl, gap: theme.spacing.lg },

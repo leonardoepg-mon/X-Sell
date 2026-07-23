@@ -10,7 +10,7 @@ import { RatingDialog } from "@/components/StatusScreen/RatingDialog";
 import { UploadDialog } from "@/components/StatusScreen/UploadDialog";
 import { DownloadDialog } from "@/components/StatusScreen/DownloadDialog";
 
-import { styles } from "@/styles/styles";
+import { styles, theme } from "@/styles/styles";
 import { handleDownload } from "@/services/fileMgmt";
 import { CommentDialog } from "@/components/Admin/CommentDialog"
 import { getOriginalFileName } from "@/services/statusApi";
@@ -77,14 +77,16 @@ export function ItemDetailsDialog({
   
     async function confirmDownload() {   
           const response = await handleDownload(Number(item?.id_item) ?? 0);
-                showMessage({message : response.message,
-                  msgType: response.msgType as MsgType})
+                if (!response.success) showMessage({message : response.message,
+                  msgType: response.msgType as MsgType});
+                else setDownloadVisible(false);
     }
 
     async function confirmDownloadAdmin() {   
           const response = await StApiAdmin.handleDownload(Number(item?.id_item) ?? 0);
-                showMessage({message : response.message,
-                  msgType: response.msgType as MsgType})
+                if (!response.success) showMessage({message : response.message,
+                  msgType: response.msgType as MsgType});
+                else setDownloadVisible(false);
     }
   
   
@@ -118,7 +120,7 @@ export function ItemDetailsDialog({
       onRequestClose={onClose}
     >
       <View style={styles.overlay}>
-        <View style={styles.boxContainer}>
+        <View style={styles.boxContainerLarge}>
           <Text style={styles.title}>Detalhes do processo</Text>
 
           {loading && (
@@ -160,23 +162,23 @@ export function ItemDetailsDialog({
                                   <Pressable style={styles.smallButton} onPress={ async () => buttonTasks.admin.onPressDownloadInput() }>
                                                   <MaterialIcons
                                                 name={"file-download"}
-                                                size={18}
-                                                color={buttonColor}
+                                                size={theme.icons.sm}
+                                                color={theme.colors.iconButtonColor}
                                               />
                                   </Pressable>
                     { item.status === "0" &&( <>
                                   <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressAccept() }>
                                     <MaterialIcons
                                   name={"thumb-up"}
-                                  size={18}
-                                  color={buttonColor}
+                                                size={theme.icons.sm}
+                                                color={theme.colors.iconButtonColor}
                                 />
                                   </Pressable>
                                   <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressReject() } accessibilityHint="Rejeitar arquivo"> 
                                     <MaterialIcons
                                   name={"thumb-down"}
-                                  size={18}
-                                  color={buttonColor}
+                                  size={theme.icons.sm}
+                                                color={theme.colors.iconButtonColor}
                                 />
                                   </Pressable>
                                   </>)}</>)}
@@ -184,8 +186,8 @@ export function ItemDetailsDialog({
                         <Pressable style={styles.smallButton} onPress={ () => buttonTasks.user.onPressReupload() }> 
                                         <MaterialIcons
                                                       name={"upload-file"}
-                                                      size={18}
-                                                      color={buttonColor}
+                                                      size={theme.icons.sm}
+                                                color={theme.colors.iconButtonColor}
                                                     />
                                       </Pressable>
                     )}
@@ -212,8 +214,8 @@ export function ItemDetailsDialog({
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressStart() }>
                                 <MaterialIcons
                               name={"start"}
-                              size={18}
-                              color={buttonColor}
+                              size={theme.icons.sm}
+                                                color={theme.colors.iconButtonColor}
                             />
                               </Pressable> 
                             )}
@@ -248,15 +250,15 @@ export function ItemDetailsDialog({
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressUpload() }>
                                 <MaterialIcons
                               name={"file-upload"}
-                              size={18}
-                              color={buttonColor}
+                              size={theme.icons.sm}
+                                                color={theme.colors.iconButtonColor}
                             />
                               </Pressable>
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressSubmit() } disabled={item.outputName==""}>
                                 <MaterialIcons
                               name={"check-box"}
-                              size={18}
-                              color={buttonColor}
+                              size={theme.icons.sm}
+                                                color={theme.colors.iconButtonColor}
                             />
                               </Pressable>
                             </>)}
@@ -290,16 +292,16 @@ export function ItemDetailsDialog({
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.user.onPressDownload() }>
                                 <MaterialIcons
                               name={"file-download"}
-                              size={18}
-                              color={buttonColor}
+                              size={theme.icons.sm}
+                                                color={theme.colors.iconButtonColor}
                             />
                               </Pressable>
                       {(Number(item.status) == 3 && !isAdmin) && (
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.user.onPressRating() }>
                                 <MaterialIcons
                               name={"star"}
-                              size={18}
-                              color={buttonColor}
+                              size={theme.icons.sm}
+                                                color={theme.colors.iconButtonColor}
                             />
                               </Pressable>
                               )}
@@ -337,8 +339,8 @@ export function ItemDetailsDialog({
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.user.onPressRating() }>
                                 <MaterialIcons
                               name={"edit"}
-                              size={18}
-                              color={buttonColor}
+                              size={theme.icons.sm}
+                                                color={theme.colors.iconButtonColor}
                             />
                               </Pressable>
                               )}

@@ -28,7 +28,7 @@ export function CommentDialog({
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
-        <View style={styles.boxContainer}>
+        <View style={styles.boxContainerSmall}>
           <Text style={styles.title}> Explique a rejeição</Text>
           <View style={styles.formField}>
                 <TextInput
