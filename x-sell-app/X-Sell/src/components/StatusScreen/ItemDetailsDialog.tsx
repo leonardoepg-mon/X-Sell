@@ -13,6 +13,7 @@ import { DownloadDialog } from "@/components/StatusScreen/DownloadDialog";
 import { styles } from "@/styles/styles";
 import { handleDownload } from "@/services/fileMgmt";
 import { CommentDialog } from "@/components/Admin/CommentDialog"
+import { getOriginalFileName } from "@/services/statusApi";
 
 export type ItemDetails = {
   id_item: string;
@@ -142,7 +143,7 @@ export function ItemDetailsDialog({
 
                   <Text style={styles.detailsText}>
                     <Text style={{ fontWeight: "bold" }}>Nome:</Text>{" "}
-                    {item.inputName || "Não informado"}
+                    {getOriginalFileName(item.inputName) || "Não informado"}
                   </Text>
 
                   {item.status === "-1" && (<Text style={styles.detailsText}>
@@ -237,7 +238,7 @@ export function ItemDetailsDialog({
                     <Text style={{ fontWeight: "bold" }}>
                       Saída enviada:
                     </Text>{" "}
-                    {item.outputName || "Não informado"}
+                    {getOriginalFileName(item.outputName) || "Não informado"}
                       </Text> )}
                     </View>
                </View >
@@ -280,7 +281,7 @@ export function ItemDetailsDialog({
                     <Text style={{ fontWeight: "bold" }}>
                       Arquivo de saída:
                     </Text>{" "}
-                    {item.outputName || "Não informado"}
+                    { getOriginalFileName(item.outputName) || "Não informado"}
                   </Text>
                                     </View>
                </View >
@@ -383,7 +384,7 @@ export function ItemDetailsDialog({
 />
       <DownloadDialog
   visible={downloadVisible}
-  fileName={fileName}
+  fileName={getOriginalFileName(fileName)}
   onClose={() => setDownloadVisible(false)}
   onPressDownload={isInputDownload? confirmDownloadAdmin: confirmDownload }/>
   <CommentDialog

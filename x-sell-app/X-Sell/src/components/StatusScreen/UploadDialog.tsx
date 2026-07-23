@@ -143,10 +143,6 @@ export function UploadDialog({
       setOpen={setOpen}
       setValue={setSelectedUserId}
       setItems={setUserItems}
-      onChangeValue={(value) => {
-    console.log("Usuário selecionado:", value);
-    console.log("selectedUserId", selectedUserId);
-  }}
       placeholder="Selecione um usuário"
       listMode="SCROLLVIEW"
       maxHeight={200}

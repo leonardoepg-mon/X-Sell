@@ -124,12 +124,10 @@ export function StatusList({
               color="#d35cd3"
             />
               <Text style={styles.id}>{item.id}</Text>
-              <Text style={styles.status}>{item.message}</Text>
+              <Text style={styles.status}>{item.message} {item.rating !== undefined && (
+              <Text style={styles.message}>  {item.rating}/5</Text>
+            )}</Text>
             </View>
-
-            {item.rating !== undefined && (
-              <Text style={styles.message}>Avaliação: {item.rating}/5</Text>
-            )}
           </View>
 
           <View style={styles.right}>
