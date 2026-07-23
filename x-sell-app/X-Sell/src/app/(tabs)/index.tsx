@@ -13,8 +13,7 @@ export default function Index() {
   const {ContextLogout, username} = useAuth();
 
   async function OnPressLogout() {
-        ContextLogout();
-        router.replace("/login");
+        await ContextLogout();
   }//good
 
   return ( 
@@ -36,5 +35,4 @@ export default function Index() {
     </>
   );
 }
-
 

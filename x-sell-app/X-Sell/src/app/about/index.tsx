@@ -5,11 +5,14 @@ import { useRouter } from "expo-router"
 
 export default function AboutScreen() {
 const router = useRouter();
-const { isLogged } = useAuth();
+const { isLogged, isAdmin } = useAuth();
   function navigate() {
-    if (isLogged) router.navigate("/(tabs)");
-    else router.navigate("/login");
-    return
+    if (!isLogged) {
+      router.replace("/login");
+      return;
+    }
+
+    router.replace(isAdmin ? "/(admin)" : "/(tabs)");
   }
 
   return <AppBackground>

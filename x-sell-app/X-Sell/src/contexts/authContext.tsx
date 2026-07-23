@@ -73,28 +73,19 @@ export function AuthProvider({
   }, [isLogged, token]);
 
   const ContextLogin = (username: string, token: string, isAdmin: boolean) => {
-    showMessage({message : "Entrando",
-            msgType: "success",
-            afterDialog: () => {
-      setIsLogged(true);
-      putToken(username, token, isAdmin);
-      setUsername(username);
-      setToken(token);
-      setIsAdmin(isAdmin);
-    }});
-    //console.log("sessão iniciada: ", username);
+    setIsLogged(true);
+    putToken(username, token, isAdmin);
+    setUsername(username);
+    setToken(token);
+    setIsAdmin(isAdmin);
   };
 
   const ContextLogout = async () => {
-      killToken();
-      showMessage({message : "Saindo",
-            msgType: "info",
-            afterDialog: () => {
+      await killToken();
       setIsLogged(false);
       setUsername("");
       setToken("");
-      setIsAdmin(false)
-    }});
+      setIsAdmin(false);
   };
 
   return (
