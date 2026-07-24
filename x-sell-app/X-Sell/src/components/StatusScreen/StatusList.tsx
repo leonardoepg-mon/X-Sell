@@ -54,6 +54,9 @@ export function StatusList({
   refresh
 }: StatusListProps)  {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
+  const [detailsVisible, setDetailsVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<ItemDetails | null>(null);
+  const [loadingDetails, setLoadingDetails] = useState(false);
 
   const filteredDatabase =
     selectedIcon === null
@@ -69,10 +72,7 @@ export function StatusList({
   { icon: "star", material: "star" },               // status 4
 ] as const;
 
-  const [detailsVisible, setDetailsVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<ItemDetails | null>(null);
-  const [loadingDetails, setLoadingDetails] = useState(false);
-
+ 
   async function handleDetailsPress(id: number) {
   setSelectedItem(null);
   setLoadingDetails(true);
@@ -85,8 +85,8 @@ export function StatusList({
   setLoadingDetails(false);
 }
 
-  return <>
-    <View style={styles.container}> 
+  return (<>
+    <View style={styles.statusContainer}> 
       <View style={styles.filterRow}>
   <Pressable onPress={() => setSelectedIcon(null)}>
     <MaterialIcons name="list" 
@@ -120,18 +120,13 @@ export function StatusList({
               name={getStatusIcon(item.icon)}
               size={theme.icons.lg}
               color={theme.colors.accent}
-            />
+              />
               <Text style={styles.id}>{item.id}</Text>
-              <Text style={styles.status}>{item.message} {item.rating !== undefined && (
-              <Text style={styles.message}>  {item.rating}/5</Text>
-            )}</Text>
+              <Text style={styles.status}>{item.message}</Text>
             </View>
           </View>
 
           <View style={styles.right}>
-            <View style={styles.buttonColumn}>
-            <View style={{...styles.buttonRow, justifyContent:"space-evenly"}}>
-            
             <Pressable
                             style={styles.smallButton}
                             onPress={() => handleDetailsPress(item.id)}>
@@ -139,16 +134,11 @@ export function StatusList({
                            name="search"
                            size={theme.icons.md}
                            color={theme.colors.iconButtonColor}
-                         />
-                        </Pressable>            
-            </View>
-
-            </View>
+                         />      
+              </Pressable>            
           </View>
-        </View>
-        
+          </View>     
       )}
-      
     />
     </View> 
     <ItemDetailsDialog
@@ -157,10 +147,11 @@ export function StatusList({
   loading={loadingDetails}
   onClose={() => {
     setDetailsVisible(false);
+    setSelectedItem(null);
     refresh?.();
   }}
   refresh={() => {handleDetailsPress(Number(selectedItem?.id_item));
   }}
-/> </>     
-  
+/>
+</> );   
 }

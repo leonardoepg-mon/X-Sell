@@ -9,8 +9,6 @@ import {
 } from "@/components//StatusScreen/ItemDetailsDialog";
 import { getDetails } from "@/services/statusApi";
 
-const buttonColor = "#2d4941";
-
 type StatusListProps = {
   database: StApi.FormattedStatusItem[];
   onPressUpload?: (id: number) => void ;
@@ -66,9 +64,9 @@ export function StatusList({
 ] as const;
   
   return (<>
-    <View style={styles.container}>
+    <View style={styles.statusContainer}>
       <View style={styles.filterRow}> 
-  <Pressable onPress={() => setSelectedIcon(null)}>
+  <Pressable onPress={() => setSelectedIcon(null)}> 
     <MaterialIcons name="list" 
                   size={theme.icons.lg}
                   color={!selectedIcon ? theme.colors.filterButtonInactive : theme.colors.filterButtonActive}
@@ -100,10 +98,6 @@ export function StatusList({
               <Text style={styles.id}>{item.id}</Text>
               <Text style={styles.status}>{item.message}</Text>
             </View>
-
-            {item.rating !== undefined && (
-              <Text style={styles.message}>Avaliação: {item.rating}/5</Text>
-            )}
           </View>
 
           <View style={styles.right}>
@@ -118,7 +112,6 @@ export function StatusList({
             </Pressable>
           </View>
           </View>
-        
       )}
     />
     </View>

@@ -31,5 +31,6 @@ const styles = StyleSheet.create({
     width:"92%",
     justifyContent: "center",
     padding: theme.spacing.lg,
+    marginVertical: 16,
   },
 });

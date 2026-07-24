@@ -375,6 +375,7 @@ export const aboutStyles = StyleSheet.create({
 export const styles = StyleSheet.create({
  
   // ─── Estrutura geral de tela ───────────────────────────────────────────────
+  statusContainer: {flex: 1, alignItems: "stretch", width: "100%", justifyContent: "center", padding: theme.spacing.lg, position: "relative"},
   container: { flex: 1, alignSelf: "stretch", alignItems: "center",width: "92%", justifyContent: "center", padding: theme.spacing.lg, position: "relative" },
   content: { flex: 1, zIndex: 1, alignSelf: "stretch", justifyContent: "center"  },
   formKeyboardView: { flex: 1, backgroundColor: theme.colors.background },
@@ -427,7 +428,7 @@ export const styles = StyleSheet.create({
   buttons: { flexDirection: "row", gap: theme.spacing.md },
 
   // ─── Cards e listas de status ──────────────────────────────────────────────
-  list: { width: "100%", flex: 1, justifyContent: "flex-start", paddingHorizontal: theme.spacing.xs },
+  list: { width: "100%", justifyContent: "flex-start", paddingHorizontal: theme.spacing.xs },
   card: {backgroundColor: theme.colors.surface, borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.lg,
     padding: theme.spacing.sm, marginVertical: theme.spacing.xs, width: "100%", minHeight: 20,
     flexDirection: "row", justifyContent: "space-between", alignItems: "center",
@@ -437,7 +438,7 @@ export const styles = StyleSheet.create({
   message: { marginTop: theme.spacing.sm, fontSize: 13, color: theme.colors.textSecondary },
   detailsText: { marginTop: theme.spacing.xs, fontSize: 10, color: theme.colors.textSecondary },
   stars: { flexDirection: "row", marginBottom: theme.spacing.xl, justifyContent: "center" },
-  listContainer: {alignSelf: "stretch", },
+  listContainer: {alignSelf: "stretch" },
 
   // ─────────────────────── listas ───────────────────────
   userDetails: { flexDirection: "row", padding: theme.spacing.xs, width: "100%",  minHeight: 12,
@@ -456,11 +457,11 @@ export const styles = StyleSheet.create({
 
   // ─── Modal genérica ────────────────────────────────────────────────────────
   overlay: { flex: 1 , backgroundColor: theme.colors.overlay, alignItems: "center", justifyContent: "center" },
-  boxContainer: { width:"60%", display: "flex", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, justifyContent: "center", alignItems: "stretch", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
-  boxContent: {flexDirection: 'column', alignItems: "stretch", justifyContent: "space-around",},
-  boxContainerLarge: { width:"80%", display: "flex", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, justifyContent: "center", alignItems: "stretch", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
+  boxContainer: { width:"60%", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, alignItems: "stretch", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
+  boxContent: {flexDirection: 'column',alignItems: "stretch", justifyContent: "space-around",},
+  boxContainerLarge: { width:"80%", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, alignItems: "stretch", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
   boxContentLarge: {flexDirection: 'column', alignItems: "stretch", justifyContent: "space-around",},
-  boxContainerSmall: { width:"40%", display: "flex", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, justifyContent: "center", alignItems: "stretch", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
+  boxContainerSmall: { width:"40%", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, alignItems: "stretch", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
   boxContentSmall: {flexDirection: 'column', alignItems: "stretch", justifyContent: "space-around",},
 
   // ─── Formulários ───────────────────────────────────────────────────────────

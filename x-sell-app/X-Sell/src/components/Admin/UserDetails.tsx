@@ -42,7 +42,6 @@ export function UserDetailsBox({
                   msgType: response.msgType as MsgType});
                   handleSeeUsers();
     }
-
   return (
     <>
     <Modal
@@ -52,12 +51,13 @@ export function UserDetailsBox({
       onRequestClose={onClose}
     >
       <View style={styles.overlay}>
-        <View style={styles.boxContainerSmall}>
+        <View style={styles.boxContainer}>
             {isLoading && 
             <Text style={{alignContent:"center", ...styles.buttonText}}> Carregando... </Text>}
-            {!isLoading && users &&   
+            {!isLoading && users &&
               <FlatList
                 data={users}
+                style={styles.listContainer}
                 keyExtractor={(item) => item.id.toString()}
                 contentContainerStyle={styles.list}
                 renderItem={ ({item}) => (

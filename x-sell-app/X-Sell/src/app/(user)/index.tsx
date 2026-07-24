@@ -34,26 +34,23 @@ export default function StatusScreen() {
       setShowStatus(false);
       setDb([]);
       //console.log(response);
-      showMessage( {message: response.message,
-        msgType: response.msgType,
-        afterDialog: undefined, 
-    });}}
-
+      showMessage({message: response.message,
+        msgType: response.msgType});}}
   return (
     <>
     <AppBackground>
-      {!showStatus && (
-        <Pressable style={styles.button} onPress={handleStatusSearch }>
-          <Text selectable={false} style={styles.buttonText}>
-            Ver solicitações
-          </Text>
-        </Pressable>
-      )}
       {showStatus && <StatusList database={database} refresh={handleStatusSearch}/>}
-      <View style={showStatus? {...styles.buttonRow, alignSelf:  "flex-end", marginRight: "10%"}:{...styles.buttonColumn, alignSelf: "center"}}>
+      <View style={showStatus? {...styles.buttonRow, alignSelf:  "center"}:{...styles.buttonColumn, alignSelf: "center"}}>
       <Pressable style={styles.button} onPress={() => router.navigate("/about")}>
         <Text selectable={false} style={styles.buttonText} > Sobre </Text>
       </Pressable>
+      <Pressable
+      style={styles.button}
+      onPress={handleStatusSearch}>
+      <Text selectable={false} style={styles.buttonText}>
+        {showStatus ? "Atualizar": "Ver processos"}
+      </Text>
+    </Pressable>
   <Pressable
     style={styles.button}
     onPress={() => {setUploadVisible(true); }}> 
@@ -61,16 +58,6 @@ export default function StatusScreen() {
       Nova planilha
     </Text>
   </Pressable>
-  {showStatus && (
-    <Pressable
-      style={styles.button}
-      onPress={handleStatusSearch}
-    >
-      <Text selectable={false} style={styles.buttonText}>
-        Atualizar
-      </Text>
-    </Pressable>
-  )}
       <Pressable style={styles.cancelButton} onPress={OnPressLogout}>
         <Text selectable={false} style={styles.cancelBText} > Sair </Text>
       </Pressable>
