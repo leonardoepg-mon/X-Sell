@@ -17,7 +17,7 @@ export default function StatusScreen() {
   const [showStatus, setShowStatus] = useState(false);
   const [database, setDb] = useState<StApi.FormattedStatusItem[]>([]);
   const router = useRouter();
-  const {ContextLogout, username} = useAuth();
+  const {ContextLogout} = useAuth();
   const [uploadVisible, setUploadVisible] = useState(false);
   const {showMessage, MessageDialog} = useMessageDialog();
 
@@ -50,7 +50,7 @@ export default function StatusScreen() {
         </Pressable>
       )}
       {showStatus && <StatusList database={database} refresh={handleStatusSearch}/>}
-      <View style={showStatus? {...styles.buttonRow, justifyContent:  "flex-end"}:{...styles.buttonColumn, justifyContent: "center"}}>
+      <View style={showStatus? {...styles.buttonRow, alignSelf:  "flex-end", marginRight: "10%"}:{...styles.buttonColumn, alignSelf: "center"}}>
       <Pressable style={styles.button} onPress={() => router.navigate("/about")}>
         <Text selectable={false} style={styles.buttonText} > Sobre </Text>
       </Pressable>

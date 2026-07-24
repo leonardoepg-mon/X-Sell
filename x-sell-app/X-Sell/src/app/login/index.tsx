@@ -16,7 +16,7 @@ export default function Login() {
 
 async function OnPressLogin() {
     const response = await handleLogin(username, password);
-    if (response.success) {ContextLogin(
+    if (response.success) { ContextLogin(
                                     username,
                                     response.token,
                                     response.isAdmin

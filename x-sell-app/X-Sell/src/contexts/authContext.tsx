@@ -72,12 +72,12 @@ export function AuthProvider({
   return () => clearInterval(interval);
   }, [isLogged, token]);
 
-  const ContextLogin = (username: string, token: string, isAdmin: boolean) => {
-    setIsLogged(true);
-    putToken(username, token, isAdmin);
+  const ContextLogin = async (username: string, token: string, isAdmin: boolean) => {
+    await putToken(username, token, isAdmin);
     setUsername(username);
     setToken(token);
     setIsAdmin(isAdmin);
+    setIsLogged(true);
   };
 
   const ContextLogout = async () => {

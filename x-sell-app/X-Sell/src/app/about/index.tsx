@@ -12,7 +12,7 @@ const { isLogged, isAdmin } = useAuth();
       return;
     }
 
-    router.replace(isAdmin ? "/(admin)" : "/(tabs)");
+    router.replace(isAdmin ? "/(admin)" : "/(user)");
   }
 
   return <AppBackground>

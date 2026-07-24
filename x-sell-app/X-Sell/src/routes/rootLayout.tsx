@@ -11,7 +11,7 @@ export default function RootLayout() {
           </Stack.Protected>
           
           <Stack.Protected guard={isLogged && !isAdmin}>
-            <Stack.Screen name="(tabs)" options={{headerShown: false, title: "Home"}} />
+            <Stack.Screen name="(user)" options={{headerShown: false, title: "Processos"}} />
           </Stack.Protected>
 
           <Stack.Protected guard={isLogged && isAdmin}>
