@@ -8,7 +8,8 @@
     "scheme": "xsell",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "x-sell.fv.expo.app"
     },
     "android": {
       "adaptiveIcon": {
