@@ -5,6 +5,6 @@ import Welcome from "@/components/WelcomeScreen";
 export default function Login() {
   const router = useRouter();
   return <AppBackground>
-      <Welcome visible onStart={ () => {router.replace("/login");}}/>
+      <Welcome visible onStart={ () => {router.navigate("/login");}}/>
     </AppBackground>
 }

@@ -25,7 +25,7 @@ export default function StatusScreen() {
 
   function OnPressLogout() {
     ContextLogout();
-    router.replace("/login");
+    router.navigate("/login");
   }
 
   async function handleStatusSearch() {
