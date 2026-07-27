@@ -27,7 +27,7 @@ export default function AdminStatusList() {
 
   async function OnPressLogout() {
         ContextLogout();
-        router.replace("/login");
+        router.navigate("/login");
     }
 
   async function handleStatusSearch() {

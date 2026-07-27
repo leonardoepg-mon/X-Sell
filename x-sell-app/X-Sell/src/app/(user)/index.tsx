@@ -12,6 +12,7 @@ import { styles } from "@/styles/styles";
 import { AppBackground } from "@/components/AppBackground";
 import { useAuth } from "@/contexts/authContext";
 import Instructions from "@/components/Instructions";
+import { useRouter } from "expo-router";
 
 export default function StatusScreen() {
   const [showStatus, setShowStatus] = useState(false);
@@ -20,9 +21,11 @@ export default function StatusScreen() {
   const [uploadVisible, setUploadVisible] = useState(false);
   const [instructionsVisible, setInstructionsVisible] = useState(false);
   const {showMessage, MessageDialog} = useMessageDialog();
+  const router = useRouter();
 
   function OnPressLogout() {
     ContextLogout();
+    router.replace("/login");
   }
 
   async function handleStatusSearch() {
