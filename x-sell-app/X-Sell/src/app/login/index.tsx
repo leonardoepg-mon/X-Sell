@@ -18,24 +18,20 @@ export default function Login() {
 
 async function OnPressLogin() {
     const response = await handleLogin(username, password);
-    if (response.success) { ContextLogin(
+    showMessage( {message: response.message,
+                  msgType: response.msgType,
+                  afterDialog: (response.success) ? () => ContextLogin(
                                     username,
                                     response.token,
                                     response.isAdmin
-                                  );}
-    showMessage( {message: response.message,
-                  msgType: response.msgType
+                                  ) : undefined
                               });
     }
-
-    useEffect(() => {
-      setVisible(true);
-    }, [])
 
   return (
     <>
     <AppBackground>
-      <Welcome visible={visible} onStart={ () => {setVisible(false)}}/>
+      <Welcome visible={visible} onStart={ () => setVisible(false)}/>
       <View style={{ ...styles.container, alignSelf: "center"}}>
       <TextInput style= {styles.input} onChangeText={setUsername}
                  value={username}
@@ -51,6 +47,9 @@ async function OnPressLogin() {
       </Pressable>
       <Pressable style={styles.button} onPress={() => router.navigate("/register")}>
         <Text selectable={false} style={styles.buttonText} > Primeira vez? Registrar </Text>
+      </Pressable>
+      <Pressable style={styles.button} onPress={() => setVisible(true)}>
+        <Text selectable={false} style={styles.buttonText} > Sobre o X-Sell </Text>
       </Pressable>
       </View>
     </AppBackground>
