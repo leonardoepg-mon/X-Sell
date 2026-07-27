@@ -17,8 +17,6 @@ export default function RootLayout() {
           <Stack.Protected guard={isLogged && isAdmin}>
             <Stack.Screen name="(admin)" options={{headerShown: false, title: "Área do administrador"}} />
           </Stack.Protected>
-
-          <Stack.Screen name="about" options={{headerShown: false, title: "Sobre"}}/>
         </Stack>
 }
 

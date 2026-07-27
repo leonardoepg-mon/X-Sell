@@ -10,15 +10,15 @@ import { useMessageDialog } from "@/hooks/useMessageDialog";
 
 import { styles } from "@/styles/styles";
 import { AppBackground } from "@/components/AppBackground";
-import { useRouter } from "expo-router";
 import { useAuth } from "@/contexts/authContext";
+import Instructions from "@/components/Instructions";
 
 export default function StatusScreen() {
   const [showStatus, setShowStatus] = useState(false);
   const [database, setDb] = useState<StApi.FormattedStatusItem[]>([]);
-  const router = useRouter();
   const {ContextLogout} = useAuth();
   const [uploadVisible, setUploadVisible] = useState(false);
+  const [instructionsVisible, setInstructionsVisible] = useState(false);
   const {showMessage, MessageDialog} = useMessageDialog();
 
   function OnPressLogout() {
@@ -41,8 +41,8 @@ export default function StatusScreen() {
     <AppBackground>
       {showStatus && <StatusList database={database} refresh={handleStatusSearch}/>}
       <View style={showStatus? {...styles.buttonRow, alignSelf:  "center"}:{...styles.buttonColumn, alignSelf: "center"}}>
-      <Pressable style={styles.button} onPress={() => router.navigate("/about")}>
-        <Text selectable={false} style={styles.buttonText} > Sobre </Text>
+      <Pressable style={styles.button} onPress={() => setInstructionsVisible(true)}>
+        <Text selectable={false} style={styles.buttonText} > Como funciona? </Text>
       </Pressable>
       <Pressable
       style={styles.button}
@@ -68,6 +68,9 @@ export default function StatusScreen() {
   onClose={() => {handleStatusSearch();setUploadVisible(false);}}
   onUploaded={() => {handleStatusSearch();setUploadVisible(false);}}
   />
+  <Instructions visible={instructionsVisible}
+  onPressClose={() => setInstructionsVisible(false)}
+  onPressStart={() => {setInstructionsVisible(false);setUploadVisible(true);}} />
   <MessageDialog/>
 </>
   );

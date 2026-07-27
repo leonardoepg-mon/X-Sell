@@ -1,11 +1,12 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, View, Pressable, TextInput } from "react-native";
 import { handleLogin } from "../../services/userAuth"
 import { useAuth } from "@/contexts/authContext";
 import { styles } from "@/styles/styles";
 import { useMessageDialog } from "@/hooks/useMessageDialog";
 import { AppBackground } from "@/components/AppBackground";
+import Welcome from "@/components/WelcomeScreen";
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -13,6 +14,7 @@ export default function Login() {
   const router = useRouter();
   const {ContextLogin} = useAuth()
   const {showMessage, MessageDialog} = useMessageDialog();
+  const [visible, setVisible] = useState(false);
 
 async function OnPressLogin() {
     const response = await handleLogin(username, password);
@@ -26,9 +28,14 @@ async function OnPressLogin() {
                               });
     }
 
+    useEffect(() => {
+      setVisible(true);
+    }, [])
+
   return (
     <>
     <AppBackground>
+      <Welcome visible={visible} onStart={ () => {setVisible(false)}}/>
       <View style={{ ...styles.container, alignSelf: "center"}}>
       <TextInput style= {styles.input} onChangeText={setUsername}
                  value={username}
@@ -42,12 +49,8 @@ async function OnPressLogin() {
                 onPress={OnPressLogin}>
         <Text selectable={false} style={styles.buttonText} > Login </Text>
       </Pressable>
-      <Text style={styles.infoMessage}> Não tem conta? </Text>
       <Pressable style={styles.button} onPress={() => router.navigate("/register")}>
-        <Text selectable={false} style={styles.buttonText} > Registrar </Text>
-      </Pressable>
-      <Pressable style={styles.button} onPress={() => router.navigate("/about")}>
-        <Text selectable={false} style={styles.buttonText} > Sobre </Text>
+        <Text selectable={false} style={styles.buttonText} > Primeira vez? Registrar </Text>
       </Pressable>
       </View>
     </AppBackground>

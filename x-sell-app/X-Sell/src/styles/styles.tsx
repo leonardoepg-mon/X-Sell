@@ -4,6 +4,7 @@ export const theme = {
   colors: {
     background: "#7d3682",// jacarte-color-light?
     backgroundSoft: "#3f2b54",// jacarte-color
+    logoBackground: "#493b5f",// jacarte-color - variant
     surface: "#18181b",//eerie-black-color
     surfaceAlt: "#24324D",
     surfaceLight: "#F8FAFC",
@@ -14,6 +15,7 @@ export const theme = {
     accent: "#45E0C1",
 
     text: "#cbd5e1",// columbia-blue-color
+    textMinor: "#32d2d5",// maximum-blue-green-color
     textSecondary: "#655576",//black-coral-color
     textOnLight: "#172033",
     textOnPrimary: "#cbd5e1",// columbia-blue-color
@@ -83,7 +85,20 @@ export const aboutStyles = StyleSheet.create({
   },
 
   aboutHeroCard: {
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.logoBackground,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
+    borderRadius: theme.radius.xl,
+    padding: theme.spacing.xl,
+    gap: theme.spacing.lg,
+    ...theme.shadows.card,
+  },
+
+  welcomeCard: {
+    width: "90%",
+    height: "70%",
+    justifyContent: "space-evenly",
+    backgroundColor: theme.colors.logoBackground,
     borderColor: theme.colors.border,
     borderWidth: 1,
     borderRadius: theme.radius.xl,
@@ -101,8 +116,8 @@ export const aboutStyles = StyleSheet.create({
   },
 
   aboutLogo: {
-    width: 150,
-    height: 46,
+    width: 200,
+    height: 60,
   },
 
   aboutBadge: {
@@ -116,20 +131,20 @@ export const aboutStyles = StyleSheet.create({
   },
 
   aboutBadgeText: {
-    color: theme.colors.background,
+    color: theme.colors.textOnLight,
     fontWeight: "800",
     fontSize: 12,
   },
 
   aboutHeroTitle: {
-    color: theme.colors.text,
+    color: theme.colors.textOnPrimary,
     fontSize: 30,
     lineHeight: 38,
     fontWeight: "900",
   },
 
   aboutHeroSubtitle: {
-    color: theme.colors.textSecondary,
+    color: theme.colors.textOnPrimary,
     fontSize: 16,
     lineHeight: 24,
   },
@@ -141,14 +156,14 @@ export const aboutStyles = StyleSheet.create({
   },
 
   aboutCtaRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: theme.spacing.md,
+    justifyContent: "center",
+    alignItems: "stretch",
+    gap: theme.spacing.xl,
   },
 
   aboutPrimaryButton: {
     flexDirection: "row",
-    alignItems: "center",
+    alignSelf: "stretch",
     justifyContent: "center",
     gap: theme.spacing.sm,
     backgroundColor: theme.colors.primary,
@@ -192,7 +207,7 @@ export const aboutStyles = StyleSheet.create({
   },
 
   aboutSecondaryButtonText: {
-    color: theme.colors.text,
+    color: theme.colors.textSecondary,
     fontSize: 15,
     fontWeight: "700",
     textAlign: "center",
@@ -223,7 +238,7 @@ export const aboutStyles = StyleSheet.create({
   },
 
   aboutSectionText: {
-    color: theme.colors.textSecondary,
+    color: theme.colors.textMinor,
     fontSize: 15,
     lineHeight: 23,
   },
@@ -260,7 +275,7 @@ export const aboutStyles = StyleSheet.create({
   },
 
   aboutCardText: {
-    color: theme.colors.textSecondary,
+    color: theme.colors.textMinor,
     fontSize: 14,
     lineHeight: 21,
   },
@@ -329,7 +344,7 @@ export const aboutStyles = StyleSheet.create({
   },
 
   aboutStepText: {
-    color: theme.colors.textSecondary,
+    color: theme.colors.textMinor,
     fontSize: 14,
     lineHeight: 21,
   },
@@ -343,7 +358,7 @@ export const aboutStyles = StyleSheet.create({
 
   aboutBulletText: {
     flex: 1,
-    color: theme.colors.textSecondary,
+    color: theme.colors.textMinor,
     fontSize: 15,
     lineHeight: 22,
   },
@@ -359,14 +374,14 @@ export const aboutStyles = StyleSheet.create({
   },
 
   aboutCtaTitle: {
-    color: theme.colors.text,
+    color: theme.colors.textMinor,
     fontSize: 22,
     lineHeight: 29,
     fontWeight: "900",
   },
 
   aboutCtaText: {
-    color: theme.colors.textSecondary,
+    color: theme.colors.textMinor,
     fontSize: 15,
     lineHeight: 23,
   },
