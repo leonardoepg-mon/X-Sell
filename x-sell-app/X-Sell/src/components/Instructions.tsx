@@ -1,4 +1,6 @@
 import React from "react";
+import { Row, Rows, StickyTable, Table } from 'react-native-tabeller';
+import * as examples from "@/assets/examples/exemplo.json"
 import {
   Image,
   ImageSourcePropType,
@@ -13,7 +15,7 @@ import { Feather } from "@expo/vector-icons";
 import { aboutStyles, styles, theme } from "@/styles/styles";
 
 const images: Record<string, ImageSourcePropType> = {
-  logo: require("@/assets/images/fractals-logo.png"),
+  logo: require("@/assets/images/splash-icon.png"),
 };
 
 type IconName = React.ComponentProps<typeof Feather>["name"];
@@ -37,68 +39,35 @@ const preparationCards: InstructionCard[] = [
     text: "Envie o arquivo em um formato de planilha compatível, como XLSX, XLS ou CSV.",
   },
   {
-    icon: "columns",
-    title: "Uma informação por coluna",
-    text: "Separe cliente, produto, quantidade, valor e data em colunas diferentes.",
-  },
-  {
-    icon: "type",
-    title: "Mantenha os cabeçalhos",
-    text: "A primeira linha deve conter nomes claros para identificar cada coluna da planilha.",
-  },
-  {
     icon: "check-square",
     title: "Revise antes de enviar",
-    text: "Verifique dados ausentes, linhas duplicadas, valores inválidos e fórmulas com erro.",
+    text: "Verifique dados ausentes, valores inválidos e fórmulas com erro.",
   },
 ];
 
 const requiredColumns = [
   {
-    title: "Identificação do cliente",
-    text: "Nome, código, CNPJ, CPF ou outro identificador consistente que permita reconhecer o cliente.",
+    title: "Linhas: Identificação do cliente",
+    text: "Para efeito de preservação de sigilo comercial, a identificação dos clientes deve ser feita por meio de informações não-reconhecíveis, como um número interno, sem usar  CNPJ, nome da empresa ou razão social.",
   },
   {
-    title: "Produto ou serviço",
-    text: "Nome, descrição, categoria ou código do produto vendido.",
+    title: "Colunas: Produto ou serviço",
+    text: "Os nomes de produtos nas colunas devem ser informados por  denominações genéricas, como “Produto 1”, “Produto 2” e assim por diante.",
   },
   {
-    title: "Data da venda",
-    text: "Data em que a venda, pedido ou faturamento foi registrado.",
+    title: "Células",
+    text: "Na interseção entre linha e coluna, deve constar o total de vendas daquele produto ou serviço para aquele cliente em um determinado período, que pode ser de 6 meses, 1 ano, 2 anos ou outro intervalo definido pelo usuário",
   },
-  {
-    title: "Quantidade",
-    text: "Número de unidades, itens ou serviços incluídos na venda.",
-  },
-  {
-    title: "Valor",
-    text: "Valor unitário ou valor total da transação, claramente identificado no cabeçalho.",
-  },
-];
-
-const recommendations = [
-  "Coloque os nomes das colunas na primeira linha da planilha.",
-  "Use apenas uma linha para cada item, venda ou transação.",
-  "Mantenha o mesmo padrão de data em toda a planilha.",
-  "Não misture texto e números na mesma coluna.",
-  "Evite células mescladas, títulos decorativos e linhas em branco.",
-  "Remova totais, subtotais e observações inseridas entre os dados.",
-  "Informe valores monetários sempre no mesmo formato.",
-  "Confira se os clientes possuem uma identificação consistente.",
 ];
 
 const workflow = [
   {
     title: "Prepare os dados",
-    text: "Organize as vendas em formato de tabela, com cabeçalhos na primeira linha.",
-  },
-  {
-    title: "Revise a planilha",
-    text: "Verifique se as colunas estão preenchidas corretamente e se não existem linhas duplicadas.",
+    text: "Organize as vendas em formato de tabela.",
   },
   {
     title: "Selecione o arquivo",
-    text: "Na tela inicial, pressione o botão de nova requisição e escolha a planilha desejada.",
+    text: "Na tela inicial, pressione o botão de nova planilha e escolha a planilha desejada.",
   },
   {
     title: "Confirme o envio",
@@ -108,15 +77,6 @@ const workflow = [
     title: "Acompanhe a solicitação",
     text: "Consulte a tela de solicitações para acompanhar a análise, possíveis correções e a conclusão.",
   },
-];
-
-const avoidItems = [
-  "Imagens, gráficos ou tabelas dinâmicas no lugar dos dados originais.",
-  "Várias tabelas diferentes dentro da mesma aba.",
-  "Cabeçalhos repetidos no meio da planilha.",
-  "Linhas ou colunas ocultas com informações importantes.",
-  "Células com erros como #N/A, #VALOR! ou #REF!.",
-  "Arquivos protegidos por senha ou bloqueados para leitura.",
 ];
 
 function InstructionCard({
@@ -179,7 +139,7 @@ export default function Instructions({
                 />
 
                 <Text style={aboutStyles.aboutBadgeText}>
-                  Instruções de envio
+                  Como funciona
                 </Text>
               </View>
             </View>
@@ -189,7 +149,7 @@ export default function Instructions({
             </Text>
 
             <Text style={aboutStyles.aboutHeroSubtitle}>
-              Deixe a IA compor sugestões de cross-selling e upselling personalizadas para cada um dos seus clientes.
+              Este assistente de inteligência artificial auxilia, de forma gratuita, na definição de estratégias de cross-selling e upselling.
             </Text>
 
             <View style={aboutStyles.aboutCtaRow}>
@@ -221,22 +181,19 @@ export default function Instructions({
             </Text>
 
             <Text style={aboutStyles.aboutSectionText}>
-              Cada linha deve representar uma venda, item ou transação. Cada
-              coluna deve armazenar apenas um tipo de informação. Quanto mais
-              padronizados estiverem os dados, mais confiável será o resultado
-              da análise.
+              Seu funcionamento é simples: o usuário deve fornecer uma planilha em que cada linha represente um cliente e cada coluna represente um produto. Em cada célula, na interseção entre linha e coluna, deve constar o total de vendas daquele produto ou serviço para aquele cliente em um determinado período, que pode ser de 6 meses, 1 ano, 2 anos ou outro intervalo definido pelo usuário.
             </Text>
           </View>
 
           <View style={aboutStyles.aboutCardGrid}>
-            {preparationCards.map((item) => (
+            {preparationCards.map((item) => ( // colocar planilha exemplo aqui
               <InstructionCard
                 key={item.title}
                 icon={item.icon}
                 title={item.title}
                 text={item.text}
               />
-            ))}
+            ))} 
           </View>
 
           <View style={aboutStyles.aboutSection}>
@@ -245,13 +202,7 @@ export default function Instructions({
             </Text>
 
             <Text style={aboutStyles.aboutSectionTitle}>
-              Quais colunas devem aparecer na planilha?
-            </Text>
-
-            <Text style={aboutStyles.aboutSectionText}>
-              Os nomes exatos podem variar de acordo com o sistema utilizado
-              pela sua empresa, mas a planilha deve permitir identificar pelo
-              menos o cliente, o produto e os dados da venda.
+              Quais dados devem aparecer na planilha?
             </Text>
           </View>
 
@@ -280,63 +231,24 @@ export default function Instructions({
             ))}
           </View>
 
+          <View style={aboutStyles.aboutWorkflowBox}>
+            <View style={styles.exContainer}>
+              <Table borderStyle={styles.exBorder}>
+                <Row data={examples.inputData[0]} style={styles.exHeader} textStyle={styles.exHeaderText} />
+                <Rows data={examples.inputData.slice(1)} style={styles.exDetails} textStyle={styles.exDetailsText} />
+              </Table>
+            </View>
+          </View>
+
           <View style={aboutStyles.aboutSection}>
-            <Text style={aboutStyles.aboutSectionKicker}>
-              Boas práticas
-            </Text>
-
-            <Text style={aboutStyles.aboutSectionTitle}>
-              Faça estas verificações antes do envio.
-            </Text>
-
-            {recommendations.map((recommendation) => (
-              <View
-                key={recommendation}
-                style={aboutStyles.aboutBulletRow}
-              >
-                <Feather
-                  name="check-circle"
-                  size={18}
-                  color={theme.colors.success}
-                />
-
                 <Text style={aboutStyles.aboutBulletText}>
-                  {recommendation}
+                  Em geral, quanto mais abrangente for o período avaliado— especialmente se contemplar efeitos de sazonalidade — mais consistentes tenderão a ser os resultados.
                 </Text>
-              </View>
-            ))}
           </View>
 
           <View style={aboutStyles.aboutSection}>
             <Text style={aboutStyles.aboutSectionKicker}>
-              O que evitar
-            </Text>
-
-            <Text style={aboutStyles.aboutSectionTitle}>
-              Alguns formatos podem impedir ou prejudicar a análise.
-            </Text>
-
-            {avoidItems.map((item) => (
-              <View
-                key={item}
-                style={aboutStyles.aboutBulletRow}
-              >
-                <Feather
-                  name="alert-circle"
-                  size={18}
-                  color={theme.colors.warning}
-                />
-
-                <Text style={aboutStyles.aboutBulletText}>
-                  {item}
-                </Text>
-              </View>
-            ))}
-          </View>
-
-          <View style={aboutStyles.aboutSection}>
-            <Text style={aboutStyles.aboutSectionKicker}>
-              Envio da planilha
+              Após o envio
             </Text>
 
             <Text style={aboutStyles.aboutSectionTitle}>
@@ -369,9 +281,47 @@ export default function Instructions({
             ))}
           </View>
 
+          <View style={aboutStyles.aboutSection}>
+            <Text style={aboutStyles.aboutSectionKicker}>
+              Após o recebimento da planilha de entrada
+            </Text>
+
+            <Text style={aboutStyles.aboutSectionText}>
+              A entrada é verificada, e, se for compatível, inicia-se o processo de análise.
+              Ao final do processamento, é gerada uma nova planilha baseada no arquivo original,
+              com a inclusão de uma coluna adicional indicando a qual cluster
+              cada cliente pertence.
+            </Text>
+            <Text style={aboutStyles.aboutSectionText}>
+
+              Em seguida, são acrescentadas três novas colunas, 
+              posicionadas à direita da coluna de cluster, cada uma contendo a 
+              sugestão de um produto ou serviço a ser ofertado ao cliente.
+              </Text>
+            <Text style={aboutStyles.aboutSectionText}>
+              Essas recomendações têm como objetivo ampliar o potencial
+              de cross-selling, indicando produtos cuja aquisição tenderia
+              a aproximar o perfil de compras daquele cliente do perfil 
+              predominante no grupo ao qual ele pertence.
+              </Text>
+            <Text style={aboutStyles.aboutSectionText}>
+              Além da planilha enriquecida, o sistema também gera um relatório analítico,
+              indicando as melhores recomendações e os bundles mais promissores a serem oferecidos.
+            </Text>
+          </View>
+
+          <View style={aboutStyles.aboutWorkflowBox}>
+            <View style={styles.exContainer}>
+              <Table borderStyle={styles.exBorder}>
+                <Row data={examples.outputData[0]} style={styles.exHeader} textStyle={styles.exHeaderText} />
+                <Rows data={examples.outputData.slice(1)} style={styles.exDetails} textStyle={styles.exDetailsText} />
+              </Table>
+            </View>
+          </View>
+
           <View style={aboutStyles.aboutCtaBox}>
             <Text style={aboutStyles.aboutCtaTitle}>
-              Sua planilha está pronta?
+              Comece já!
             </Text>
 
             <Text style={aboutStyles.aboutCtaText}>

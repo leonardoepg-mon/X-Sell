@@ -10,7 +10,7 @@ import { Feather } from "@expo/vector-icons";
 import { aboutStyles, styles, theme } from "@/styles/styles";
 
 const images: Record<string, ImageSourcePropType> = {
-  logo: require("@/assets/images/fractals-logo.png")
+  logo: require("@/assets/images/splash-icon.png")
 };
 
 type AboutProps = {
@@ -33,16 +33,16 @@ export default function Welcome({ onStart, visible }: AboutProps) {
         </View>
 
         <Text style={aboutStyles.aboutHeroTitle}>
-          X-Sell: Experimente um jeito novo de direcionar seu esforço de vendas.
+          X-Sell
         </Text>
 
         <Text style={aboutStyles.aboutHeroSubtitle}>
-          Uma solução da FV para organizar dados comerciais, encontrar oportunidades de cross-selling e up-selling, e orientar a equipe para vender mais dentro da carteira atual.
+          Use IA para ampliar seus resultados comerciais
         </Text>
 
         <View style={aboutStyles.aboutCtaRow}>
           <TouchableOpacity activeOpacity={0.85} style={aboutStyles.aboutPrimaryButton} onPress={onStart}>
-            <Text style={aboutStyles.aboutPrimaryButtonText}> Começar a usar </Text>
+            <Text style={aboutStyles.aboutPrimaryButtonText}> Iniciar </Text>
             <Feather name="arrow-right" size={18} color={theme.colors.textOnPrimary} />
           </TouchableOpacity>
         </View>

@@ -479,6 +479,14 @@ export const styles = StyleSheet.create({
   boxContainerSmall: { width:"40%", backgroundColor: theme.colors.surfaceLight, borderRadius: theme.radius.lg, padding: theme.spacing.md, alignItems: "stretch", borderColor: theme.colors.borderLight, borderWidth: 1, ...theme.shadows.card,},
   boxContentSmall: {flexDirection: 'column', alignItems: "stretch", justifyContent: "space-around",},
 
+  // ─── Planilha-exemplo ────────────────────────────────────────────────────────
+    exContainer: { alignItems: "stretch", justifyContent: "center"},
+    exBorder: { borderWidth: 1, borderColor: theme.colors.borderLight, borderTopLeftRadius: theme.radius.lg, borderTopRightRadius: theme.radius.lg},
+    exDetails: { backgroundColor: theme.colors.backgroundSoft},
+    exDetailsText: { color: theme.colors.primary},
+    exHeader: { backgroundColor: theme.colors.background},
+    exHeaderText: { color: theme.colors.primaryLight},
+
   // ─── Formulários ───────────────────────────────────────────────────────────
   formContent: { padding: theme.spacing.lg, paddingBottom: theme.spacing.xxl, gap: theme.spacing.lg },
   formHeader: { backgroundColor: theme.colors.surface, borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.xl, padding: theme.spacing.xl, gap: theme.spacing.md, ...theme.shadows.card },

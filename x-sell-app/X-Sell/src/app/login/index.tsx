@@ -14,7 +14,7 @@ export default function Login() {
   const router = useRouter();
   const {ContextLogin} = useAuth()
   const {showMessage, MessageDialog} = useMessageDialog();
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
 async function OnPressLogin() {
     const response = await handleLogin(username, password);
@@ -27,7 +27,6 @@ async function OnPressLogin() {
                                   ) : undefined
                               });
     }
-
   return (
     <>
     <AppBackground>

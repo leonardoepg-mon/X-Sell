@@ -6,7 +6,6 @@ export default function RootLayout() {
 
   return <Stack>
           <Stack.Protected guard={!isLogged}>
-            <Stack.Screen name="index" options={{headerShown: false, title: "Home"}} />
             <Stack.Screen name="login" options={{headerShown: false, title: "Entrar"}}/>
             <Stack.Screen name="register" options={{headerShown: false, title: "Registro"}}/>
           </Stack.Protected>
