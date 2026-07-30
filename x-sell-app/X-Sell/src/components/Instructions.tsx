@@ -159,7 +159,7 @@ export default function Instructions({
                 onPress={onPressClose}
               >
                 <Text style={aboutStyles.aboutPrimaryButtonText}>
-                  Já entendi
+                  Já entendi - Voltar
                 </Text>
 
                 <Feather
