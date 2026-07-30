@@ -59,6 +59,7 @@ export const theme = {
     sm: 18,
     md: 24,
     lg: 32,
+    xs: 10,
   },
 
   shadows: {
@@ -429,7 +430,7 @@ export const styles = StyleSheet.create({
   // ─── Botões genéricos ──────────────────────────────────────────────────────
   button: { backgroundColor: theme.colors.primary, borderWidth: 1, alignSelf: "center", 
     borderColor: theme.colors.primaryDark, borderRadius: theme.radius.md,
-     paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.lg },
+     paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.lg, margin: theme.spacing.md},
   buttonText: { color: theme.colors.textOnPrimary, fontWeight: "700", textAlign: "center" },
   cancelButton: { alignSelf: "center",padding: theme.spacing.md,  marginTop: theme.spacing.sm, backgroundColor: theme.colors.backgroundSoft, borderRadius: theme.radius.md, paddingVertical: theme.spacing.sm, paddingHorizontal: theme.spacing.md, minWidth: 50 },
   cancelBText: { color: theme.colors.textOnPrimary, fontWeight: "700", textAlign: "center" },

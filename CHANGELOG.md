@@ -1,3 +1,5 @@
+## Feature: Relatórios separados de output
+
 ## Mudando splash screen e tela de explicações
 
 ### O que mudou:

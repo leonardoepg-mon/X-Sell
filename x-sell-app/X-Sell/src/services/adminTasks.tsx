@@ -11,7 +11,7 @@ type StatusCode = -1 | 0 | 1 | 2 | 3 | 4;
 
 type Avaliacao = -1 | 0 | 1 | 2 | 3 | 4 | 5;
 
-type StatusItem = {
+type StatusItem = { 
   id: number;
   status: StatusCode;
   avaliacao: Avaliacao;
@@ -177,7 +177,7 @@ export async function statusSearch() {
   }
 }
 
-export async function handleAdminUpload(document: DocumentPicker.DocumentPickerAsset | null, id_item: string) {
+export async function handleAdminUpload(document: DocumentPicker.DocumentPickerAsset | null, id_item: string, isReport: boolean=false) {
   if (!document) {
     return {success: false, message: "Nenhum documento selecionado.", msgType: "info" };
   }
@@ -189,7 +189,8 @@ export async function handleAdminUpload(document: DocumentPicker.DocumentPickerA
     const blob = await file.blob();
 
     formData.append("uploadFile", blob, document.name);
-    formData.append("id_item", id_item ?? "-1"); 
+    formData.append("id_item", id_item ?? "-1");
+    if (isReport) {formData.append("isReport", "true");}
 
     const response = await authFetch(localIP + '/admin/upload', {
       method: "POST",
@@ -208,22 +209,36 @@ export async function handleAdminUpload(document: DocumentPicker.DocumentPickerA
   }
     }
 
-export async function pickDocument() { 
+type pickerResult = {
+  document?: DocumentPicker.DocumentPickerAsset;
+  success: boolean;
+  message: string;
+}
+
+export async function pickDocumentFree(): Promise<pickerResult> { 
     try {
       const result = await DocumentPicker.getDocumentAsync({
         type: "*/*", // all files
         copyToCacheDirectory: true,
       });
       if (!result.canceled) {
-        return result.assets[0]
+        const document = result.assets[0];
+        return {document, success: true, message: ""}
       }
     } catch (err) {
-      console.log("Error picking document:", err);
+      console.log("Erro escolhendo arquivo:", err);
     }
-    return null
+    return { success: false, message: "Nenhum arquivo selecionado."}
 }
 
-export async function handleDownload(id_item: number) {
+type HandlerResults = {
+  success: boolean;
+  message: string;
+  msgType: MsgType;
+  fileName?: string;
+}
+
+export async function handleDownload(id_item?: number): Promise<HandlerResults> {
   try {
     const response = await authFetch(localIP + '/admin/download', {
       method: "POST",

@@ -4,7 +4,7 @@ import { Modal, Pressable, Text, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker"
 
 import { handleReupload, handleUpload, pickDocument } from "@/services/fileMgmt";
-import { handleAdminUpload, seeUsers, UserDetails } from "@/services/adminTasks";
+import { handleAdminUpload, seeUsers, UserDetails, pickDocumentFree } from "@/services/adminTasks";
 import { styles } from "@/styles/styles";
 import { useMessageDialog } from "@/hooks/useMessageDialog";
 
@@ -13,6 +13,7 @@ type UploadDialogProps = {
   visible: boolean;
   id_item?: string;
   selectUser?: boolean;
+  isReport?: boolean;
   onClose: () => void;
   onUploaded: () => void;
 };
@@ -29,6 +30,7 @@ export function UploadDialog({
   visible,
   id_item,
   selectUser,
+  isReport,
   onClose,
   onUploaded,
 }: UploadDialogProps) {
@@ -80,7 +82,7 @@ export function UploadDialog({
       ? await handleReupload(document, id_item)
       : await handleUpload(document);
     } else if (id_item) {
-    response = await handleAdminUpload(document, id_item);
+    response = await handleAdminUpload(document, id_item, isReport);
     } else if (selectUser) {
       response = await handleUpload(document, selectedUserId);
     }
@@ -104,7 +106,7 @@ export function UploadDialog({
           <Pressable
             style={styles.button}
             onPress={async () => {
-              const result = await pickDocument(); // message?
+              const result = isReport? await pickDocumentFree() : await pickDocument(); // message?
               if (result.document) setDocument(result.document);
               if (!result.success) showMessage({message: result.message, msgType: "warning"});
             }}

@@ -4,13 +4,15 @@ import { styles } from "@/styles/styles";
 type DownloadDialogProps = {
   visible: boolean;
   fileName?: string;
-  onPressDownload: () => void;
+  processId?: number;
+  onPressDownload: (id?:number) => void;
   onClose: () => void;
 };
 
 export function DownloadDialog({
   visible,
   fileName,
+  processId,
   onPressDownload,
   onClose,
 }: DownloadDialogProps) {
@@ -23,7 +25,7 @@ export function DownloadDialog({
           
               <Text style={styles.fileName}>{fileName}</Text>
               
-              <Pressable style={styles.button} onPress={onPressDownload}>
+              <Pressable style={styles.button} onPress={ () => onPressDownload(processId)}>
                 <Text style={styles.buttonText}>
                   Baixar
                 </Text>

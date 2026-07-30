@@ -11,9 +11,10 @@ import { UploadDialog } from "@/components/StatusScreen/UploadDialog";
 import { DownloadDialog } from "@/components/StatusScreen/DownloadDialog";
 
 import { styles, theme } from "@/styles/styles";
-import { handleDownload } from "@/services/fileMgmt";
+import { handleDownload, handleReportDownload } from "@/services/fileMgmt";
 import { CommentDialog } from "@/components/Admin/CommentDialog"
 import { getOriginalFileName } from "@/services/statusApi";
+import { useDownloadDialog } from "@/hooks/useDownloadDialog";
 
 export type ItemDetails = {
   id_item: string;
@@ -21,6 +22,7 @@ export type ItemDetails = {
   id_usuario: string;
   inputName: string;
   outputName: string;
+  reportName: string;
   avaliacao: string;
   data_envio: string;
   data_aceito: string;
@@ -30,8 +32,6 @@ export type ItemDetails = {
   texto_avaliacao: string;
   motivo_rejeicao: string;
 };
-
-const buttonColor = "#2d4941";
 
 type ItemDetailsDialogProps = {
   isAdmin?: boolean;
@@ -72,8 +72,10 @@ export function ItemDetailsDialog({
     const [downloadVisible, setDownloadVisible] = useState(false);
     const [commentVisible, setCommentVisible] = useState(false);
     const [isInputDownload, setInputDownload] = useState(false);
+    const [isReport, setIsReport] = useState(false);
     const [fileName, setFileName] = useState("");
     const {showMessage, MessageDialog} = useMessageDialog();
+    const {showDownloadDialog, HookDownloadDialog} = useDownloadDialog();
   
     async function confirmDownload() {   
           const response = await handleDownload(Number(item?.id_item) ?? 0);
@@ -89,7 +91,6 @@ export function ItemDetailsDialog({
                 else setDownloadVisible(false);
     }
   
-  
     async function handleStatusSet(statusTo: number) {
       const response = await StApiAdmin.statusSet(Number(item?.id_item ) , statusTo);
                   showMessage({message : response.message,
@@ -99,7 +100,8 @@ export function ItemDetailsDialog({
     
     const buttonTasks = {
       admin: {onPressRating: () => { setRatingVisible(true); }, //ok
-              onPressUpload: () => { setUploadVisible(true); }, //ok, uploadDialog handles it
+              onPressUpload: () => { setUploadVisible(true); },
+              onPressUploadReport: () => { setIsReport(true);setUploadVisible(true); }, //ok, uploadDialog handles it
               onPressDownloadInput: () => {setFileName(item?.inputName || "");setInputDownload(true);setDownloadVisible(true);},  //OK
               onPressDownload: () => {setFileName(item?.inputName || "");setInputDownload(false);setDownloadVisible(true);},  //OK
               onPressSubmit:() => { handleStatusSet(3);},
@@ -235,13 +237,20 @@ export function ItemDetailsDialog({
                         <Text style={{ fontWeight: "bold" }}>Iniciado:</Text>{" "}
                         {formatDate(item.data_iniciado)}
                       </Text>
-                        { isAdmin && item.status === "2" && (
+                        { isAdmin && item.status === "2" && ( <>
                     <Text style={styles.detailsText}>
                     <Text style={{ fontWeight: "bold" }}>
                       Saída enviada:
                     </Text>{" "}
                     {getOriginalFileName(item.outputName) || "Não informado"}
-                      </Text> )}
+                      </Text>
+                  <Text style={styles.detailsText}>
+                    <Text style={{ fontWeight: "bold" }}>
+                      Relatório:
+                    </Text>{" "}
+                    { getOriginalFileName(item.reportName) || "Não informado"}
+                  </Text>
+                     </>)}
                     </View>
                </View >
                   <View style={styles.right}>
@@ -254,7 +263,14 @@ export function ItemDetailsDialog({
                                                 color={theme.colors.iconButtonColor}
                             />
                               </Pressable>
-                              <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressSubmit() } disabled={item.outputName==""}>
+                              <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressUploadReport() }>
+                                <MaterialIcons
+                              name={"short-text"}
+                              size={theme.icons.sm}
+                                                color={theme.colors.iconButtonColor}
+                            />
+                              </Pressable>
+                              <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressSubmit() } disabled={item.outputName=="" || item.reportName==""}>
                                 <MaterialIcons
                               name={"check-box"}
                               size={theme.icons.sm}
@@ -285,6 +301,12 @@ export function ItemDetailsDialog({
                     </Text>{" "}
                     { getOriginalFileName(item.outputName) || "Não informado"}
                   </Text>
+                  <Text style={styles.detailsText}>
+                    <Text style={{ fontWeight: "bold" }}>
+                      Relatório:
+                    </Text>{" "}
+                    { getOriginalFileName(item.reportName) || "Não informado"}
+                  </Text>
                                     </View>
                </View >
                   <View style={styles.right}>
@@ -292,6 +314,15 @@ export function ItemDetailsDialog({
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.user.onPressDownload() }>
                                 <MaterialIcons
                               name={"file-download"}
+                              size={theme.icons.sm}
+                                                color={theme.colors.iconButtonColor}
+                            />
+                              </Pressable>
+                              <Pressable accessibilityHint={"Baixar relatório"} style={styles.smallButton} onPress={ () => showDownloadDialog({ processId: Number(item.id_item),
+                                 fileName: getOriginalFileName(item.reportName),
+                                 downloadHandler: handleReportDownload})}>
+                                <MaterialIcons
+                              name={"short-text"}
                               size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                             />
@@ -379,9 +410,10 @@ export function ItemDetailsDialog({
       admin={isAdmin}
   visible={uploadVisible}
   id_item={item?.id_item ?? undefined}
+  isReport={isReport}
   onClose={() => {setUploadVisible(false); refresh();}}
   onUploaded={() => {//
-    setUploadVisible(false);; refresh();
+    setUploadVisible(false); setIsReport(false); refresh(); ;
    }}
 />
       <DownloadDialog
@@ -394,6 +426,7 @@ export function ItemDetailsDialog({
   id_item={Number(item?.id_item)}
   onClose={() => {setCommentVisible(false);refresh()}}
   onSend={() => {setCommentVisible(false);refresh()}}/>
+  <HookDownloadDialog/>
   <MessageDialog/>
   </>
   );

@@ -85,9 +85,15 @@ export function handleDownload(req, res) {
   const idx = db.findIndex(
     (row) => row.id_item == req.body.id_item
   );
-  const fileName = db[idx].outputName;// adicionar timestamp
-  const filePath = path.join(rootPath, "data", "output", fileName);
-  const downloadName = getOriginalFileName(fileName);
+  let fileName = db[idx].outputName;
+  let filePath = path.join(rootPath, "data", "output", fileName);
+  let downloadName = getOriginalFileName(fileName);
+
+  if (req.body.isReport) {
+  fileName = db[idx].reportName;
+  filePath = path.join(rootPath, "data", "reports", fileName);
+  downloadName = getOriginalFileName(fileName);
+  }
 
   res.download(filePath,downloadName, (err) => {
     if (err) {
@@ -147,13 +153,12 @@ export function handleAdminUpload(req, res)  {
     (row) => row.id_item == req.body.id_item
     );
 
-    console.log("Upload de analista recebido: ", uploadedFile.name);
+    console.log("Upload de analista recebido: ", uploadedFile.name, "tipo:", req.body.isReport ? "relatório":"output");
     console.log("Arquivo armazenado como:", storedFileName);
 
     const uploadPath = path.join(
       rootPath,
-      "data",
-      "output",
+      "data", req.body.isReport? "reports": "output",
       storedFileName
     );
 
@@ -163,7 +168,7 @@ export function handleAdminUpload(req, res)  {
         return res.json({success: false, message: "Falha no envio.", msgType: "error"});
       }
       db[idx].id_item = req.body.id_item;
-      db[idx].outputName = storedFileName;
+      req.body.isReport? db[idx].reportName = storedFileName : db[idx].outputName = storedFileName;
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true})); 
       return res.json({success: true, message: "Recebido com sucesso.", msgType: "success"});
     });
