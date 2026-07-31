@@ -61,10 +61,10 @@ export default function StatusScreen() {
       Nova planilha
     </Text>
   </Pressable>
-      <Pressable style={styles.cancelButton} onPress={OnPressLogout}>
-        <Text selectable={false} style={styles.cancelBText} > Sair </Text>
-      </Pressable>
       </View>
+      <Pressable style={styles.logoutButton} onPress={OnPressLogout}>
+        <Text selectable={false} style={styles.logoutBText} > Sair </Text>
+      </Pressable>
     </AppBackground>
   <UploadDialog
   visible={uploadVisible}

@@ -232,12 +232,23 @@ export default function Instructions({
           </View>
 
           <View style={aboutStyles.aboutWorkflowBox}>
-            <View style={styles.exContainer}>
+            <ScrollView
+    horizontal
+    style={styles.exContainer}
+    contentContainerStyle={styles.exScrollContent}
+    showsHorizontalScrollIndicator
+  >
               <Table borderStyle={styles.exBorder}>
-                <Row data={examples.inputData[0]} style={styles.exHeader} textStyle={styles.exHeaderText} />
-                <Rows data={examples.inputData.slice(1)} style={styles.exDetails} textStyle={styles.exDetailsText} />
+                <Row data={examples.inputData[0]}
+                widthArr={Array(examples.inputData[0].length).fill(80)}
+                style={styles.exHeader}
+                textStyle={styles.exHeaderText} />
+                <Rows data={examples.inputData.slice(1)}
+                style={styles.exDetails}
+                widthArr={Array(examples.inputData[0].length).fill(80)}
+                textStyle={styles.exDetailsText} />
               </Table>
-            </View>
+            </ScrollView>
           </View>
 
           <View style={aboutStyles.aboutSection}>
@@ -311,12 +322,23 @@ export default function Instructions({
           </View>
 
           <View style={aboutStyles.aboutWorkflowBox}>
-            <View style={styles.exContainer}>
+            <ScrollView
+    horizontal
+    style={styles.exContainer}
+    contentContainerStyle={styles.exScrollContent}
+    showsHorizontalScrollIndicator
+  >
               <Table borderStyle={styles.exBorder}>
-                <Row data={examples.outputData[0]} style={styles.exHeader} textStyle={styles.exHeaderText} />
-                <Rows data={examples.outputData.slice(1)} style={styles.exDetails} textStyle={styles.exDetailsText} />
+                <Row data={examples.outputData[0]}
+                 style={styles.exHeader}
+                 widthArr={Array(examples.outputData[0].length).fill(110)}
+                 textStyle={styles.exHeaderText} />
+                <Rows data={examples.outputData.slice(1)} 
+                style={styles.exDetails}
+                widthArr={Array(examples.outputData[0].length).fill(110)}
+                textStyle={styles.exDetailsText} />
               </Table>
-            </View>
+            </ScrollView>
           </View>
 
           <View style={aboutStyles.aboutCtaBox}>

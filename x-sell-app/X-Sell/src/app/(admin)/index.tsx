@@ -74,10 +74,10 @@ export default function AdminStatusList() {
   <Pressable style={styles.button} onPress={() => {setUsersVisible(true);}}>
         <Text selectable={false} style={styles.buttonText} > Usuários </Text>
       </Pressable>
-  <Pressable style={styles.cancelButton} onPress={OnPressLogout}>
-        <Text selectable={false} style={styles.cancelBText} > Sair </Text>
+  </View>
+      <Pressable style={styles.logoutButton} onPress={OnPressLogout}>
+        <Text selectable={false} style={styles.logoutBText} > Sair </Text>
       </Pressable>
-</View>
     </AppBackground>
   <UserDetailsBox
   visible={usersVisible}

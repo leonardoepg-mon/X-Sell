@@ -85,10 +85,14 @@ fv_new_lightest: "#e0f5eb",
 export const aboutStyles = StyleSheet.create({
   aboutScreen: {
     flex: 1,
+    width: "100%",
+    maxWidth: "100%",
     backgroundColor: "rgba(0,0,0,0,1)"
+
   },
 
   aboutContent: {
+    width: "100%",
     padding: theme.spacing.lg,
     paddingBottom: theme.spacing.xxl,
     gap: theme.spacing.lg,
@@ -120,6 +124,7 @@ export const aboutStyles = StyleSheet.create({
   aboutLogoRow: {
     width: "100%",
     flexDirection: "row",
+    flexWrap: "wrap-reverse",
     alignItems: "center",
     justifyContent: "space-between",
     gap: theme.spacing.md,
@@ -439,16 +444,27 @@ export const styles = StyleSheet.create({
   // ─── Botões genéricos ──────────────────────────────────────────────────────
   button: { backgroundColor: theme.colors.primary, borderWidth: 1, alignSelf: "center", 
     borderColor: theme.colors.primaryDark, borderRadius: theme.radius.md,
-     paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.lg, margin: theme.spacing.md},
+     paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.md, margin: theme.spacing.sm,},
   buttonText: { color: theme.colors.textOnPrimary, fontWeight: "700", textAlign: "center" },
   cancelButton: { alignSelf: "center",padding: theme.spacing.md,  marginTop: theme.spacing.sm, backgroundColor: theme.colors.backgroundSoft, borderRadius: theme.radius.md, paddingVertical: theme.spacing.sm, paddingHorizontal: theme.spacing.md, minWidth: 50 },
   cancelBText: { color: theme.colors.textOnPrimary, fontWeight: "700", textAlign: "center" },
+  logoutButton: {
+  position: "absolute",
+  right: theme.spacing.lg,
+  bottom: theme.spacing.lg,
+  zIndex: 10,
+
+  paddingHorizontal: theme.spacing.lg,
+  paddingVertical: theme.spacing.sm,
+  borderRadius: theme.radius.md,
+  backgroundColor: theme.colors.backgroundSoft,
+},
+  logoutBText: { color: theme.colors.textOnPrimary, fontWeight: "700", textAlign: "center" },
   sendButton: { backgroundColor: theme.colors.primary, padding: theme.spacing.md, borderRadius: theme.radius.md },
   sendText: { color: theme.colors.textOnPrimary, fontWeight: "700", textAlign: "center" },
   smallButton: { backgroundColor: theme.colors.primary, borderRadius: theme.radius.sm,
-     paddingVertical: theme.spacing.xs, paddingHorizontal: theme.spacing.xs, minWidth: "5%" },
-  buttonRow: { flexDirection: "row", gap: 5, alignSelf: "center", },
-  bottomButtonRow: { width: "100%", flexDirection: "row", gap: 5, alignSelf: "center", alignItems: "stretch" },
+     paddingVertical: theme.spacing.xs, paddingHorizontal: theme.spacing.xs, margin: 1, minWidth: "5%" },
+  buttonRow: { flexDirection: "row", alignSelf: "center", paddingRight: 60, flexWrap: "wrap" },
   buttonColumn: { flexDirection: "column", gap: theme.spacing.md, margin: theme.spacing.sm, },
   buttons: { flexDirection: "row", gap: theme.spacing.md },
 
@@ -490,12 +506,13 @@ export const styles = StyleSheet.create({
   boxContentSmall: {flexDirection: 'column', alignItems: "stretch", justifyContent: "space-around",},
 
   // ─── Planilha-exemplo ────────────────────────────────────────────────────────
-    exContainer: { alignItems: "stretch", justifyContent: "center"},
+    exContainer: { width: "100%", maxWidth: "100%"},
     exBorder: { borderWidth: 1, borderColor: theme.colors.borderLight, borderTopLeftRadius: theme.radius.lg, borderTopRightRadius: theme.radius.lg},
     exDetails: { backgroundColor: theme.colors.backgroundSoft},
     exDetailsText: { color: theme.colors.primary},
     exHeader: { backgroundColor: theme.colors.background},
     exHeaderText: { color: theme.colors.primaryLight},
+    exScrollContent: {flexGrow: 1, justifyContent: "center"},
 
   // ─── Formulários ───────────────────────────────────────────────────────────
   formContent: { padding: theme.spacing.lg, paddingBottom: theme.spacing.xxl, gap: theme.spacing.lg },

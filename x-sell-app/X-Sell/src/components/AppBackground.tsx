@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     alignContent: "stretch",
+    position: "relative",
 
     // É opaco de propósito, para esconder a tela anterior do Stack.
     backgroundColor: theme.colors.background,
