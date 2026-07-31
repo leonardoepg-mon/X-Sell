@@ -2,40 +2,49 @@ import { StyleSheet } from "react-native";
 
 export const theme = {
   colors: {
-    background: "#7d3682",// jacarte-color-light?
-    backgroundSoft: "#3f2b54",// jacarte-color
+fv_new_darkest: "#5e306a",
+fv_new_dark: "#673e9e",
+fv_new_vivid: "#453ec2",
+fv_new_light_vivid: "#406cd3",
+fv_new_light: "#489dda",
+fv_new_vivid_lightest: "#52c6d8",
+fv_new_pale: "#7ee6d4",
+fv_new_lightest: "#e0f5eb",
+
+    background: "#673e9e", //"#7d3682",// jacarte-color-light?
+    backgroundSoft: "#5e306a",//"#3f2b54",// jacarte-color
     logoBackground: "#493b5f",// jacarte-color - variant
-    surface: "#18181b",//eerie-black-color
-    surfaceAlt: "#24324D",
-    surfaceLight: "#F8FAFC",
+    surface: "#331b33",//eerie-black-color
+    surfaceAlt: "#673e9e", //"#24324D",
+    surfaceLight: "#e0f5eb",//"#F8FAFC",
 
-    primary: "#00A6D6",
-    primaryDark: "#116162", // maximum-blue-green-dark?
-    primaryLight: "#22c2c5",// maximum-blue-green-color
-    accent: "#45E0C1",
+    primary: "#489dda",//"#00A6D6",
+    primaryDark: "#453ec2",//"#116162", // maximum-blue-green-dark?
+    primaryLight: "#52c6d8",//"#22c2c5",// maximum-blue-green-color
+    accent: "#7ee6d4", //"#45E0C1",
 
-    text: "#cbd5e1",// columbia-blue-color
-    textMinor: "#32d2d5",// maximum-blue-green-color
-    textSecondary: "#655576",//black-coral-color
-    textOnLight: "#172033",
-    textOnPrimary: "#cbd5e1",// columbia-blue-color
+    text: "#e0f5eb",//"#cbd5e1",// columbia-blue-color
+    textMinor: "#7ee6d4",//"#32d2d5",// maximum-blue-green-color
+    textSecondary: "#673e9e", //"#655576",//black-coral-color
+    textOnLight: "#5e306a",//"#172033",
+    textOnPrimary: "#e0f5eb",//"#cbd5e1",// columbia-blue-color
 
-    success: "#116163",// maximum-blue-green-color
+    success: "#489dda",//"#116163",// maximum-blue-green-color
     warning: "#cc4322",//smashed-pumpkin-color
     error: "#d90429",//red-color
-    info: "#7d3682",// jacarte-color-light?
+    info: "#673e9e",//"#7d3682",// jacarte-color-light?
 
-    iconButtonColor: "#2d4941",
-    filterButtonActive: "#e1e1e1",
-    filterButtonInactive: "#d35cd3",
-    stars: "#09a8a0",
-    starsOld: "#045450",
-    isAdmin: "#16be2c",
-    notAdmin: "#3894d1",
+    iconButtonColor: "#453ec2",//"#2d4941",
+    filterButtonActive: "#e0f5eb",//"#e1e1e1",
+    filterButtonInactive: "#489dda",//"#d35cd3",
+    stars: "#489dda",//"#09a8a0",
+    starsOld: "#5e306a",//"#045450",
+    isAdmin: "#52c6d8",//"#16be2c",
+    notAdmin: "#673e9e",//"#3894d1",
 
     border: "#083031", // maximum-blue-green-darkest?
-    borderLight:  "#cbd5e1",// columbia-blue-color
-    overlay: "rgba(61, 43, 84, 0.65)",
+    borderLight:  "#e0f5eb",//"#cbd5e1",// columbia-blue-color
+    overlay: "#5e306a88",//"rgba(61, 43, 84, 0.65)",
   },
 
   spacing: {

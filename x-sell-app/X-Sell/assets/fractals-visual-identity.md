@@ -15,6 +15,48 @@ black-coral-color: #655576;
 
 red-color: #d90429;
 
+### colorbox.io
+
+  --fvbase-0: #a1e6cd;
+  --fvbase-0.5: #22c2c5;
+  --fvbase-1: #225faf;
+  --fvbase-1.5: #223b9e;
+  --fvbase-2: #23218d;
+  --fvbase-3: #2d1270;
+  --fvbase-4: #2a0253;
+  --fvbase-5: #220033;
+
+### cubetry
+
+# Thu Jul 30 2026 15:48:12 GMT-0300 (Horário Padrão de Brasília)
+# ---------------------------------------------
+# HEX R/G/B cubehelix colour scheme
+#
+# see https://people.phy.cam.ac.uk/dag9/CUBEHELIX/
+#----------------------------------------------
+# see Green (2011), BASI, 39, 289.
+#
+# start............: 0.5
+# rotations........: -0.5
+# hue..............: 1.0
+# gamma............: 0.6
+# number of levels.: 10
+#----------------------------------------------
+# Dave Green: dag9 @ cam.ac.uk
+#----------------------------------------------
+# fraction and R/G/B values
+#
+0.000 #000000
+0.111 #5e306a
+0.222 #673e9e
+0.333 #453ec2
+0.444 #406cd3
+0.556 #489dda
+0.667 #52c6d8
+0.778 #7ee6d4
+0.889 #e0f5eb
+1.000 #ffffff
+
 ### Utilização: 
 
 primary-background-color: var(
