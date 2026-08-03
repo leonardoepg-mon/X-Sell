@@ -50,7 +50,7 @@ export default function AdminStatusList() {
     <AppBackground>
       {!isLoading && <StatusList database={database}
       refresh={handleStatusSearch}/>}
-      <View style={!isLoading? styles.buttonRow:styles.buttonColumn}>
+      <View style={!isLoading? styles.bottomButtonRow:styles.buttonColumn}>
         {isLoading && (
           <Text selectable={false} style={styles.welcomeMsg}>
             Carregando...

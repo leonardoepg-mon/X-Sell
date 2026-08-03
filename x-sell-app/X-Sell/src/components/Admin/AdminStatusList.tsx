@@ -20,6 +20,11 @@ type StatusListProps = {
   refresh?: () => void;
 };
 
+type User = {
+  name: string;
+  id: number;
+}
+
 export function StatusList({
   database,
   onPressUpload,
@@ -31,7 +36,7 @@ export function StatusList({
   refresh
 }: StatusListProps)  {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
-
+  const [user, setUser] = useState<User>({name:"",id:-1});
   const [detailsVisible, setDetailsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ItemDetails | null>(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
@@ -45,7 +50,15 @@ export function StatusList({
  
   if (response.success && response.item) {
     setSelectedItem(response.item);
-  }
+    const userRes = await StApi.seeUsers();
+    if (userRes.success && userRes.data) {
+    let userId = Number(response.item.id_usuario);
+    let foundUser = userRes.data.find(
+    (item) => item.id === userId 
+  );
+    if (foundUser) {setUser({name: foundUser.nomeContato, id: userId});
+      }
+  }}
   setLoadingDetails(false);
 }
 
@@ -119,6 +132,7 @@ export function StatusList({
   isAdmin={true}
   visible={detailsVisible}
   item={selectedItem}
+  user={user}
   loading={loadingDetails}
   onClose={() => {
     setDetailsVisible(false);

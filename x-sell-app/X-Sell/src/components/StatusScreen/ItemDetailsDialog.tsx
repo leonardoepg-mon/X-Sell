@@ -33,8 +33,14 @@ export type ItemDetails = {
   motivo_rejeicao: string;
 };
 
+type User = {
+  name: string;
+  id: number;
+}
+
 type ItemDetailsDialogProps = {
   isAdmin?: boolean;
+  user?: User;
   visible: boolean;
   item: ItemDetails | null;
   loading: boolean;
@@ -63,10 +69,10 @@ export function ItemDetailsDialog({
   visible,
   item,
   loading,
+  user,
   onClose,
   refresh,
 }: ItemDetailsDialogProps) {
-
     const [ratingVisible, setRatingVisible] = useState(false);
     const [uploadVisible, setUploadVisible] = useState(false);
     const [downloadVisible, setDownloadVisible] = useState(false);
@@ -134,12 +140,12 @@ export function ItemDetailsDialog({
           {!loading && item && (
             <View >
               <Text style={styles.status}>
-                Processo #{item.id_item}
+                {`Processo #${item.id_item}`}{(isAdmin && user) && `, enviado por usuário #${user.id}: ${user.name}`}
               </Text>
               <Separator/>
               <View style={styles.detailCategory}>
               <View style={styles.left}>
-                <View style={styles.formField}>
+                <View style={styles.detailsField}>
                   <Text style={styles.detailsText}>
                     <Text style={{ fontWeight: "bold" }}>Enviado:</Text>{" "}
                     {formatDate(item.data_envio)}
@@ -159,7 +165,7 @@ export function ItemDetailsDialog({
                 </View>
               </View >
                 <View style={styles.right}>
-                  <View style={styles.buttonRow}> 
+                  <View style={styles.detailsButtonColumn}> 
                     {(isAdmin && item.status !== "-1") && (<>
                                   <Pressable style={styles.smallButton} onPress={ async () => buttonTasks.admin.onPressDownloadInput() }>
                                                   <MaterialIcons
@@ -167,6 +173,7 @@ export function ItemDetailsDialog({
                                                 size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                                               />
+                                              <Text selectable={false} style={styles.smallButtonText}> Baixar entrada </Text>
                                   </Pressable>
                     { item.status === "0" &&( <>
                                   <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressAccept() }>
@@ -175,6 +182,7 @@ export function ItemDetailsDialog({
                                                 size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                                 />
+                                              <Text selectable={false} style={styles.smallButtonText}> Aceitar entrada </Text>
                                   </Pressable>
                                   <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressReject() } accessibilityHint="Rejeitar arquivo"> 
                                     <MaterialIcons
@@ -182,6 +190,7 @@ export function ItemDetailsDialog({
                                   size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                                 />
+                                              <Text selectable={false} style={styles.smallButtonText}> Rejeitar entrada </Text>
                                   </Pressable>
                                   </>)}</>)}
                     {(!isAdmin && item.status === "-1") && (
@@ -191,6 +200,7 @@ export function ItemDetailsDialog({
                                                       size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                                                     />
+                                              <Text selectable={false} style={styles.smallButtonText}> Reenviar planilha </Text>
                                       </Pressable>
                     )}
                   </View> 
@@ -203,7 +213,7 @@ export function ItemDetailsDialog({
                 <><Separator/>
                 <View style={styles.detailCategory}>
                   <View style={styles.left}>
-                    <View style={styles.formField}>
+                    <View style={styles.detailsField}>
                       <Text style={styles.detailsText}>
                         <Text style={{ fontWeight: "bold" }}>Aprovado:</Text>{" "}
                         {formatDate(item.data_aceito)}
@@ -211,7 +221,7 @@ export function ItemDetailsDialog({
                     </View>
                   </View >
                   <View style={styles.right}>
-                    <View style={styles.buttonRow}>
+                    <View style={styles.detailsButtonColumn}>
                       {(item.status === '1' && isAdmin) && (
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressStart() }>
                                 <MaterialIcons
@@ -219,6 +229,7 @@ export function ItemDetailsDialog({
                               size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                             />
+                                              <Text selectable={false} style={styles.smallButtonText}> Iniciar análise </Text>
                               </Pressable> 
                             )}
                 </View> 
@@ -232,7 +243,7 @@ export function ItemDetailsDialog({
                 <><Separator/>
                 <View style={styles.detailCategory}>
                   <View style={styles.left}>
-                    <View style={styles.formField}>
+                    <View style={styles.detailsField}>
                       <Text style={styles.detailsText}>
                         <Text style={{ fontWeight: "bold" }}>Iniciado:</Text>{" "}
                         {formatDate(item.data_iniciado)}
@@ -254,7 +265,7 @@ export function ItemDetailsDialog({
                     </View>
                </View >
                   <View style={styles.right}>
-                    <View style={styles.buttonRow}>
+                    <View style={styles.detailsButtonColumn}>
                       {(item.status === '2' && isAdmin) && ( <>
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressUpload() }>
                                 <MaterialIcons
@@ -262,6 +273,7 @@ export function ItemDetailsDialog({
                               size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                             />
+                                              <Text selectable={false} style={styles.smallButtonText}> Enviar saída </Text>
                               </Pressable>
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressUploadReport() }>
                                 <MaterialIcons
@@ -269,6 +281,7 @@ export function ItemDetailsDialog({
                               size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                             />
+                                              <Text selectable={false} style={styles.smallButtonText}> Enviar relatório </Text>
                               </Pressable>
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.admin.onPressSubmit() } disabled={item.outputName=="" || item.reportName==""}>
                                 <MaterialIcons
@@ -276,6 +289,7 @@ export function ItemDetailsDialog({
                               size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                             />
+                                              <Text selectable={false} style={styles.smallButtonText}> Submeter resultados </Text>
                               </Pressable>
                             </>)}
                 </View> 
@@ -289,7 +303,7 @@ export function ItemDetailsDialog({
                 <><Separator/>
                 <View style={styles.detailCategory}>
                   <View style={styles.left}>
-                <View style={styles.formField}>
+                <View style={styles.detailsField}>
                   <Text style={styles.detailsText}>
                     <Text style={{ fontWeight: "bold" }}>Concluído:</Text>{" "}
                     {formatDate(item.data_concluido)}
@@ -310,13 +324,14 @@ export function ItemDetailsDialog({
                                     </View>
                </View >
                   <View style={styles.right}>
-                    <View style={styles.buttonRow}>
+                    <View style={styles.detailsButtonColumn}>
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.user.onPressDownload() }>
                                 <MaterialIcons
                               name={"file-download"}
                               size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                             />
+                                              <Text selectable={false} style={styles.smallButtonText}> Baixar saída </Text>
                               </Pressable>
                               <Pressable accessibilityHint={"Baixar relatório"} style={styles.smallButton} onPress={ () => showDownloadDialog({ processId: Number(item.id_item),
                                  fileName: getOriginalFileName(item.reportName),
@@ -326,6 +341,7 @@ export function ItemDetailsDialog({
                               size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                             />
+                                              <Text selectable={false} style={styles.smallButtonText}> Baixar relatório </Text>
                               </Pressable>
                       {(Number(item.status) == 3 && !isAdmin) && (
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.user.onPressRating() }>
@@ -334,6 +350,7 @@ export function ItemDetailsDialog({
                               size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                             />
+                                              <Text selectable={false} style={styles.smallButtonText}> Avaliar processo </Text>
                               </Pressable>
                               )}
                 </View> 
@@ -347,7 +364,7 @@ export function ItemDetailsDialog({
                 <><Separator/>
                 <View style={styles.detailCategory}>
                   <View style={styles.left}>
-                    <View style={styles.formField}>
+                    <View style={styles.detailsField}>
                       <Text style={styles.detailsText}>
                         <Text style={{ fontWeight: "bold" }}>Avaliado:</Text>{" "}
                         {formatDate(item.data_avaliado)}
@@ -365,7 +382,7 @@ export function ItemDetailsDialog({
                     </View>
                </View >
                   <View style={styles.right}>
-                    <View style={styles.buttonRow}>
+                    <View style={styles.detailsButtonColumn}>
                       {(item.status === '4' && !isAdmin) && ( 
                               <Pressable style={styles.smallButton} onPress={ () => buttonTasks.user.onPressRating() }>
                                 <MaterialIcons
@@ -373,6 +390,7 @@ export function ItemDetailsDialog({
                               size={theme.icons.sm}
                                                 color={theme.colors.iconButtonColor}
                             />
+                                              <Text selectable={false} style={styles.smallButtonText}> Mudar avaliação </Text>
                               </Pressable>
                               )}
                 </View> 

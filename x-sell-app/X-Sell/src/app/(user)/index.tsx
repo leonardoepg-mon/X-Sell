@@ -43,7 +43,7 @@ export default function StatusScreen() {
     <>
     <AppBackground>
       {showStatus && <StatusList database={database} refresh={handleStatusSearch}/>}
-      <View style={showStatus? {...styles.buttonRow, alignSelf:  "center"}:{...styles.buttonColumn, alignSelf: "center"}}>
+      <View style={showStatus? styles.bottomButtonRow:{...styles.buttonColumn, alignSelf: "center"}}>
       <Pressable style={styles.button} onPress={() => setInstructionsVisible(true)}>
         <Text selectable={false} style={styles.buttonText} > Como funciona? </Text>
       </Pressable>
