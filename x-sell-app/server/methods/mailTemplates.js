@@ -124,3 +124,31 @@ export function processCompletedTemplate({
     }),
   };
 }
+
+export function newInputsTemplate({ processIds }) {
+  const normalizedIds = [...new Set(processIds.map(String))];
+  const processList = normalizedIds
+    .map(
+      (processId) =>
+        `<li style="margin:0 0 8px;font-size:16px;line-height:1.5">Processo <strong>#${escapeHtml(processId)}</strong></li>`,
+    )
+    .join("");
+  const processLabel = normalizedIds.length === 1 ? "processo" : "processos";
+
+  const content = `
+    <p style="margin:0 0 18px;font-size:16px;line-height:1.65">Há novos arquivos de entrada aguardando análise no X-Sell.</p>
+    <p style="margin:0 0 12px;font-size:15px;line-height:1.65;color:${brand.muted}">Novos ${processLabel}:</p>
+    <ul style="margin:0;padding:18px 18px 10px 38px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px">
+      ${processList}
+    </ul>`;
+
+  return {
+    subject: `${normalizedIds.length} novo${normalizedIds.length === 1 ? " processo" : "s processos"} no X-Sell`,
+    text: `Há novos arquivos de entrada aguardando análise no X-Sell. Processos: ${normalizedIds.map((id) => `#${id}`).join(", ")}.`,
+    html: emailLayout({
+      preview: `Há ${normalizedIds.length} novo${normalizedIds.length === 1 ? " processo" : "s processos"} aguardando análise.`,
+      title: "Novos envios recebidos",
+      content,
+    }),
+  };
+}

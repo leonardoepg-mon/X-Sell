@@ -69,7 +69,7 @@ export function handleUpload(req, res)  {
         return res.json({success: false, message: "Falha no envio.", msgType: "warning"});
       }
       const itemId = db.length + 1;// adicionar timestamp
-      db.push({id_item: db.length + 1 , status: "0", id_usuario:userId , inputName: storedFileName, outputName: "", avaliacao:"-1", data_envio: getCurrentDate(),});
+      db.push({id_item: db.length + 1 , status: "0", id_usuario:userId , inputName: storedFileName, outputName: "", avaliacao:"-1", data_envio: getCurrentDate(), email_enviado: "false",});
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true}));
         return res.json({success: true, message: "Recebido com sucesso.", msgType: "success"});
 
@@ -134,6 +134,7 @@ export function handleReupload(req, res)  {
       db[idx].status = 0;// adicionar timestamp
       db[idx].data_envio = getCurrentDate();
       db[idx].inputName = storedFileName;
+      db[idx].email_enviado = "false";
       fs.writeFileSync(dbPath, csv.stringify(db, {header: true})); 
       return res.json({success: true, message: "Recebido com sucesso.", msgType: "success"});
     });

@@ -3,6 +3,7 @@ import "dotenv/config";
 
 import {
   accountConfirmationTemplate,
+  newInputsTemplate,
   processCompletedTemplate,
 } from "./mailTemplates.js";
 
@@ -70,6 +71,13 @@ export async function sendProcessCompleted({
       completedAt,
       appUrl: process.env.APP_URL,
     }),
+  });
+}
+
+export async function sendNewInputsNotification({ destinations, processIds }) {
+  return sendTemplate({
+    destination: destinations,
+    ...newInputsTemplate({ processIds }),
   });
 }
 

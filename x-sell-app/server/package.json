@@ -7,7 +7,7 @@
   "type": "module",
   "main": "server_run.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test",
     "start": "node server_run.js",
     "dev": "node --watch server_run.js"
   },

@@ -16,6 +16,7 @@ import {
 } from "./methods/authentication.js";
 import { handleAdminDownload, handleAdminUpload, handleDownload, handleReupload, handleUpload } from "./methods/fileManagement.js";
 import { handleRating, searchItems, handleStatusSet, handleDetailSearch } from "./methods/statusAPI.js";
+import { startInputNotificationScheduler } from "./methods/inputNotificationService.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,6 +39,7 @@ function initializePersistentData() {
 }
 
 initializePersistentData();
+startInputNotificationScheduler();
 
 app.use(cors({
   exposedHeaders: ["Content-Disposition"],
